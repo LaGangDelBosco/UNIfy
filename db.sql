@@ -15,14 +15,14 @@ CREATE TABLE user (
     password VARCHAR(64) NOT NULL,
     birthdate DATE NOT NULL,
     gender VARCHAR(32) NOT NULL,
-    profile_picture_url VARCHAR(50) NOT NULL,
+    profile_picture_url VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE profile (
     profile_id INT PRIMARY KEY AUTO_INCREMENT,
-    username INT,
+    username VARCHAR(100),
     bio TEXT,
     location VARCHAR(50),
     website VARCHAR(50),
@@ -33,7 +33,7 @@ CREATE TABLE profile (
 
 CREATE TABLE post (
     post_id INT PRIMARY KEY AUTO_INCREMENT,
-    username INT,
+    username VARCHAR(100),
     content TEXT,
     media_url VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -44,7 +44,7 @@ CREATE TABLE post (
 CREATE TABLE comment (
     comment_id INT PRIMARY KEY AUTO_INCREMENT,
     post_id INT,
-    username INT,
+    username VARCHAR(100),
     content TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -54,8 +54,8 @@ CREATE TABLE comment (
 
 CREATE TABLE friendship (
     friendship_id INT PRIMARY KEY AUTO_INCREMENT,
-    username_1 INT,
-    username_2 INT,
+    username_1 VARCHAR(100),
+    username_2 VARCHAR(100),
     status VARCHAR(32),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -66,7 +66,7 @@ CREATE TABLE friendship (
 CREATE TABLE reaction (
     reaction_id INT PRIMARY KEY AUTO_INCREMENT,
     post_id INT,
-    username INT,
+    username VARCHAR(100),
     type VARCHAR(32),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -76,8 +76,8 @@ CREATE TABLE reaction (
 
 CREATE TABLE message (
     message_id INT PRIMARY KEY AUTO_INCREMENT,
-    sender_id INT,
-    receiver_id INT,
+    sender_id VARCHAR(100),
+    receiver_id VARCHAR(100),
     content TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -250,7 +250,7 @@ INSERT INTO reaction (reaction_id, post_id, username, type, created_at, updated_
 (12, 2, 'admin', 'like', '2024-07-22', '2024-07-22'),
 (13, 3, 'luigi', 'like', '2024-07-31', '2024-07-31'),
 (14, 4, 'supermario', 'like', '2024-07-26', '2024-07-26'),
-(15, 5, 6, 'like', '2024-08-01', '2024-08-01'),
+(15, 5, 'anna', 'like', '2024-08-01', '2024-08-01'),
 (16, 6, 'giuseppe', 'like', '2024-07-29', '2024-07-29'),
 (17, 7, 'laura', 'like', '2024-07-30', '2024-07-30'),
 (18, 8, 'marco', 'like', '2024-07-31', '2024-07-31'),

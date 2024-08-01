@@ -48,4 +48,3 @@ if(isset($_GET['messaggio'])){
 else $registrazione_template-> insert("messaggio", (""));
 
 echo $registrazione_template->build();
-?>
