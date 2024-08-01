@@ -89,16 +89,16 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // esegue la query
         /**
      * Funzione che gestisce il login
-     * @param string $username username dell'utente
+     * @param string $email email dell'utente
      * @param string $password password dell'utente
      * @return bool vero se l'utente esiste, falso altrimenti
      */
-    public function login(string $username, string $password){
+    public function login(string $email, string $password){
         // trasforma la password in sha256
         $hashed_password = hash('sha256', $password);
         // prepara la query
-        $query = "SELECT * FROM utente WHERE username = ? AND password = ?";
-        $parameters = array("ss", $username, $hashed_password);
+        $query = "SELECT * FROM user WHERE email = ? AND password = ?";
+        $parameters = array("ss", $email, $hashed_password);
         // prepara los tatement
         $stmt = $this->apriconn()->prepare($query);
         if ($stmt === false) {
@@ -109,7 +109,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $result = array();
 
         // associa i parametri della query
-        $stmt->bind_param('ss', $username, $hashed_password);
+        $stmt->bind_param('ss', $email, $hashed_password);
         // controlla che lo stmt sia stato eseguito correttamente
         if ($stmt === false) {
             $this->err_code = true;
@@ -154,7 +154,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $hashed_password = hash('sha256', $password);
 
         // prepara la query
-        $query = "INSERT INTO utente (name, email, password, birthdate, gender) VALUES (?, ?, ?, ?, ?)";
+        $query = "INSERT INTO user (name, email, password, birthdate, gender) VALUES (?, ?, ?, ?, ?)";
         $parameters = array("sssss", $nome_cognome, $email, $hashed_password, $data_nascita, $gender);
         // prepara lo statement
         $stmt = $this->apriconn()->prepare($query);
