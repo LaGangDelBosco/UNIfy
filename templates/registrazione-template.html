@@ -39,20 +39,10 @@
 			
 
 			<form class="form_box" name="registrazione_form" method="post" action="registrazione.php">
-                <div>
-					<label for="username">Nome Utente:</label>
-                	<input type="text" name="username" placeholder="username" required>
-					<div class="error" id="username_error"></div>
-				</div>
 				<div>
-					<label for="nome">Nome:</label>
-					<input type="text" name="nome" placeholder="nome" required>
+					<label for="nome_cognome">Nome e Cognome:</label>
+					<input type="text" name="nome_cognome" placeholder="nome_cognome" required>
 					<div class="error" id="nome_error"></div>
-				</div>
-				<div>
-					<label for="cognome">Cognome:</label>
-					<input type="text" name="cognome" placeholder="cognome" required>
-					<div class="error" id="cognome_error"></div>
 				</div>
 				<div>
 					<label for="email"><span lang="en">Email:</span></label>
@@ -66,10 +56,9 @@
 					<div class="error" id="data_nascita_error"></div>
 				</div>
 				<div>
-					<label for="telefono">Telefono:</label>
-                	<input type="tel" name="telefono" placeholder="telefono" aria-describedby="numberHelp" required>
-					<div id="numberHelp">Inserire un numero di telefono valido</div>
-					<div class="error" id="telefono_error"></div>
+					<label for="gender">Genere:</label>
+					<input type="date" name="gender" placeholder="gender" required>
+					<div class="error" id="gender_error"></div>
 				</div>
 				<div>
 					<label for="password"><span lang="en">Password:</span></label>
