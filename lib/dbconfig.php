@@ -99,7 +99,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // prepara la query
         $query = "SELECT * FROM user WHERE email = ? AND password = ?";
         $parameters = array("ss", $email, $hashed_password);
-        // prepara los tatement
+        // prepara lo statement
         $stmt = $this->apriconn()->prepare($query);
         if ($stmt === false) {
             $this->err_code = true;
@@ -110,12 +110,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
         // associa i parametri della query
         $stmt->bind_param('ss', $email, $hashed_password);
-        // controlla che lo stmt sia stato eseguito correttamente
-        if ($stmt === false) {
-            $this->err_code = true;
-            $this->err_text = "Errore nella preparazione della richiesta";
-            return false;
-        }
+
         // esegue la query
         $stmt->execute();
         // salva il risultato della query
@@ -139,13 +134,11 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
     /**
      * Funzione che gestisce la registrazione
-     * @param string $username username dell'utente
+     * @param string $nome_cognome nome e cognome dell'utente
      * @param string $email email dell'utente
      * @param string $password password dell'utente
-     * @param string $nome nome dell'utente
-     * @param string $cognome cognome dell'utente
      * @param string $data_nascita data di nascita dell'utente
-     * @param string $telefono telefono dell'utente
+     * @param string $gender genere dell'utente
      * @return bool vero se l'utente è stato registrato, falso altrimenti
      */
     public function registrazione(string $nome_cognome, string $email, string $password, string $data_nascita, string $gender)
@@ -166,12 +159,6 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
         // associa i parametri della query
         $stmt->bind_param(...$parameters);
-        // controlla che lo stmt sia stato eseguito correttamente
-        if ($stmt === false) {
-            $this->err_code = true;
-            $this->err_text = "Errore nella preparazione della richiesta";
-            return false;
-        }
         // esegue la query
         $stmt->execute();
 
