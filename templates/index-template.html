@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="utf-8" />
+	
+	<title> UNIfy </title>
+	<meta name = "description" content = "TODO " />
+	<!-- component keywords -->
+	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso" />
+	
+	
+	<link rel="stylesheet" href="./style.css" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
+	<link rel="stylesheet" href="./print.css" media="print"/>
+
+	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+	<link rel="shortcut icon" type="image/png" href="./img/unify_icon.png" media="screen" /> <!--icona visibile su browser-->
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script src="./js/menu.js"></script>
+	<script src="./js/menu_mobile.js"></script>
+</head>
+
+<body>	
+    <div id="container">
+        <component>header</component>
+
+        <nav class="breadcrumb">      
+			<p>Ti trovi in: <span lang="en">Home</span></p>
+		</nav>
+
+        <main>
+			<h1>Benvenuti su UNIfy</h1> <!-- da mettere?? -->
+
+			<!-- da qui partono i 3 blocchi di contenuto -->
+			<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+			<nav id="menu">
+				<!-- menu -->
+			</nav>
+			<nav>
+				<!-- scrivi... -->
+				<!-- post -->
+			</nav>
+			<nav>
+				<!-- searchbar -->
+				<!-- potrebbe interessarti -->
+			</nav>
+			<!-- fine dei 3 blocchi di contenuto -->
+
+			<br>
+			<hr><h2>Contatti</h2>
+			<h2 class="social">Seguici sui social: <a href="https://it-it.facebook.com/"> <img src="./img/facebook.svg" alt="Icona di Facebook"></a> <a href="https://www.instagram.com/"> <img src="./img/instagram.svg" alt="Icona di Instagram"></a></h2>
+
+			<component>goback</component>
+		</main>
+	</div>
+    <component>footer</component>
+
+</body>
+</html>

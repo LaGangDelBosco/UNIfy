@@ -13,8 +13,8 @@ CREATE TABLE user (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     password VARCHAR(64) NOT NULL,
-    birthdate DATE NOT NULL
-    gender VARCHAR(32) NOT NULL
+    birthdate DATE NOT NULL,
+    gender VARCHAR(32) NOT NULL,
     profile_picture_url VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -86,16 +86,16 @@ CREATE TABLE message (
 );
 
 INSERT INTO user (user_id, name, email, password, birthdate, gender, profile_picture_url, created_at, updated_at) VALUES                            
-('admin', 'Admin Admin', 'admin@example.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '2000-01-01', 'male', './path/to/img', '2024-07-21', '2024-07-21'), -- password: admin
-('user', 'User User', 'user@example.com', '04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', '2000-01-01', 'female', './path/to/img', '2024-07-22', '2024-07-22'), -- password: user
-('supermario', 'Mario Rossi', 'mario.rossi@gmail.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '1990-01-01', 'male', './path/to/img', '2024-07-31', '2024-07-31'), -- password: password123
-('luigi', 'Luigi Verdi', 'luigi.verdi@gmail.com', 'c6ba91b90d922e159893f46c387e5dc1b3dc5c101a5a4522f03b987177a24a91', '1995-05-05', 'male', './path/to/img', '2024-07-26', '2024-07-26'), -- password: password456
-('giuseppe', 'Giuseppe Bianchi', 'giuseppe.bianchi@gmail.com', '5efc2b017da4f7736d192a74dde5891369e0685d4d38f2a455b6fcdab282df9c', '1985-06-25', 'male', './path/to/img', '2024-08-01', '2024-08-01'), -- password: password789
-('anna', 'Anna Rossi', 'anna.rossi@gmail.com', 'a20aff106fe011d5dd696e3b7105200ff74331eeb8e865bb80ebd82b12665a07', '1992-03-15', 'female', './path/to/img', '2024-07-29', '2024-07-29'), -- password: password321
-('marco', 'Marco Verdi', 'marco.verdi@gmail.com', '28e91b84bd4ac1d95d81b4510777d2b12f3dffa848bb6e219a42f98cdfa06d7d', '1993-06-20', 'male', './path/to/img', '2024-07-30', '2024-07-30'), -- password: password654
-('laura', 'Laura Bianchi', 'laura.bianchi@gmail.com', 'f6537a5a2f097921d1d1ab410facd30c4356da7326783c2f9ed29f093852cfe2', '1994-09-25', 'female', './path/to/img', '2024-07-31', '2024-07-31'), -- password: password987
-('francesco', 'Francesco Neri', 'francesco.neri@gmail.com', 'd601d7629b263221dd541a3131d865a9bcb087e3edc702867143a996803307ab', '1988-10-31', 'male', './path/to/img', '2024-07-24', '2024-07-24'), -- password: password147
-('elena', 'Elena Gialli', 'elena.gialli@gmail.com', 'ff7fb48ec0bd80876c9c246d33d18efd0648bff6467fcc945db7f49692dab1e1', '1989-05-30', 'female', './path/to/img', '2024-07-31', '2024-07-31'); -- password: password258
+('1', 'Admin Admin', 'admin@example.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '2000-01-01', 'male', './path/to/img', '2024-07-21', '2024-07-21'), -- password: admin
+('2', 'User User', 'user@example.com', '04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', '2000-01-01', 'female', './path/to/img', '2024-07-22', '2024-07-22'), -- password: user
+('3', 'Mario Rossi', 'mario.rossi@gmail.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '1990-01-01', 'male', './path/to/img', '2024-07-31', '2024-07-31'), -- password: password123
+('4', 'Luigi Verdi', 'luigi.verdi@gmail.com', 'c6ba91b90d922e159893f46c387e5dc1b3dc5c101a5a4522f03b987177a24a91', '1995-05-05', 'male', './path/to/img', '2024-07-26', '2024-07-26'), -- password: password456
+('5', 'Giuseppe Bianchi', 'giuseppe.bianchi@gmail.com', '5efc2b017da4f7736d192a74dde5891369e0685d4d38f2a455b6fcdab282df9c', '1985-06-25', 'male', './path/to/img', '2024-08-01', '2024-08-01'), -- password: password789
+('6', 'Anna Rossi', 'anna.rossi@gmail.com', 'a20aff106fe011d5dd696e3b7105200ff74331eeb8e865bb80ebd82b12665a07', '1992-03-15', 'female', './path/to/img', '2024-07-29', '2024-07-29'), -- password: password321
+('7', 'Marco Verdi', 'marco.verdi@gmail.com', '28e91b84bd4ac1d95d81b4510777d2b12f3dffa848bb6e219a42f98cdfa06d7d', '1993-06-20', 'male', './path/to/img', '2024-07-30', '2024-07-30'), -- password: password654
+('8', 'Laura Bianchi', 'laura.bianchi@gmail.com', 'f6537a5a2f097921d1d1ab410facd30c4356da7326783c2f9ed29f093852cfe2', '1994-09-25', 'female', './path/to/img', '2024-07-31', '2024-07-31'), -- password: password987
+('9', 'Francesco Neri', 'francesco.neri@gmail.com', 'd601d7629b263221dd541a3131d865a9bcb087e3edc702867143a996803307ab', '1988-10-31', 'male', './path/to/img', '2024-07-24', '2024-07-24'), -- password: password147
+('10', 'Elena Gialli', 'elena.gialli@gmail.com', 'ff7fb48ec0bd80876c9c246d33d18efd0648bff6467fcc945db7f49692dab1e1', '1989-05-30', 'female', './path/to/img', '2024-07-31', '2024-07-31'); -- password: password258
 
 INSERT INTO profile (profile_id, user_id, bio, location, website, created_at, updated_at) VALUES
 (1, 1, 'I am the admin', 'Milan, Italy', 'https://www.example.com', '2024-07-21', '2024-07-21'),

@@ -18,7 +18,7 @@ function build_header(): string
     global $template_engine;
 
     // carico il template dell'header
-    $header_template = $template_engine->load_template("header.template.html");
+    $header_template = $template_engine->load_template("header-template.html");
 
     // se l'utente è loggato gli do il benvenuto e la possibilità di fare il logout
     if (isset($_SESSION['Username'])) {
@@ -42,7 +42,7 @@ function build_footer(): string
     global $template_engine;
 
     // carico il template del footer
-    $footer_template = $template_engine->load_template("footer.template.html");
+    $footer_template = $template_engine->load_template("footer-template.html");
 
     // restituisco il codice html del footer
     return $footer_template->build();
@@ -58,7 +58,7 @@ function build_goback(): string
     global $template_engine;
 
     // carico il template del pulsante
-    $header_template = $template_engine->load_template("goback.template.html");
+    $header_template = $template_engine->load_template("goback-template.html");
 
     // restituisco il codice html del pulsante
     return $header_template->build();

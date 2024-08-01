@@ -9,8 +9,8 @@
 class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il sistema nervoso vedere tutto minuscolo
     private $connessione;
     private $host="localhost";
-    private $user="nmoretto";
-    private $psw="poofeeshokaiKa8l";
+    private $user="root";
+    private $psw="root";
     private $database="nmoretto";
     public $err_code;   // settato a true se presente errore, false se non ce errore
     public $err_text;   // setto lo stato dell'errore
