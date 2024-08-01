@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="utf-8" />
+	
+	<title> Registrati - UNIfy </title>
+	<meta name = "description" content = "Questa pagina è funzionale alla registrazione di un nuovo utente" />     
+	<component>keywords</component>
+	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso" />
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="./style.css" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px)" />
+	<link rel="stylesheet" href="./print.css" media="print"/>
+
+	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+	<link rel="shortcut icon" type="image/png" href="./img/show_events_icon.png" media="screen" />
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script src="./js/menu_mobile.js"></script>
+</head>
+
+<body>	
+    <div id="container">
+        <component>header</component>
+
+        <nav id="menu" aria-label="Menù del sito">
+            <component>menu</component>
+        </nav>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">      
+			<p>Ti trovi in: Registrazione</p>
+		</nav>
+
+        <main id="main">
+			<h2>Registrati qui</h2>
+			<component>messaggio</component>
+			
+
+			<form class="form_box" name="registrazione_form" method="post" action="registrazione.php">
+                <div>
+					<label for="username">Nome Utente:</label>
+                	<input type="text" name="username" placeholder="username" required>
+					<div class="error" id="username_error"></div>
+				</div>
+				<div>
+					<label for="nome">Nome:</label>
+					<input type="text" name="nome" placeholder="nome" required>
+					<div class="error" id="nome_error"></div>
+				</div>
+				<div>
+					<label for="cognome">Cognome:</label>
+					<input type="text" name="cognome" placeholder="cognome" required>
+					<div class="error" id="cognome_error"></div>
+				</div>
+				<div>
+					<label for="email"><span lang="en">Email:</span></label>
+					<input type="email" name="email" placeholder="email" aria-describedby="emailHelp" required>
+					<div id="emailHelp">Inserire un indirizzo <span lang="en">E-mail</span> valido</div>
+                    <div class="error" id="email_error"></div>
+				</div>
+				<div>
+					<label for="data_nascita">Data di nascita:</label>
+					<input type="date" name="data_nascita" placeholder="data_nascita" required>
+					<div class="error" id="data_nascita_error"></div>
+				</div>
+				<div>
+					<label for="telefono">Telefono:</label>
+                	<input type="tel" name="telefono" placeholder="telefono" aria-describedby="numberHelp" required>
+					<div id="numberHelp">Inserire un numero di telefono valido</div>
+					<div class="error" id="telefono_error"></div>
+				</div>
+				<div>
+					<label for="password"><span lang="en">Password:</span></label>
+					<input type="password" name="password" placeholder="password" required>
+					<div class="error" id="password_error"></div>
+				</div>
+				<div>
+					<label for="conferma_password">Conferma <span lang="en">Password</span>:</label>
+					<input type="password" name="conferma_password" placeholder="conferma_password" required>
+					<div class="error" id="conferma_password_error"></div>
+				</div>
+                <button class="loginbtn">Registrati</button><br>
+                Sei già registrato? <a href="login.php">Accedi</a>
+            </form>
+			<script>
+				document.addEventListener("DOMContentLoaded", function() {
+					var form = document.forms["registrazione_form"];
+					form.addEventListener('submit', function(event) {
+						if(!registrazione()){
+							event.preventDefault();
+						}
+					});
+				});
+			</script>
+				
+			
+			<component>goback</component>
+		</main>
+	</div>
+    <component>footer</component>
+
+</body>
+</html>

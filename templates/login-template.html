@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="utf-8" />
+	
+	<title> Login - UNIfy </title>
+	<meta name = "description" content = "Questa pagina è funzionale ad effettuare il login nel sito" />     
+	<component>keywords</component>
+	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso" />
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="./style.css" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px)" />
+	<link rel="stylesheet" href="./print.css" media="print"/>
+
+	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+	<link rel="shortcut icon" type="image/png" href="./img/show_events_icon.png" media="screen" />
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script src="./js/menu_mobile.js"></script> 
+</head>
+
+<body>	
+    <div id="container">
+        <component>header</component>
+
+        <nav id="menu" aria-label="Menù del sito">
+            <component>menu</component>
+        </nav>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">      
+			<p>Ti trovi in: <span lang="en">Login</span></p>
+		</nav>
+
+        <main id="main">
+
+			<h2><span lang="en">Login</span></h2>
+			<component>messaggio</component>
+            <form class="form_box" name="login_form" METHOD="POST" action="login.php">
+                <div>
+					<label for="username">Nome Utente:</label>
+                	<input type="text" name="username" placeholder="username">
+					<div class="error" id="username_error"></div>
+				</div>
+                <div>
+					<label for="password">Password:</label>
+                	<input type="password" name="password" placeholder="password">
+					<div class="error" id="password_error"></div>
+				</div>
+                <button class="loginbtn">Login</button><br>
+                Non sei registrato? <br><a href="registrazione.php">Registrati</a>
+            </form>
+			<script>
+				document.addEventListener("DOMContentLoaded", function() {
+					var form = document.forms["login_form"];
+					form.addEventListener('submit', function(event) {
+						if(!login()){
+							event.preventDefault();
+						}
+					});
+				});
+			</script>
+				
+
+			<component>goback</component>
+		</main>
+	</div>
+    <component>footer</component>
+
+</body>
+</html>

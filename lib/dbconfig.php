@@ -85,4 +85,154 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // restituisce il risultato della query
         return $result;
     }
+
+        // esegue la query
+        /**
+     * Funzione che gestisce il login
+     * @param string $username username dell'utente
+     * @param string $password password dell'utente
+     * @return bool vero se l'utente esiste, falso altrimenti
+     */
+    public function login(string $username, string $password){
+        // trasforma la password in sha256
+        $hashed_password = hash('sha256', $password);
+        // prepara la query
+        $query = "SELECT * FROM utente WHERE username = ? AND password = ?";
+        $parameters = array("ss", $username, $hashed_password);
+        // prepara los tatement
+        $stmt = $this->apriconn()->prepare($query);
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+        $result = array();
+
+        // associa i parametri della query
+        $stmt->bind_param('ss', $username, $hashed_password);
+        // controlla che lo stmt sia stato eseguito correttamente
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+        // esegue la query
+        $stmt->execute();
+        // salva il risultato della query
+        $tmp = $stmt->get_result();
+        $result = $tmp->fetch_assoc();
+
+        // se il risulta è vuoto, l'utente non esiste
+        if (empty($result)) {
+            $this->err_code = true;
+            $this->err_text = "Utente non trovato o password errata";
+        } else {
+            // altrimenti l'utente esiste
+            $this->err_code = false;
+        }
+
+        // chiude lo statement
+        $stmt->close();
+        // ritorna il risultato
+        return $result;
+    }
+
+    public function check_utente_o_email($username, $email)
+    {
+        // controllo che l'utente o la email non siano già in uso
+        $query = "SELECT * FROM utente WHERE username = ? OR email = ?";
+        $stmt = $this->apriconn()->prepare($query);
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+        $result = array();
+
+        // associa i parametri della query
+        $stmt->bind_param('ss', $username, $email);
+        // controlla che lo stmt sia stato eseguito correttamente
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+        // esegue la query
+        $stmt->execute();
+        // salva il risultato della query
+        $tmp = $stmt->get_result();
+        $result = $tmp->fetch_assoc();
+
+        // se il risulta è vuoto, l'utente non esiste
+        if (empty($result)) {
+            $this->err_code = false;
+        } else {
+            // altrimenti l'utente esiste
+            $this->err_code = true;
+            $this->err_text = "Utente o email già in uso";
+        }
+
+        // chiude lo statement
+        $stmt->close();
+        // ritorna il risultato
+        return !$this->err_code;
+    }
+
+    /**
+     * Funzione che gestisce la registrazione
+     * @param string $username username dell'utente
+     * @param string $email email dell'utente
+     * @param string $password password dell'utente
+     * @param string $nome nome dell'utente
+     * @param string $cognome cognome dell'utente
+     * @param string $data_nascita data di nascita dell'utente
+     * @param string $telefono telefono dell'utente
+     * @return bool vero se l'utente è stato registrato, falso altrimenti
+     */
+    public function registrazione(string $username, string $nome, string $cognome, string $password, string $email, string $telefono, string $data_nascita)
+    {
+        // trasforma la password in sha256
+        $hashed_password = hash('sha256', $password);
+
+        // controllo che l'utente non esista e la email non sia già in uso
+        if ($this->check_utente_o_email($username, $email) === false) {
+            return false;
+        }
+
+        // prepara la query
+        $query = "INSERT INTO utente (username, nome, cognome, password, email, telefono, data_nascita) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $parameters = array("sssssss", $username, $nome, $cognome, $hashed_password, $email, $telefono, $data_nascita);
+        // prepara lo statement
+        $stmt = $this->apriconn()->prepare($query);
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+
+        // associa i parametri della query
+        $stmt->bind_param(...$parameters);
+        // controlla che lo stmt sia stato eseguito correttamente
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+        // esegue la query
+        $stmt->execute();
+
+        // controlla se la registrazione è avvenuta con successo
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante la registrazione";
+        }
+
+        // chiude lo statement
+        $stmt->close();
+
+        // ritorna il risultato
+        return !$this->err_code;
+    }
 }
