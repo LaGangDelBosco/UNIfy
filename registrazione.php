@@ -4,7 +4,8 @@ require_once ("./globale.php");
 
 unset($_SESSION['redirect_url']);
 
-if(isset($_POST['nome_cognome']) && isset($_POST['email']) && isset($_POST['data_nascita']) && isset($_POST['gender']) && isset($_POST['password']) && isset($_POST['conferma_password'])) {
+if(isset($_POST['username']) && isset($_POST['nome_cognome']) && isset($_POST['email']) && isset($_POST['data_nascita']) && isset($_POST['gender']) && isset($_POST['password']) && isset($_POST['conferma_password'])) {
+    $username = $_POST['username'];
     $nome_cognome = $_POST['nome_cognome'];
     $email = $_POST['email'];
     $gender = $_POST['gender'];
@@ -16,7 +17,7 @@ if(isset($_POST['nome_cognome']) && isset($_POST['email']) && isset($_POST['data
         $error = "Le password non coincidono";
     } 
     else{
-        if($db->registrazione($nome_cognome, $email, $password, $data_nascita, $gender)) {
+        if($db->registrazione($username, $nome_cognome, $email, $password, $data_nascita, $gender)) {
             $error = "Registrazione avvenuta con successo";
             header("Location: index.php?messaggio=Registrazione avvenuta con successo! Effettua il login per accedere al tuo account.");
         } 

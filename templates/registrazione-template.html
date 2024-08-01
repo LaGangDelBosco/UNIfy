@@ -40,6 +40,11 @@
 
 			<form class="form_box" name="registrazione_form" method="post" action="registrazione.php">
 				<div>
+					<label for="username">Username:</label>
+					<input type="text" name="username" placeholder="username" required>
+					<div class="error" id="username_error"></div>
+				</div>
+				<div>
 					<label for="nome_cognome">Nome e Cognome:</label>
 					<input type="text" name="nome_cognome" placeholder="nome_cognome" required>
 					<div class="error" id="nome_error"></div>

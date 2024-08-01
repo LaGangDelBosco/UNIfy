@@ -4,16 +4,16 @@ require_once ("./globale.php");
 
 unset($_SESSION['redirect_url']);
 
-if (isset($_POST['email']) && isset($_POST['password'])){
-    $email = $_POST['email'];
+if (isset($_POST['username']) && isset($_POST['password'])){
+    $username = $_POST['username'];
     $password = $_POST['password'];
-    $result = $db->login($email, $password);
+    $result = $db->login($username, $password);
     if(!$result){
         echo $db->err_text;
         $db->err_text = "";
         header("Location: ./login.php?messaggio=Nome utente o password errata");
     }else{
-        $_SESSION['Email'] = $email; // $_SESSION['Email'] sostituisce la variabile di sessione per l'utente
+        $_SESSION['Username'] = $username; 
         if (isset($_SESSION['redirect_url'])){
             header("Location: " . $_SESSION['redirect_url']);
             unset($_SESSION['redirect_url']);

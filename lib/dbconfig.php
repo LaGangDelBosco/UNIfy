@@ -89,16 +89,16 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // esegue la query
         /**
      * Funzione che gestisce il login
-     * @param string $email email dell'utente
+     * @param string $username username dell'utente
      * @param string $password password dell'utente
      * @return bool vero se l'utente esiste, falso altrimenti
      */
-    public function login(string $email, string $password){
+    public function login(string $username, string $password){
         // trasforma la password in sha256
         $hashed_password = hash('sha256', $password);
         // prepara la query
-        $query = "SELECT * FROM user WHERE email = ? AND password = ?";
-        $parameters = array("ss", $email, $hashed_password);
+        $query = "SELECT * FROM user WHERE username = ? AND password = ?";
+        $parameters = array("ss", $username, $hashed_password);
         // prepara lo statement
         $stmt = $this->apriconn()->prepare($query);
         if ($stmt === false) {
@@ -109,7 +109,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $result = array();
 
         // associa i parametri della query
-        $stmt->bind_param('ss', $email, $hashed_password);
+        $stmt->bind_param('ss', $username, $hashed_password);
 
         // esegue la query
         $stmt->execute();
@@ -134,6 +134,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
     /**
      * Funzione che gestisce la registrazione
+     * @param string $username username dell'utente
      * @param string $nome_cognome nome e cognome dell'utente
      * @param string $email email dell'utente
      * @param string $password password dell'utente
@@ -141,14 +142,14 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
      * @param string $gender genere dell'utente
      * @return bool vero se l'utente è stato registrato, falso altrimenti
      */
-    public function registrazione(string $nome_cognome, string $email, string $password, string $data_nascita, string $gender)
+    public function registrazione(string $username, string $nome_cognome, string $email, string $password, string $data_nascita, string $gender)
     {
         // trasforma la password in sha256
         $hashed_password = hash('sha256', $password);
 
         // prepara la query
-        $query = "INSERT INTO user (name, email, password, birthdate, gender) VALUES (?, ?, ?, ?, ?)";
-        $parameters = array("sssss", $nome_cognome, $email, $hashed_password, $data_nascita, $gender);
+        $query = "INSERT INTO user (username, name, email, password, birthdate, gender) VALUES (?, ?, ?, ?, ?, ?)";
+        $parameters = array("ssssss", $username, $nome_cognome, $email, $hashed_password, $data_nascita, $gender);
         // prepara lo statement
         $stmt = $this->apriconn()->prepare($query);
         if ($stmt === false) {
