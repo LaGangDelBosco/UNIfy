@@ -7,7 +7,7 @@ unset($_SESSION['redirect_url']);
 $index_template = $template_engine->load_template("index-template.html");
 
 #$index_template->insert("build_keywords", build_keywords());
-#$index_template->insert("menu", build_menu());
+$index_template->insert("menu", build_menu());
 
 $index_template->insert("header", build_header());
 $index_template->insert("goback", build_goback());

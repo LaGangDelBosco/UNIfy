@@ -33,20 +33,35 @@
         <main>
 			<h1>Benvenuti su UNIfy</h1> <!-- da mettere?? -->
 
+			<!--SE UTENTE NON LOGGATO, REINDIRIZZARE AD ACCEDI?-->
+
 			<!-- da qui partono i 3 blocchi di contenuto -->
-			<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
-			<nav id="menu">
-				<!-- menu -->
-			</nav>
-			<nav>
-				<!-- scrivi... -->
-				<!-- post -->
-			</nav>
-			<nav>
-				<!-- searchbar -->
-				<!-- potrebbe interessarti -->
-			</nav>
+			<div class="content">
+				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+				<nav id="menu">
+					<component>menu</component>
+				</nav>
+				<nav>
+					<!-- scrivi... -->
+					<nav id="post-box">
+						<div id="text-box">
+							<textarea id="text" rows="4" cols="50" placeholder="Scrivi qualcosa..."></textarea>
+						</div>
+					</nav>
+					<!-- tasto pubblica -->
+
+					<!-- post -->
+				</nav>
+				<nav id="extra-section">
+                    <!-- searchbar -->
+                    <div id="search-bar">
+                        <input type="text" id="search" placeholder="Cerca...">
+                        <button type="button" onclick="searchFunction()">Cerca</button>
+                    </div>
+                    <!-- potrebbe interessarti -->
+                </nav>
 			<!-- fine dei 3 blocchi di contenuto -->
+			</div>
 
 			<br>
 			<hr><h2>Contatti</h2>

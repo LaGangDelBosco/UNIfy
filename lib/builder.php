@@ -63,3 +63,52 @@ function build_goback(): string
     // restituisco il codice html del pulsante
     return $header_template->build();
 }
+
+function build_menu(){
+    // costruzione voci del menu
+
+    if(isset($_SESSION['Username']) && ($_SESSION['Username']=="admin")){
+        $menu_items=array(
+            "<span lang=\"en\">Home</span>" => "index.php",
+            "Il mio profilo" => "lista-eventi.php",
+            "Amici" => "amici.php",
+            "Modifica dati personali" => "dati-personali.php",
+            "Modifica Password" => "modifica-password.php",
+            "Post che mi piacciono" => "post-piacciono.php",
+            "Post commentati" => "post-commentati.php",
+            "Utenti bloccati" => "utenti-bloccati.php", 
+            "Post nascosti" => "post-nascosti.php",
+        );
+    }else{
+        if(isset($_SESSION['Username'])){
+            $menu_items=array(
+                "<span lang=\"en\">Home</span>" => "index.php",
+                "Il mio profilo" => "lista-eventi.php",
+                "Amici" => "amici.php",
+                "Modifica dati personali" => "dati-personali.php",
+                "Modifica Password" => "modifica-password.php",
+                "Post che mi piacciono" => "post-piacciono.php",
+                "Post commentati" => "post-commentati.php",
+            );
+        }else{
+            $menu_items=array(
+                "<span lang=\"en\">Home</span>" => "index.php",
+                "Tutti gli eventi" => "lista-eventi.php",
+                "Tutti gli artisti" => "lista-artisti.php",
+                "Registrati" => "registrazione.php",
+            );
+        }
+
+    }
+
+    $menu = "<ul class=\"menu\">";
+    //costruisce il menu
+    foreach($menu_items as $item => $link){
+        if (parse_url(strtok(urldecode($_SERVER['REQUEST_URI']),'/'), PHP_URL_PATH) == $link)
+            $menu .= "<li class=\"currentmenu\">$item</li>";
+        else
+            $menu .= "<li><a href=\"$link\">$item</a></li>";
+    }
+    $menu .= "</ul>";
+    return $menu;
+}
