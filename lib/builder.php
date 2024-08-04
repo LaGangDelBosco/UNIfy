@@ -112,3 +112,30 @@ function build_menu(){
     $menu .= "</ul>";
     return $menu;
 }
+
+function build_lista_post(){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM post ORDER BY created_at DESC";
+    $result_query = $db->query($query);
+
+    $lista_post = "";
+
+    if($result_query->num_rows > 0){
+        while($row_query = $result_query->fetch_assoc()){
+            $lista_post .= "<ul class=\"singolo_post\">
+                                <li><a href=\"\">".$row_query['username']."</a></li>
+                                <li>".$row_query['created_at']."</li>
+                                <li>".$row_query['content']."</li>
+                                <li>
+                                    <button class=\"interact\" onclick=\"like_post(".$row_query['post_id'].")\">Mi piace</button>
+                                    <button class=\"interact\" onclick=\"comment_post(".$row_query['post_id'].")\">Commenta</button>
+                                </li>
+                            </ul>"
+        ;
+
+        }
+    }
+    return $lista_post;
+}

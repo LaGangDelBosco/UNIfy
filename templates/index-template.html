@@ -41,19 +41,21 @@
 				<nav id="menu">
 					<component>menu</component>
 				</nav>
-				<nav>
-					<!-- scrivi... -->
-					<nav id="post-box">
-						<div id="text-box">
-							<textarea id="text" rows="4" cols="50" placeholder="Scrivi qualcosa..."></textarea>
-						</div>
-					</nav>
-					<!-- tasto pubblica -->
+				
+				<nav id="post-box">
+					<div id="text-box">
+						<p><textarea id="text" rows="4" cols="50" placeholder="Scrivi qualcosa..."></textarea></p>
+						<button type="button" onclick="publishFunction()">Pubblica</button>
+					</div>
+					
+					<div id="post">
+						<component>lista_post</component>
+					</div>
 
-					<!-- post -->
 				</nav>
+					
+					
 				<nav id="extra-section">
-                    <!-- searchbar -->
                     <div id="search-bar">
                         <input type="text" id="search" placeholder="Cerca...">
                         <button type="button" onclick="searchFunction()">Cerca</button>
