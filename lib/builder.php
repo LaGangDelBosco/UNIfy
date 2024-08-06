@@ -70,7 +70,7 @@ function build_menu(){
     if(isset($_SESSION['Username']) && ($_SESSION['Username']=="admin")){
         $menu_items=array(
             "<span lang=\"en\">Home</span>" => "index.php",
-            "Il mio profilo" => "lista-eventi.php",
+            "Il mio profilo" => "mio-profilo.php",
             "Amici" => "amici.php",
             "Modifica dati personali" => "dati-personali.php",
             "Modifica Password" => "modifica-password.php",
@@ -83,7 +83,7 @@ function build_menu(){
         if(isset($_SESSION['Username'])){
             $menu_items=array(
                 "<span lang=\"en\">Home</span>" => "index.php",
-                "Il mio profilo" => "lista-eventi.php",
+                "Il mio profilo" => "mio-profilo.php",
                 "Amici" => "amici.php",
                 "Modifica dati personali" => "dati-personali.php",
                 "Modifica Password" => "modifica-password.php",
@@ -138,4 +138,38 @@ function build_lista_post(){
         }
     }
     return $lista_post;
+}
+
+function build_mioprofilo($username){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM user WHERE username = '$username'";
+    $result_query = $db->query($query);
+
+
+    $mioprofilo = "";
+
+    if($result_query->num_rows > 0){
+        $query_profile = "SELECT * FROM profile WHERE username = '$username'";
+        $result_query_profile = $db->query($query_profile);
+
+        $row_query = $result_query->fetch_assoc();
+        if($result_query_profile->num_rows > 0)
+            $row_query_profile = $result_query_profile->fetch_assoc();
+
+        $mioprofilo = "<ul class=\"profilo\">
+                        <li>".$row_query['profile_picture_url']."</li>
+                        <li>Nome: ".$row_query['name']."</li>
+                        <li>Email: ".$row_query['email']."</li>
+                        <li>Username: ".$row_query['username']."</li>
+                        <li>Biografia: ".$row_query_profile['bio']."</li>
+                        <li>Genere: ".$row_query['gender']."</li>
+                        <li>Data di nascita: ".$row_query['birthdate']."</li>
+                        <li>Luogo: ".$row_query_profile['location']."</li>
+                        <li>Sito Web: ".$row_query_profile['website']."</li>
+                        <li>Data di iscrizione: ".$row_query['created_at']."</li>
+                        <li>Ultima modifica: ".$row_query['updated_at']."</li>
+                    </ul>";
+    }
 }
