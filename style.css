@@ -47,10 +47,46 @@ body{
     border: 1px solid black;
 }
 
-h3{
+main h2{
     text-align: center;
     padding: 20px;
+    font-size: 2em;
+}
+
+h3{
+    text-align: center;
+    padding: 1em;
     font-size: 1.5em;
+}
+
+.goback {                   /*Tasto "Torna su": è dopo tutti i contenuti di ogni pagina*/
+    top:85%;
+    left:79%;
+    position:fixed;
+    
+}
+  
+.goback a {
+    transition-duration: 0.1s;
+    cursor: pointer;
+    align-items: center;
+    border-radius: 50%;
+    display: inline-flex;
+    height: 2.3rem;
+    width: 2.3rem;
+    margin: 0.4rem;
+    margin-bottom: 0.5em;
+    justify-content: center;
+    text-decoration: none;
+    color: #000;
+    border: 2px solid #000;
+    background: var(--breadcolor);
+}
+
+.goback a:hover {
+    background: #fff;
+    color: #000;
+    border: 2px solid var(--breadcolor);
 }
 
 
@@ -86,6 +122,34 @@ header img {
     padding-left: 2%;
     padding-right: 2%;
 }
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+}
+
+.skip-link.show {
+    position: static;
+    left: auto;
+}
+
+.breadcrumb{
+    background-color: var(--breadcolor);
+    color: var(--txtcolor);
+    padding: 0.5em;
+    border-top: 1px inset var(--bgcolor);
+}
+
+
+.breadcrumb a:visited{
+    color: var(--visitedlinkcolor);
+}
+
+/*
+======================================
+                MENU
+======================================
+*/
 
 .menu{
     background-color: var(--breadcolor);
@@ -143,6 +207,46 @@ header img {
     text-shadow: 1px 3px 4px #ffffff;
 }
 
+/*
+======================================
+                CORPO
+======================================
+*/
+
+
+.loginbtn{
+    color: #ffffff;
+    background-color: #3b3b3b;
+    padding: 6px 15px;
+    font-family: inherit;
+    margin-bottom: 4%;
+    margin-top:4%;
+}
+
+.loginbtn:hover{
+    background-color: #fff;
+    color: #000000;
+    cursor: pointer;
+}
+
+.loginbtn a{
+    color:#ffffff;
+    text-decoration: none;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.loginbtn a:hover{
+    background-color: #fff;
+    color: #000000;
+    cursor: pointer;
+}
+
+#public-post{
+    margin-top: 0%;
+}
+
 #post-box{
     max-width: 60%;
     flex:2;
@@ -182,6 +286,29 @@ header img {
     cursor:pointer;
 }
 
+.form_box{
+    text-align: center;
+    padding: 15px;
+    max-width: 27%;
+    margin: auto;
+    border: 6px solid #000000;
+    margin-bottom: 2%;
+    background-color: var(--logboxsfondo);
+}
+
+.form_box input{
+    margin-bottom: 2%;
+    margin-top:1.8%;
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    border-bottom: 3px solid #8e8d8d;
+    background-color: rgba(255,255,255,0.6);
+}
+
+.form_box input:hover{
+    border-bottom: 3px solid #000000;
+}
 /*
 ======================================
                 FOOTER
