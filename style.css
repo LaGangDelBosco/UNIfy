@@ -309,6 +309,18 @@ header img {
 .form_box input:hover{
     border-bottom: 3px solid #000000;
 }
+
+.profilo{
+    margin-left: auto;
+    margin-right: auto;
+    list-style-type: none;
+    max-width: 50%;
+}
+
+.profilo li{
+    padding-bottom: 4%;
+}
+
 /*
 ======================================
                 FOOTER

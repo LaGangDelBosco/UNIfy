@@ -157,19 +157,21 @@ function build_mioprofilo($username){
         $row_query = $result_query->fetch_assoc();
         if($result_query_profile->num_rows > 0)
             $row_query_profile = $result_query_profile->fetch_assoc();
-
+        //CAMBIO IMMAGINE IN QUESTA PAGINA??
         $mioprofilo = "<ul class=\"profilo\">
-                        <li>".$row_query['profile_picture_url']."</li>
-                        <li>Nome: ".$row_query['name']."</li>
-                        <li>Email: ".$row_query['email']."</li>
-                        <li>Username: ".$row_query['username']."</li>
-                        <li>Biografia: ".$row_query_profile['bio']."</li>
-                        <li>Genere: ".$row_query['gender']."</li>
-                        <li>Data di nascita: ".$row_query['birthdate']."</li>
-                        <li>Luogo: ".$row_query_profile['location']."</li>
-                        <li>Sito Web: ".$row_query_profile['website']."</li>
-                        <li>Data di iscrizione: ".$row_query['created_at']."</li>
-                        <li>Ultima modifica: ".$row_query['updated_at']."</li>
+                        <li><img src = ".$row_query['profile_picture_url']." alt=\"\"/></li>  
+                        <li><b>Nome: </b>".$row_query['name']."</li>
+                        <li><b>Email: </b>".$row_query['email']."</li>
+                        <li><b>Username: </b>".$row_query['username']."</li>
+                        <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
+                        <li><b>Genere: </b>".$row_query['gender']."</li>
+                        <li><b>Data di nascita: </b>".$row_query['birthdate']."</li>
+                        <li><b>Luogo: </b>".$row_query_profile['location']."</li>
+                        <li><b>Sito Web: </b>".$row_query_profile['website']."</li>
+                        <li><b>Data di iscrizione: </b>".$row_query['created_at']."</li>
+                        <li><b>Ultima modifica: </b>".$row_query['updated_at']."</li>
                     </ul>";
     }
+
+    return $mioprofilo;
 }

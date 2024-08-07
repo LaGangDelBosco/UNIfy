@@ -4,18 +4,18 @@ require_once ("./globale.php");
 
 unset($_SESSION['redirect_url']);
 
-$index_template = $template_engine->load_template("index-template.html");
+$mioprofilo_template = $template_engine->load_template("mio-profilo-template.html");
 
-$username = $_SESSION['Username'];
+if(isset($_SESSION['Username']))
+    $username = $_SESSION['Username'];
 
-#$index_template->insert("build_keywords", build_keywords());
-$index_template->insert("menu", build_menu());
+$mioprofilo_template->insert("menu", build_menu());
 
-$index_template->insert("mioprofilo", build_mioprofilo($username));
+$mioprofilo_template->insert("mioprofilo", build_mioprofilo($username));
 
-$index_template->insert("header", build_header());
-$index_template->insert("goback", build_goback());
-$index_template->insert("footer", build_footer());
+$mioprofilo_template->insert("header", build_header());
+$mioprofilo_template->insert("goback", build_goback());
+$mioprofilo_template->insert("footer", build_footer());
 
 
-echo $index_template->build();
+echo $mioprofilo_template->build();
