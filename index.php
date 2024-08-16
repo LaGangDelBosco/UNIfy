@@ -4,6 +4,11 @@ require_once ("./globale.php");
 
 unset($_SESSION['redirect_url']);
 
+if(!isset($_SESSION['Username'])){
+    header("Location: login.php");
+    exit();
+}
+
 $index_template = $template_engine->load_template("index-template.html");
 
 #$index_template->insert("build_keywords", build_keywords());

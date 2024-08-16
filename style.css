@@ -321,6 +321,18 @@ header img {
     padding-bottom: 4%;
 }
 
+fieldset{
+    border: none;
+}
+
+legend{
+    text-indent: -9999px;
+}
+
+#amici{
+    
+}
+
 /*
 ======================================
                 FOOTER

@@ -4,6 +4,11 @@ require_once ("./globale.php");
 
 unset($_SESSION['redirect_url']);
 
+if(!isset($_SESSION['Username'])){
+    header("Location: login.php");
+    exit();
+}
+
 $mioprofilo_template = $template_engine->load_template("mio-profilo-template.html");
 
 if(isset($_SESSION['Username']))

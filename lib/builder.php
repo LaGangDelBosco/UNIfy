@@ -90,15 +90,7 @@ function build_menu(){
                 "Post che mi piacciono" => "post-piacciono.php",
                 "Post commentati" => "post-commentati.php",
             );
-        }else{
-            $menu_items=array(
-                "<span lang=\"en\">Home</span>" => "index.php",
-                "Tutti gli eventi" => "lista-eventi.php",
-                "Tutti gli artisti" => "lista-artisti.php",
-                "Registrati" => "registrazione.php",
-            );
         }
-
     }
 
     $menu = "<ul class=\"menu\">";
@@ -174,4 +166,54 @@ function build_mioprofilo($username){
     }
 
     return $mioprofilo;
+}
+
+
+function build_lista_amici($username){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM friendship WHERE username_1 = '$username' OR username_2 = '$username' AND status = 'accepted'";
+    $result_query = $db->query($query);
+
+    $lista_amici = "";
+
+    if($result_query->num_rows > 0){
+        while($row_query = $result_query->fetch_assoc()){
+            if($row_query['username_1'] == $username)
+                $amico = $row_query['username_2'];
+            else
+                $amico = $row_query['username_1'];
+
+            $query_profile = "SELECT * FROM profile WHERE username = '$amico'";
+            $result_query_profile = $db->query($query_profile);
+
+            $query_user = "SELECT * FROM user WHERE username = '$amico'";
+            $result_query_user = $db->query($query_user);
+
+            if($result_query_user->num_rows > 0)
+                $row_query_user = $result_query_user->fetch_assoc();
+
+            if($result_query_profile->num_rows > 0)
+                $row_query_profile = $result_query_profile->fetch_assoc();
+
+            $lista_amici .= "<ul class=\"profilo\" id=\"amici\">
+                                <li><img src = ".$row_query_user['profile_picture_url']." alt=\"\"/></li>  
+                                <li><b>Nome: </b>".$row_query_user['name']."</li>
+                                <li><b>Username: </b>".$amico."</li>
+                                <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
+                                <li>
+                                    <fieldset>
+                                        <legend>Rimuovi amicizia a ".$amico."</legend>
+                                        <form method='post' action='amici.php' name='rimuovi_amicizia'> 
+                                            <input type='hidden' name='amico' value='".$amico."' />
+                                            <button class=\"loginbtn\" type='submit'>Rimuovi Amicizia</button>
+                                        </form>
+                                    </fieldset>
+                                </li>
+                            </ul><hr>"; //rimuovi_amicizia DA IMPLEMENTARE
+    
+        }
+    }
+    return $lista_amici;
 }
