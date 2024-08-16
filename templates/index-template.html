@@ -44,8 +44,11 @@
 				
 				<nav id="post-box">
 					<div id="text-box">
-						<p><textarea id="text" rows="4" cols="50" placeholder="Scrivi qualcosa..."></textarea></p>
-						<button class="loginbtn" id="public-post" type="button" onclick="publishFunction()">Pubblica</button> <!-- da implementare -->
+						<form method="post" action="index.php">
+							<p><textarea id="text" name="text" rows="4" cols="50" placeholder="Scrivi qualcosa..."></textarea>
+							o <button id="add_media" type="button">Aggiungi immagine</button> </p> <!--trovare il modo per aggiungere l'immagine, magari con il testo, e poi pubblicare-->
+							<button class="loginbtn" id="public-post" type="submit" name="submit-public-post">Pubblica</button>
+						</form>
 					</div>
 					
 					<div id="post">

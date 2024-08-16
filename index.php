@@ -14,6 +14,11 @@ $index_template = $template_engine->load_template("index-template.html");
 #$index_template->insert("build_keywords", build_keywords());
 $index_template->insert("menu", build_menu());
 
+if(isset($_POST['submit-public-post'])){
+    $post = $_POST['text'];
+    $db->inserisci_post($post, $_SESSION['Username']);
+}
+
 $index_template->insert("lista_post", build_lista_post());
 
 $index_template->insert("header", build_header());

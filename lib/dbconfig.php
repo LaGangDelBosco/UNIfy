@@ -177,4 +177,36 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // ritorna il risultato
         return !$this->err_code;
     }
+
+    public function inserisci_post($testo, $utente){    //TODO: cambiare query inserendo anche i media nel db
+        // prepara la query
+        $query = "INSERT INTO post (content, username) VALUES (?, ?)";
+        $parameters = array("ss", $testo, $utente);
+        // prepara lo statement
+        $stmt = $this->apriconn()->prepare($query);
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+
+        // associa i parametri della query
+        $stmt->bind_param(...$parameters);
+        // esegue la query
+        $stmt->execute();
+
+        // controlla se la registrazione è avvenuta con successo
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante la registrazione";
+        }
+
+        // chiude lo statement
+        $stmt->close();
+
+        // ritorna il risultato
+        return !$this->err_code;
+    }
 }

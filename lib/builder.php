@@ -127,7 +127,7 @@ function build_lista_post(){
                             </ul>"
         ;
 
-        }
+        }       //TODO: mi piace e commenta devono essere sul db come contatori prima di implementare?
     }
     return $lista_post;
 }
