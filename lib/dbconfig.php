@@ -209,4 +209,99 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // ritorna il risultato
         return !$this->err_code;
     }
+
+     /**
+     * @brief Funzione che controlla se la password inserita è corretta
+     * @param string $username username dell'utente
+     * @param string $password password dell'utente
+     * @return bool vero se la password inserita è corretta, falso altrimenti
+     */
+    public function check_password($username, $password): bool
+    {
+        // trasforma la password in sha256
+        $hashed_password = hash('sha256', $password);
+        // prepara la query
+        $query = "SELECT * FROM user WHERE username = ? AND password = ?";
+        $parameters = array("ss", $username, $hashed_password);
+        // prepara lo statement
+        $stmt = $this->apriconn()->prepare($query);
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+        $result = array();
+
+        // associa i parametri della query
+        $stmt->bind_param('ss', $username, $hashed_password);
+        // controlla che lo stmt sia stato eseguito correttamente
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+        // esegue la query
+        $stmt->execute();
+        // salva il risultato della query
+        $tmp = $stmt->get_result();
+        $result = $tmp->fetch_assoc();
+        $stmt->close();
+        // se il risulta è vuoto, la password non è corretta
+        if (empty($result)) {
+            $this->err_code = true;
+            $this->err_text = "Password errata";
+            return false;
+        } else {
+            // altrimenti la password è corretta
+            $this->err_code = false;
+            return true;
+        }
+    }
+
+    /**
+     * Funzione che aggiorna la password corrente con una nuova
+     * @param string $username username dell'utente
+     * @param string $password password dell'utente
+     * @return bool vero se la password è stata aggiornata, falso altrimenti
+     */
+    public function update_password($username, $password)
+    {
+        // trasforma la password in sha256
+        $hashed_password = hash('sha256', $password);
+        // prepara la query
+        $query = "UPDATE user SET password = ? WHERE username = ?";
+        $parameters = array("ss", $hashed_password, $username);
+        // prepara lo statement
+        $stmt = $this->apriconn()->prepare($query);
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+
+        // associa i parametri della query
+        $stmt->bind_param(...$parameters);
+        // controlla che lo stmt sia stato eseguito correttamente
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+        // esegue la query
+        $stmt->execute();
+
+        // controlla se la registrazione è avvenuta con successo
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'aggiornamento della password";
+        }
+
+        // chiude lo statement
+        $stmt->close();
+
+        // ritorna il risultato
+        return !$this->err_code;
+    }
 }
