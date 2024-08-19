@@ -16,7 +16,6 @@ if(isset($_SESSION['Username']))
 
 $mioprofilo_template->insert("menu", build_menu());
 
-$mioprofilo_template->insert("mioprofilo", build_mioprofilo($username));
 
 $mioprofilo_template->insert("header", build_header());
 $mioprofilo_template->insert("goback", build_goback());
