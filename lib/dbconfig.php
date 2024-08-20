@@ -304,4 +304,46 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // ritorna il risultato
         return !$this->err_code;
     }
+
+    public function modifica_dati_personali($username, $nome, $email, $bio, $gender, $birthdate, $location, $website){
+        $conn = $this->apriconn();
+        // prepara la query
+        $query = "UPDATE user SET name = ?, email = ?, birthdate = ?, gender = ?, updated_at = NOW() WHERE username = ?";
+
+        $query2 = "UPDATE profile SET bio = ?, location = ?, website = ?, updated_at = NOW() WHERE username = ?";
+        $parameters = array("sssss", $nome, $email, $birthdate, $gender, $username);
+        $parameters2 = array("ssss", $bio, $location, $website, $username);
+
+        // prepara lo statement
+        $stmt = $conn->prepare($query);
+        $stmt2 = $conn->prepare($query2);
+        if ($stmt === false || $stmt2 === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+
+        // associa i parametri della query
+        $stmt->bind_param(...$parameters);
+        $stmt2->bind_param(...$parameters2);
+        // esegue la query
+        $stmt->execute();
+        $stmt2->execute();
+
+        // controlla se la registrazione è avvenuta con successo
+
+        if ($stmt->affected_rows > 0 && $stmt2->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante la modifica dei dati";
+        }
+
+        // chiude lo statement
+        $stmt->close();
+        $stmt2->close();
+
+        // ritorna il risultato
+        return !$this->err_code;
+    }
 }

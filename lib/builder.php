@@ -217,3 +217,53 @@ function build_lista_amici($username){
     }
     return $lista_amici;
 }
+
+function build_modifica_dati_personali($username){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM user WHERE username = '$username'";
+    $result_query = $db->query($query);
+
+    $modifica_dati_personali = "";
+
+    if($result_query->num_rows > 0){
+        $row_query = $result_query->fetch_assoc();
+
+        $query_profile = "SELECT * FROM profile WHERE username = '$username'";
+        $result_query_profile = $db->query($query_profile);
+
+        if($result_query_profile->num_rows > 0)
+            $row_query_profile = $result_query_profile->fetch_assoc();
+
+        $modifica_dati_personali = "<form class='form_box' method='post' action='dati-personali.php' name='modifica_dati_personali'>
+                                        <fieldset>
+                                            <legend>Modifica Dati Personali</legend>
+                                            <label for='name'>Nome</label>
+                                            <input type='text' name='name' value='".$row_query['name']."' required>
+                                            <label for='email'>Email</label>
+                                            <input type='email' name='email' value='".$row_query['email']."' required>
+                                            <label for='username'>Username</label>
+                                            <input type='text' name='username' value='".$row_query['username']."' readonly>
+                                            <label for='bio'>Biografia</label>
+                                            <input type='text' name='bio' value='".$row_query_profile['bio']."' required>
+                                            <label for='gender'>Genere</label>
+                                            <select name='gender' required>
+                                                <option value='M'".($row_query['gender']=='M'?' selected':'').">M</option>
+                                                <option value='F'".($row_query['gender']=='F'?' selected':'').">F</option>
+                                                <option value='Non specificato'".($row_query['gender']=='Non specificato'?' selected':'').">Non specificato</option>
+                                            </select>
+                                            <label for='birthdate'>Data di nascita</label>
+                                            <input type='date' name='birthdate' value='".$row_query['birthdate']."' required>
+                                            <label for='location'>Luogo</label>
+                                            <input type='text' name='location' value='".$row_query_profile['location']."' required>
+                                            <label for='website'>Sito Web</label>
+                                            <input type='text' name='website' value='".$row_query_profile['website']."' required>
+                                            <button class=\"loginbtn\" type='submit' name='submit_modifica_dati_personali'>Modifica</button>
+                                        </fieldset>
+                                    </form>";
+    }
+
+    return $modifica_dati_personali;
+}
+
