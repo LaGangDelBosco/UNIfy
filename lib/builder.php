@@ -207,7 +207,7 @@ function build_lista_amici($username){
                                         <legend>Rimuovi amicizia a ".$amico."</legend>
                                         <form method='post' action='amici.php' name='rimuovi_amicizia'> 
                                             <input type='hidden' name='amico' value='".$amico."' />
-                                            <button class=\"loginbtn\" type='submit'>Rimuovi Amicizia</button>
+                                            <button class=\"loginbtn\" type='submit' name='submit_rimuovi_amicizia'>Rimuovi Amicizia</button>
                                         </form>
                                     </fieldset>
                                 </li>

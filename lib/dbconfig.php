@@ -195,12 +195,12 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // esegue la query
         $stmt->execute();
 
-        // controlla se la registrazione è avvenuta con successo
+        // controlla se l'inserimento è avvenuto con successo
         if ($stmt->affected_rows > 0) {
             $this->err_code = false;
         } else {
             $this->err_code = true;
-            $this->err_text = "Errore durante la registrazione";
+            $this->err_text = "Errore durante l'inserimento del post";
         }
 
         // chiude lo statement
@@ -290,7 +290,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // esegue la query
         $stmt->execute();
 
-        // controlla se la registrazione è avvenuta con successo
+        // controlla se l'aggiornamento è avvenuto con successo
         if ($stmt->affected_rows > 0) {
             $this->err_code = false;
         } else {
@@ -330,7 +330,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $stmt->execute();
         $stmt2->execute();
 
-        // controlla se la registrazione è avvenuta con successo
+        // controlla se la modifica è avvenuta con successo
 
         if ($stmt->affected_rows > 0 && $stmt2->affected_rows > 0) {
             $this->err_code = false;
@@ -342,6 +342,39 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // chiude lo statement
         $stmt->close();
         $stmt2->close();
+
+        // ritorna il risultato
+        return !$this->err_code;
+    }
+
+    public function rimuovi_amicizia($username, $amico){
+        // prepara la query
+        $query = "DELETE FROM friendship WHERE (username_1 = ? AND username_2 = ?) OR (username_1 = ? AND username_2 = ?)";
+        $parameters = array("ssss", $username, $amico, $amico, $username);
+        // prepara lo statement
+        $stmt = $this->apriconn()->prepare($query);
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+
+        // associa i parametri della query
+        $stmt->bind_param(...$parameters);
+
+        // esegue la query
+        $stmt->execute();
+
+        // controlla se la rimozione è avvenuta con successo
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante la rimozione dell'amicizia";
+        }
+        
+        // chiude lo statement
+        $stmt->close();
 
         // ritorna il risultato
         return !$this->err_code;

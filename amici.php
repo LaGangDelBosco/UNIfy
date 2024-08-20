@@ -11,6 +11,15 @@ if(!isset($_SESSION['Username'])){
 
 $username = $_SESSION['Username'];
 
+if(isset($_POST['submit_rimuovi_amicizia'])){
+    $amico = $_POST['amico'];
+    if($db->rimuovi_amicizia($username, $amico))
+        header("Location: ./amici.php?messaggio=Amicizia rimossa con successo");
+    else
+        header("Location: ./amici.php?messaggio=Errore nella rimozione dell'amicizia");
+
+}
+
 $amici_template = $template_engine->load_template("amici-template.html");
 
 #$index_template->insert("build_keywords", build_keywords());
