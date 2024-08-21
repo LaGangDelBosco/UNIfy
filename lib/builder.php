@@ -267,3 +267,38 @@ function build_modifica_dati_personali($username){
     return $modifica_dati_personali;
 }
 
+function build_mypost($username){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM post WHERE username = '$username' ORDER BY created_at DESC";
+    $result_query = $db->query($query);
+
+    $mypost = "";
+
+    if($result_query->num_rows > 0){
+        while($row_query = $result_query->fetch_assoc()){
+            $mypost .= "<ul class=\"singolo_post\">
+                            <li><a href=\"\">".$row_query['username']."</a></li>
+                            <li>".$row_query['created_at']."</li>
+                            <li>".$row_query['content']."</li>
+                            <li class=\"post-actions\">
+                                <fieldset>
+                                    <legend>Interazioni post del ". $row_query['created_at'] ." </legend>
+                                    <button class=\"interact\" onclick=\"like_post(".$row_query['post_id'].")\">Mi piace</button>
+                                    <button class=\"interact\" onclick=\"comment_post(".$row_query['post_id'].")\">Commenta</button>
+                                    <form method='post' action='mio-profilo.php' name='elimina_post'>
+                                        <div class = \"elimina_inline\"> 
+                                            <input type='hidden' name='post_id' value='".$row_query['post_id']."' />
+                                            <button class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
+                                        </div>
+                                    </form>
+                                </fieldset>
+                            </li>
+                        </ul>";
+        }
+    }
+
+    return $mypost;
+}
+

@@ -379,4 +379,34 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // ritorna il risultato
         return !$this->err_code;
     }
+
+    public function datiutentemioprofilo($username){
+        $conn = $this->apriconn();
+        $query = "SELECT profile_picture_url, name, email, birthdate FROM user WHERE username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data;
+    }
+
+    public function eliminapost($id_post){
+        $conn = $this->apriconn();
+        $query = "DELETE FROM post WHERE post_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_post);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'eliminazione del post";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
 }

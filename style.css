@@ -140,9 +140,13 @@ header img {
     border-top: 1px inset var(--bgcolor);
 }
 
-
 .breadcrumb a:visited{
     color: var(--visitedlinkcolor);
+}
+
+.log{
+    width: 1.5%;
+    height: auto;
 }
 
 /*
@@ -323,10 +327,29 @@ header img {
 
 fieldset{
     border: none;
+    display: flex;
+    gap:1%;
+
 }
 
 legend{
     text-indent: -9999px;
+}
+
+#profile-info{
+    display: flex;
+}
+
+#profile-data{
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#search-bar{
+    margin-top: 2%;
+    margin-bottom: 2%;
+    text-align: center;
 }
 
 #amici{

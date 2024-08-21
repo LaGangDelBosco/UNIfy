@@ -41,13 +41,31 @@
 				</nav>
 				
 				<nav id="post-box">
+					<h3>Informazioni personali</h3>
+					<div id="profile-info">
+						<div id="profile-pic">
+							<img src= "<component>immagine</component>" alt=""> <!--alt vuoto per accessibilità: o descrive il contenuto dell'immagine (il viso della persona), o lo mettiamo vuoto-->
+						</div>
+						<div id="profile-data">
+							<p><strong>Nome:</strong> <component>nome</component></p>
+							<p><strong>Username:</strong> <component>username</component></p>
+							<p><strong>Data di nascita:</strong> <component>birthdate</component></p>
+							<p><strong>Email:</strong> <component>email</component></p>
+						</div>
+					</div>
+
+					<h3>I miei post</h3>
+					<div id="my-posts">
+						<component>post</component>
+					</div>
 					
 				</nav>
 					
 					
 				<nav id="extra-section">
                     <div id="search-bar">
-                        <input type="text" id="search" placeholder="Cerca...">
+						<label for="search">Cerca:</label>
+                        <input type="text" id="search" placeholder="Cerca qui...">
                         <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
                     </div>
                     <!-- potrebbe interessarti -->
