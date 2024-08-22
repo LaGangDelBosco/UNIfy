@@ -280,12 +280,12 @@ header img {
     padding-bottom: 2%;
 }
 
-.interact{
+.interact, .like-interact, .comment-interact{
     background-color: rgba(42, 85, 159, 0.633);
     padding: 1%;
 }
 
-.interact:hover{
+.interact:hover, .like-interact:hover, .comment-interact:hover{
     background-color: rgba(74, 114, 185, 0.633);
     cursor:pointer;
 }

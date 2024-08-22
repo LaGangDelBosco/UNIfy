@@ -409,4 +409,17 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $conn->close();
         return !$this->err_code;
     }
+
+    public function get_like_count($id_post){
+        $conn = $this->apriconn();
+        $query = "SELECT COUNT(*) as count FROM likes WHERE post_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_post);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data['count'];
+    }
 }

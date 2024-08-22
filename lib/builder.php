@@ -114,15 +114,19 @@ function build_lista_post(){
 
     $lista_post = "";
 
+    $like_count = 0;
+
     if($result_query->num_rows > 0){
         while($row_query = $result_query->fetch_assoc()){
+            $like_count = $db->get_like_count($row_query['post_id']);
             $lista_post .= "<ul class=\"singolo_post\">
                                 <li><a href=\"\">".$row_query['username']."</a></li>
                                 <li>".$row_query['created_at']."</li>
                                 <li>".$row_query['content']."</li>
                                 <li>
-                                    <button class=\"interact\" onclick=\"like_post(".$row_query['post_id'].")\">Mi piace</button>
-                                    <button class=\"interact\" onclick=\"comment_post(".$row_query['post_id'].")\">Commenta</button>
+                                    <button class=\"like-interact\" data-post-id=\"". $row_query['post_id'] ."\">Mi piace</button>
+                                    <span id='like_count'>$like_count</span>
+                                    <button class=\"comment-interact\">Commenta</button>
                                 </li>
                             </ul>"
         ;
