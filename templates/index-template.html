@@ -20,6 +20,7 @@
 
 	<script src="./js/menu.js"></script>
 	<script src="./js/menu_mobile.js"></script>
+	<script src="./js/like-comment.js"></script>
 </head>
 
 <body>	
@@ -55,29 +56,7 @@
 						<component>lista_post</component>
 					</div>
 					<script>
-						document.addEventListener('DOMContentLoaded', function() {
-							document.querySelectorAll('.like-interact').forEach(button => {
-								button.addEventListener('click', function() {
-									const postId = this.getAttribute('data-post-id');
-
-									const xhr = new XMLHttpRequest();
-									xhr.open('POST', 'like-post.php', true);
-									xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-									xhr.onload = function () {
-										if (xhr.status === 200) {
-											const response = JSON.parse(xhr.responseText);
-											if (response.success) {
-												const likeCountSpan = button.nextElementSibling;
-												likeCountSpan.textContent = response.likes_number;
-											} else {
-												alert('Errore: ' + response.message);
-											}
-										}
-									};
-									xhr.send('post_id=' + postId);
-								});
-							});
-						});
+						like_post();
 					</script>
 
 				</nav>

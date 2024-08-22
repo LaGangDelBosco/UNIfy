@@ -143,79 +143,11 @@ function build_lista_post(){
                                     <li>".$row_query_comment['content']."</li>";
                 }
                 $lista_post .= "</ul></li>";
+            } else {
+                $lista_post .= "<li id='comment_list_". $post_id ."'></li>";
             }
 
-            $lista_post .= "</ul>
-                            <script>
-                                // gestione like post
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    const commentButton = document.getElementById('comment_button_$post_id');
-                                    const commentTextarea = document.getElementById('comment_$post_id');
-
-                                    commentTextarea.addEventListener('input', function() {
-                                        if (commentTextarea.value.trim() === '') {
-                                            commentButton.disabled = true;
-                                        } else {
-                                            commentButton.disabled = false;
-                                        }
-                                    });
-
-                                    // Initial check to disable the button if the textarea is empty on page load
-                                    if (commentTextarea.value.trim() === '') {
-                                        commentButton.disabled = true;
-                                    }
-                                });
-                                
-                                document.addEventListener('DOMContentLoaded', function() {
-                                const commentButton = document.getElementById('comment_button_$post_id');
-                                const commentTextarea = document.getElementById('comment_$post_id');
-                            
-                                commentTextarea.addEventListener('input', function() {
-                                    if (commentTextarea.value.trim() === '') {
-                                        commentButton.disabled = true;
-                                    } else {
-                                        commentButton.disabled = false;
-                                    }
-                                });
-                            
-                                // Initial check to disable the button if the textarea is empty on page load
-                                if (commentTextarea.value.trim() === '') {
-                                    commentButton.disabled = true;
-                                }
-                            
-                                commentButton.addEventListener('click', function() {
-                                    var comment = commentTextarea.value;
-                                    var post_id = Number(\"$post_id\");
-                                    commentTextarea.value = '';
-                                    commentButton.disabled = true;
-                            
-                                    fetch('comment.php', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/x-www-form-urlencoded',
-                                        },
-                                        body: 'post_id=' + post_id + '&comment=' + comment,
-                                    })
-                                    .then(response => response.text()) // Get the response as text
-                                    .then(text => {
-                                        try {
-                                            const data = JSON.parse(text); // Parse the JSON
-                                            if (data.success) {
-                                                const commentList = document.getElementById('comment_list_$post_id');
-                                                const newComment = document.createElement('ul');
-                                                newComment.innerHTML = '<li><a href=\"#\">' + data.username + '</a></li><li>' + data.created_at + '</li><li>' + comment + '</li>';
-                                                commentList.insertBefore(newComment, commentList.firstChild);
-                                            } else {
-                                                alert('Errore durante l\'invio del commento');
-                                            }
-                                        } catch (error) {
-                                            console.error('Error parsing JSON:', error);
-                                            console.error('Response text:', text); // Log the response text for debugging
-                                        }
-                                    });
-                                });
-                            });
-                            </script>";
+            $lista_post .= "</ul>";
         }
     }
     return $lista_post;
