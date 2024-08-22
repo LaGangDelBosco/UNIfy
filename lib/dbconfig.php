@@ -234,12 +234,6 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
         // associa i parametri della query
         $stmt->bind_param('ss', $username, $hashed_password);
-        // controlla che lo stmt sia stato eseguito correttamente
-        if ($stmt === false) {
-            $this->err_code = true;
-            $this->err_text = "Errore nella preparazione della richiesta";
-            return false;
-        }
         // esegue la query
         $stmt->execute();
         // salva il risultato della query

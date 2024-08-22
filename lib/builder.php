@@ -114,24 +114,109 @@ function build_lista_post(){
 
     $lista_post = "";
 
-    $like_count = 0;
-
     if($result_query->num_rows > 0){
         while($row_query = $result_query->fetch_assoc()){
             $like_count = $db->get_like_count($row_query['post_id']);
+            $post_id = $row_query['post_id'];
             $lista_post .= "<ul class=\"singolo_post\">
                                 <li><a href=\"\">".$row_query['username']."</a></li>
                                 <li>".$row_query['created_at']."</li>
                                 <li>".$row_query['content']."</li>
                                 <li>
-                                    <button class=\"like-interact\" data-post-id=\"". $row_query['post_id'] ."\">Mi piace</button>
-                                    <span id='like_count'>$like_count</span>
-                                    <button class=\"comment-interact\">Commenta</button>
+                                    <button class=\"like-interact\" data-post-id=\"". $post_id ."\">Mi piace</button>
+                                    <span>$like_count</span>
                                 </li>
-                            </ul>"
-        ;
+                                <li>
+                                    <label for=\"comment_$post_id\">Scrivi un commento:</label>
+                                    <textarea id='comment_$post_id' placeholder=\"Commenta\"></textarea>
+                                    <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>
+                                </li>";
 
-        }       //TODO: mi piace e commenta devono essere sul db come contatori prima di implementare?
+            $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
+            $result_query_comment = $db->query($query);
+
+            if($result_query_comment->num_rows > 0){
+                $lista_post .= "<li id='comment_list_". $post_id ."'><ul>";
+                while($row_query_comment = $result_query_comment->fetch_assoc()){
+                    $lista_post .= "<li><a href=\"\">".$row_query_comment['username']."</a></li>
+                                    <li>".$row_query_comment['created_at']."</li>
+                                    <li>".$row_query_comment['content']."</li>";
+                }
+                $lista_post .= "</ul></li>";
+            }
+
+            $lista_post .= "</ul>
+                            <script>
+                                // gestione like post
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const commentButton = document.getElementById('comment_button_$post_id');
+                                    const commentTextarea = document.getElementById('comment_$post_id');
+
+                                    commentTextarea.addEventListener('input', function() {
+                                        if (commentTextarea.value.trim() === '') {
+                                            commentButton.disabled = true;
+                                        } else {
+                                            commentButton.disabled = false;
+                                        }
+                                    });
+
+                                    // Initial check to disable the button if the textarea is empty on page load
+                                    if (commentTextarea.value.trim() === '') {
+                                        commentButton.disabled = true;
+                                    }
+                                });
+                                
+                                document.addEventListener('DOMContentLoaded', function() {
+                                const commentButton = document.getElementById('comment_button_$post_id');
+                                const commentTextarea = document.getElementById('comment_$post_id');
+                            
+                                commentTextarea.addEventListener('input', function() {
+                                    if (commentTextarea.value.trim() === '') {
+                                        commentButton.disabled = true;
+                                    } else {
+                                        commentButton.disabled = false;
+                                    }
+                                });
+                            
+                                // Initial check to disable the button if the textarea is empty on page load
+                                if (commentTextarea.value.trim() === '') {
+                                    commentButton.disabled = true;
+                                }
+                            
+                                commentButton.addEventListener('click', function() {
+                                    var comment = commentTextarea.value;
+                                    var post_id = Number(\"$post_id\");
+                                    commentTextarea.value = '';
+                                    commentButton.disabled = true;
+                            
+                                    fetch('comment.php', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/x-www-form-urlencoded',
+                                        },
+                                        body: 'post_id=' + post_id + '&comment=' + comment,
+                                    })
+                                    .then(response => response.text()) // Get the response as text
+                                    .then(text => {
+                                        try {
+                                            const data = JSON.parse(text); // Parse the JSON
+                                            if (data.success) {
+                                                const commentList = document.getElementById('comment_list_$post_id');
+                                                const newComment = document.createElement('ul');
+                                                newComment.innerHTML = '<li><a href=\"#\">' + data.username + '</a></li><li>' + data.created_at + '</li><li>' + comment + '</li>';
+                                                commentList.insertBefore(newComment, commentList.firstChild);
+                                            } else {
+                                                alert('Errore durante l\'invio del commento');
+                                            }
+                                        } catch (error) {
+                                            console.error('Error parsing JSON:', error);
+                                            console.error('Response text:', text); // Log the response text for debugging
+                                        }
+                                    });
+                                });
+                            });
+                            </script>";
+        }
     }
     return $lista_post;
 }
