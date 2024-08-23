@@ -352,9 +352,27 @@ legend{
     text-align: center;
 }
 
-#amici{
-    
+.content_comm{
+    border-bottom : 1px inset #727272;
 }
+
+/* Classe per evidenziare il commento */
+.highlight {
+    background-color: rgba(75, 195, 219, 0.521);
+    animation: fadeOut 3s 2.5s forwards;
+    border-bottom: 1px inset #727272;
+}
+
+/* Animazione per la dissolvenza del colore di sfondo */
+@keyframes fadeOut {
+    0% {
+        background-color: rgba(75, 195, 219, 0.521);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
 
 /*
 ======================================
