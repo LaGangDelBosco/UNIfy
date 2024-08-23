@@ -140,7 +140,7 @@ function build_lista_post(){
                 while($row_query_comment = $result_query_comment->fetch_assoc()){
                     $lista_post .= "<li><a href=\"\">".$row_query_comment['username']."</a></li>
                                     <li>".$row_query_comment['created_at']."</li>
-                                    <li>".$row_query_comment['content']."</li>";
+                                    <li class=\"content_comm\">".$row_query_comment['content']."</li>";
                 }
                 $lista_post .= "</ul></li>";
             } else {

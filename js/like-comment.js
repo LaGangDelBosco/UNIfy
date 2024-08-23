@@ -63,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 const newComment = document.createElement('ul');
                                 newComment.innerHTML = `<li><a href="#">${data.username}</a></li><li>${data.created_at}</li><li>${comment}</li>`;
                                 commentList.insertBefore(newComment, commentList.firstChild);
+
+                                newComment.classList.add('highlight');
                             } else {
                                 console.error(`Comment list not found for post_id: ${post_id}`);
                             }
