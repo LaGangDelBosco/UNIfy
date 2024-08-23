@@ -2,3 +2,4 @@ Dockerfile
 docker-compose.yml
 .vscode
 .idea/
+phpinfo.php

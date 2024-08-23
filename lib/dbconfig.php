@@ -178,11 +178,11 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
-    public function inserisci_post($testo, $utente){    //TODO: cambiare query inserendo anche i media nel db
-        // prepara la query
+    public function inserisci_post($testo, $utente, $media_path = null){    //TODO: cambiare query inserendo anche i media nel db
+
+        // Query per inserire il post
         $query = "INSERT INTO post (content, username) VALUES (?, ?)";
         $parameters = array("ss", $testo, $utente);
-        // prepara lo statement
         $stmt = $this->apriconn()->prepare($query);
         if ($stmt === false) {
             $this->err_code = true;
@@ -190,12 +190,9 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
             return false;
         }
 
-        // associa i parametri della query
         $stmt->bind_param(...$parameters);
-        // esegue la query
         $stmt->execute();
 
-        // controlla se l'inserimento è avvenuto con successo
         if ($stmt->affected_rows > 0) {
             $this->err_code = false;
         } else {
@@ -203,8 +200,44 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
             $this->err_text = "Errore durante l'inserimento del post";
         }
 
-        // chiude lo statement
         $stmt->close();
+
+        // Query per recuperare l'id dell'ultimo post inserito
+        $query = "SELECT post_id FROM post WHERE username = ? ORDER BY created_at DESC LIMIT 1";
+        $parameters = array("s", $utente);
+        $stmt = $this->apriconn()->prepare($query);
+        $stmt->bind_param(...$parameters);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $post_id = $data['post_id'];
+
+        // Se $media_path è null, significa che non è stato inserito alcun media
+        if($media_path != null) {
+            // Query per inserire il media
+            $query = "UPDATE post SET media_path = ? WHERE post_id = ?";
+            $parameters = array("si", $media_path, $post_id);
+
+            $stmt = $this->apriconn()->prepare($query);
+            if ($stmt === false) {
+                $this->err_code = true;
+                $this->err_text = "Errore nella preparazione della richiesta";
+                return false;
+            }
+
+            $stmt->bind_param(...$parameters);
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
+                $this->err_code = false;
+            } else {
+                $this->err_code = true;
+                $this->err_text = "Errore durante l'inserimento del post";
+            }
+
+            $stmt->close();
+        }
 
         // ritorna il risultato
         return !$this->err_code;
@@ -415,5 +448,55 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $stmt->close();
         $conn->close();
         return $data['count'];
+    }
+
+    public function check_media($type, $size){
+        $allowed = array('image/jpeg', 'image/png', 'image/gif', 'video/mp4');
+        if (!in_array($type, $allowed)) {
+            return "Formato non supportato";
+        }
+        if ($size > MB * 20) {
+            return "Dimensione massima consentita 20MB";
+        }
+        return "successo";
+    }
+
+    public function get_media_path($id_post){
+        $conn = $this->apriconn();
+        $query = "SELECT media_path FROM post WHERE post_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_post);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data['media_path'];
+    }
+
+    public function get_media_type($id_post){
+        $conn = $this->apriconn();
+        $query = "SELECT media_path FROM post WHERE post_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_post);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+
+        if($data['media_path'] == null){
+            return "none";
+        }
+
+        $content_type = mime_content_type($data['media_path']);
+
+
+        if($content_type == "image/jpeg" || $content_type == "image/png" || $content_type == "image/gif"){
+            return "image";
+        } else if($content_type == "video/mp4"){
+            return "video";
+        }
+        return "unknown";
     }
 }
