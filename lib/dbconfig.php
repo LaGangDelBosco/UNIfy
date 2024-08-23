@@ -234,12 +234,6 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
         // associa i parametri della query
         $stmt->bind_param('ss', $username, $hashed_password);
-        // controlla che lo stmt sia stato eseguito correttamente
-        if ($stmt === false) {
-            $this->err_code = true;
-            $this->err_text = "Errore nella preparazione della richiesta";
-            return false;
-        }
         // esegue la query
         $stmt->execute();
         // salva il risultato della query
@@ -408,5 +402,18 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $stmt->close();
         $conn->close();
         return !$this->err_code;
+    }
+
+    public function get_like_count($id_post){
+        $conn = $this->apriconn();
+        $query = "SELECT COUNT(*) as count FROM likes WHERE post_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_post);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data['count'];
     }
 }

@@ -48,7 +48,7 @@ CREATE TABLE comment (
     content TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (post_id) REFERENCES post(post_id),
+    FOREIGN KEY (post_id) REFERENCES post(post_id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (username) REFERENCES user(username)
 );
 
@@ -70,7 +70,7 @@ CREATE TABLE reaction (
     type VARCHAR(32),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (post_id) REFERENCES post(post_id),
+    FOREIGN KEY (post_id) REFERENCES post(post_id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (username) REFERENCES user(username)
 );
 
@@ -81,9 +81,19 @@ CREATE TABLE message (
     content TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (sender_id) REFERENCES user(username),
+    FOREIGN KEY (sender_id) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (receiver_id) REFERENCES user(username)
 );
+
+CREATE TABLE likes (
+    post_id INT,
+    username VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (post_id, username),
+    FOREIGN KEY (post_id) REFERENCES post(post_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (username) REFERENCES user(username)
+);
+
 
 INSERT INTO user (username, name, email, password, birthdate, gender, profile_picture_url, created_at, updated_at) VALUES                            
 ('admin', 'Admin Admin', 'admin@example.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '2000-01-01', 'male', './path/to/img', '2024-07-21', '2024-07-21'), -- password: admin

@@ -280,12 +280,12 @@ header img {
     padding-bottom: 2%;
 }
 
-.interact{
+.interact, .like-interact, .comment-interact{
     background-color: rgba(42, 85, 159, 0.633);
     padding: 1%;
 }
 
-.interact:hover{
+.interact:hover, .like-interact:hover, .comment-interact:hover{
     background-color: rgba(74, 114, 185, 0.633);
     cursor:pointer;
 }
@@ -352,9 +352,27 @@ legend{
     text-align: center;
 }
 
-#amici{
-    
+.content_comm{
+    border-bottom : 1px inset #727272;
 }
+
+/* Classe per evidenziare il commento */
+.highlight {
+    background-color: rgba(75, 195, 219, 0.521);
+    animation: fadeOut 3s 2.5s forwards;
+    border-bottom: 1px inset #727272;
+}
+
+/* Animazione per la dissolvenza del colore di sfondo */
+@keyframes fadeOut {
+    0% {
+        background-color: rgba(75, 195, 219, 0.521);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
 
 /*
 ======================================
