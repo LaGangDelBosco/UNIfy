@@ -299,6 +299,9 @@ function build_mypost($username){
 
     if($result_query->num_rows > 0){
         while($row_query = $result_query->fetch_assoc()){
+            $post_id = $row_query['post_id'];
+            $like_count = $db->get_like_count($post_id);
+
             $mypost .= "<ul class=\"singolo_post\">
                             <li><a href=\"\">".$row_query['username']."</a></li>
                             <li>".$row_query['created_at']."</li>
@@ -306,8 +309,12 @@ function build_mypost($username){
                             <li class=\"post-actions\">
                                 <fieldset>
                                     <legend>Interazioni post del ". $row_query['created_at'] ." </legend>
-                                    <button class=\"interact\" onclick=\"like_post(".$row_query['post_id'].")\">Mi piace</button>
-                                    <button class=\"interact\" onclick=\"comment_post(".$row_query['post_id'].")\">Commenta</button>
+                                    <button class=\"like-interact\" data-post-id=\"". $post_id ."\">Mi piace</button>
+                                    <span>$like_count</span>
+                                    <label for=\"comment_$post_id\">Scrivi un commento:</label>
+                                    <textarea id='comment_$post_id' placeholder=\"Commenta\"></textarea>
+                                    <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>
+                                    
                                     <form method='post' action='mio-profilo.php' name='elimina_post'>
                                         <div class = \"elimina_inline\"> 
                                             <input type='hidden' name='post_id' value='".$row_query['post_id']."' />
@@ -315,8 +322,24 @@ function build_mypost($username){
                                         </div>
                                     </form>
                                 </fieldset>
-                            </li>
-                        </ul>";
+                            </li>";
+
+            $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
+            $result_query_comment = $db->query($query);
+
+            if($result_query_comment->num_rows > 0){
+                $mypost .= "<li id='comment_list_". $post_id ."'><ul>";
+                while($row_query_comment = $result_query_comment->fetch_assoc()){
+                    $mypost .= "<li><a href=\"\">".$row_query_comment['username']."</a></li>
+                                    <li>".$row_query_comment['created_at']."</li>
+                                    <li class=\"content_comm\">".$row_query_comment['content']."</li>";
+                }
+                $mypost .= "</ul></li>";
+            } else {
+                $mypost .= "<li id='comment_list_". $post_id ."'></li>";
+            }
+
+            $mypost .= "</ul>";
         }
     }
 
