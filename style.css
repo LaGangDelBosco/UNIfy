@@ -272,7 +272,7 @@ header img {
     background-color: #ffffff;
     padding:2%;
     margin:5%;
-
+    overflow: hidden;
 }
 
 .singolo_post li{
@@ -373,6 +373,11 @@ legend{
     }
 }
 
+.singolo_post .media img, .singolo_post .media video{
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
 
 /*
 ======================================

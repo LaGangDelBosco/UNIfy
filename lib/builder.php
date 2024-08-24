@@ -128,9 +128,9 @@ function build_lista_post(){
                 $media_path = $db->get_media_path($post_id);
                 $media_type = $db->get_media_type($post_id);
                 if ($media_type == "image") {
-                    $lista_post .= "<li><img src=" . $media_path . " alt=\"\"/></li>";
+                    $lista_post .= "<li class=\"media\"><img src=" . $media_path . " alt=\"\"/></li>";
                 } else if ($media_type == "video") {
-                    $lista_post .= "<li><video controls><source src=" . $media_path . " type=\"video/mp4\"></video></li>";
+                    $lista_post .= "<li class=\"media\"><video controls><source src=" . $media_path . " type=\"video/mp4\"></video></li>";
                 }
             }
 
@@ -324,9 +324,9 @@ function build_mypost($username){
                 $media_path = $db->get_media_path($post_id);
                 $media_type = $db->get_media_type($post_id);
                 if ($media_type == "image") {
-                    $mypost .= "<li><img src=" . $media_path . " alt=\"\"/></li>";
+                    $mypost .= "<li class=\"media\"><img src=" . $media_path . " alt=\"\"/></li>";
                 } else if ($media_type == "video") {
-                    $mypost .= "<li><video controls><source src=" . $media_path . " type=\"video/mp4\"></video></li>";
+                    $mypost .= "<li class=\"media\"><video controls><source src=" . $media_path . " type=\"video/mp4\"></video></li>";
                 }
             }
 
