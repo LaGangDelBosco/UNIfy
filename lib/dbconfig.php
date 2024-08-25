@@ -555,4 +555,50 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         }
         return "unknown";
     }
+
+    /**
+     * Funzione che filtra il nome del file con vari accorgimenti
+     * @param $filename string nome del file
+     * @param $beautify bool se true applica ulteriori filtri
+     * @return string filename filtrato
+     */
+    public function filter_filename(string $filename, bool $beautify=true): string
+    {
+        // prima di tutto elimina i caratteri speciali
+        $filename = preg_replace(
+            '~
+                    [<>:"/\\\|?*]|
+                    [\x00-\x1F]|
+                    [\x7F\xA0\xAD]|
+                    [#\[\]@!$&\'()+,;=]|
+                    [{}^\~`]
+                    ~x',
+            '-', $filename);
+
+        // evitare "." o ".." e ".hiddenFiles"
+        $filename = ltrim($filename, '.-');
+
+        // alcune aggiunge opzionali
+        if($beautify){
+            $filename = $this->beautify_filename($filename);
+        }
+
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        return mb_strcut(pathinfo($filename, PATHINFO_FILENAME), 0, 255 - ($ext ? strlen($ext) + 1 : 0), mb_detect_encoding($filename)) . ($ext ? '.' . $ext : '');
+    }
+
+    /**
+     * Funzione che rende il nome del file più leggibile
+     * @param string $filename nome del file
+     * @return string nome del file formattato
+     */
+    private function beautify_filename(string $filename): string
+    {
+        // elimina caratteri consecutivi
+        $filename = preg_replace(array('/ +/', '/_+/', '/-+/'), '-', $filename);
+        $filename = preg_replace(array('/-*\.-*/', '/\.{2,}/'), '.', $filename);
+        // rendi tutto minuscolo
+        $filename = mb_strtolower($filename, mb_detect_encoding($filename));
+        return trim($filename, '.-');
+    }
 }
