@@ -86,8 +86,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return $result;
     }
 
-        // esegue la query
-        /**
+    /**
      * Funzione che gestisce il login
      * @param string $username username dell'utente
      * @param string $password password dell'utente
@@ -178,6 +177,13 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
+    /**
+     * Funzione che gestisce l'inserimento di un post
+     * @param $testo string testo del post
+     * @param $utente string username dell'utente che ha scritto il post
+     * @param $media_path string path del media allegato al post (opzionale)
+     * @return bool vero se il post è stato inserito, falso altrimenti
+     */
     public function inserisci_post($testo, $utente, $media_path = null){    //TODO: cambiare query inserendo anche i media nel db
 
         // Query per inserire il post
@@ -332,6 +338,19 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
+
+    /**
+     * Funzione che gestisce la modifica dei dati personali dell'utente
+     * @param $username string username dell'utente
+     * @param $nome string nome dell'utente
+     * @param $email string email dell'utente
+     * @param $bio string bio dell'utente
+     * @param $gender string genere dell'utente
+     * @param $birthdate string data di nascita dell'utente
+     * @param $location string luogo dell'utente
+     * @param $website string sito web dell'utente
+     * @return bool vero se i dati sono stati modificati, falso altrimenti
+     */
     public function modifica_dati_personali($username, $nome, $email, $bio, $gender, $birthdate, $location, $website){
         $conn = $this->apriconn();
         // prepara la query
@@ -374,6 +393,12 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
+    /**
+     * Funzione che gestisce la rimozione dell'amicizia tra due utenti
+     * @param $username string username dell'utente
+     * @param $amico string username dell'amico
+     * @return bool vero se l'amicizia è stata rimossa, falso altrimenti
+     */
     public function rimuovi_amicizia($username, $amico){
         // prepara la query
         $query = "DELETE FROM friendship WHERE (username_1 = ? AND username_2 = ?) OR (username_1 = ? AND username_2 = ?)";
@@ -407,7 +432,12 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
-    public function datiutentemioprofilo($username){
+    /**
+     * Funzione che restituisce i dati riguardanti il profilo dell'utente
+     * @param $username string username dell'utente
+     * @return array|false|null dati dell'utente o false se la query è fallita
+     */
+    public function get_dati_utente_profilo($username){
         $conn = $this->apriconn();
         $query = "SELECT profile_picture_url, name, email, birthdate FROM user WHERE username = ?";
         $stmt = $conn->prepare($query);
@@ -420,7 +450,12 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return $data;
     }
 
-    public function eliminapost($id_post){
+    /**
+     * Funzione che gestisce l'eliminazione di un post
+     * @param $id_post int id del post
+     * @return bool vero se il post è stato eliminato, falso altrimenti
+     */
+    public function elimina_post($id_post){
         $conn = $this->apriconn();
         $query = "DELETE FROM post WHERE post_id = ?";
         $stmt = $conn->prepare($query);
@@ -437,6 +472,11 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
+    /**
+     * Funzione che restituisce il numero di like di un post
+     * @param $id_post int id del post
+     * @return mixed dati del post
+     */
     public function get_like_count($id_post){
         $conn = $this->apriconn();
         $query = "SELECT COUNT(*) as count FROM likes WHERE post_id = ?";
@@ -450,6 +490,12 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return $data['count'];
     }
 
+    /**
+     * Funzione che controlla se il media è supportato e rispetta i limiti
+     * @param $type string tipo del media
+     * @param $size int dimensione del media
+     * @return string messaggio di successo o errore
+     */
     public function check_media($type, $size){
         $allowed = array('image/jpeg', 'image/png', 'image/gif', 'video/mp4');
         if (!in_array($type, $allowed)) {
@@ -461,6 +507,11 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return "successo";
     }
 
+    /**
+     * Funzione che restituisce il path del media di un post
+     * @param $id_post int id del post
+     * @return mixed path del media
+     */
     public function get_media_path($id_post){
         $conn = $this->apriconn();
         $query = "SELECT media_path FROM post WHERE post_id = ?";
@@ -474,6 +525,11 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return $data['media_path'];
     }
 
+    /**
+     * Funzione che restituisce il tipo del media di un post
+     * @param $id_post int id del post
+     * @return string tipo del media
+     */
     public function get_media_type($id_post){
         $conn = $this->apriconn();
         $query = "SELECT media_path FROM post WHERE post_id = ?";

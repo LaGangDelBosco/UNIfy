@@ -16,7 +16,7 @@ if(isset($_SESSION['Username']))
 
 if(isset($_POST['submit_elimina_post'])){
     $id_post = $_POST['post_id'];
-    if($db->eliminapost($id_post)){
+    if($db->elimina_post($id_post)){
         header("Location: mio-profilo.php");    //da aggiungere messaggio get
         exit();
     }
@@ -24,8 +24,8 @@ if(isset($_POST['submit_elimina_post'])){
         echo "Errore nell'eliminazione del post";
 }
 
-if($db->datiutentemioprofilo($username)){
-    $datiutente = $db->datiutentemioprofilo($username);
+if($db->get_dati_utente_profilo($username)){
+    $datiutente = $db->get_dati_utente_profilo($username);
     $mioprofilo_template->insert("immagine", $datiutente['profile_picture_url']);
     $mioprofilo_template->insert("nome", $datiutente['name']);
     $mioprofilo_template->insert("email", $datiutente['email']);
