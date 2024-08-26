@@ -10,16 +10,18 @@ SEZIONE GLOBALE
 }
 
 :root {                              /*Variabili globali*/ 
-    --bgcolor: #c9c9c9;              
-    --breadcolor: #6bc16b; 
-    --logboxsfondo: rgba(107, 193, 107, 0.149);
+    --bgcolor: #f1f1f1;              
+    --breadcolor: #c9c9c9; 
+    --logboxsfondo: rgba(107, 141, 193, 0.149);
     --txtcolor: rgb(0, 0, 0);
     --boxcolor: #040082; 
     --boxhover: #39a739; 
-    --linkcolor: #040082;
+    --linkcolor: #000d94;
     --currentlinkcolor: #e1e1e1;
     --visitedlinkcolor: #61008e;
 }
+
+/*Bg breadcrumb: #9abeff #E0F7FA #9bb8bb    -     link color: #000d94*/
 
 :link {
     color: #040082;
@@ -281,12 +283,12 @@ header img {
 }
 
 .interact, .like-interact, .comment-interact{
-    background-color: rgba(42, 85, 159, 0.633);
+    background-color: rgba(74, 114, 185, 0.633);
     padding: 1%;
 }
 
 .interact:hover, .like-interact:hover, .comment-interact:hover{
-    background-color: rgba(74, 114, 185, 0.633);
+    background-color: rgba(103, 145, 216, 0.633);
     cursor:pointer;
 }
 
