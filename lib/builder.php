@@ -23,9 +23,9 @@ function build_header(): string
     // se l'utente è loggato gli do il benvenuto e la possibilità di fare il logout
     if (isset($_SESSION['Username'])) {
         $header_template ->insert("actionheader", "Benvenuto, ".$_SESSION['Username']." <a href=\"./logout.php\"><media class=\"log\" src=\"./media/logout.svg\" title=\"Esci\" alt=\"Pulsante di Logout\">Esci</a>");
-    }
-    else {
-        $header_template ->insert("actionheader", "<a href=\"./login.php\"><media class=\"log\" src=\"./media/login.svg\" title=\"Accedi\" alt=\"Pulsante di Login\">Accedi</a>");
+    } else {
+        // altrimenti gli do la possibilità di fare il login o la registrazione
+        $header_template ->insert("actionheader", "");
     }
 
     // restituisco il codice html dell'header
@@ -73,7 +73,6 @@ function build_menu(){
             "Il mio profilo" => "mio-profilo.php",
             "Amici" => "amici.php",
             "I miei dati personali" => "dati-personali.php",
-            "Modifica Password" => "modifica-password.php",
             "Post che mi piacciono" => "post-piacciono.php",
             "Post commentati" => "post-commentati.php",
             "Utenti bloccati" => "utenti-bloccati.php", 
@@ -86,7 +85,6 @@ function build_menu(){
                 "Il mio profilo" => "mio-profilo.php",
                 "Amici" => "amici.php",
                 "I miei dati personali" => "dati-personali.php",
-                "Modifica Password" => "modifica-password.php",
                 "Post che mi piacciono" => "post-piacciono.php",
                 "Post commentati" => "post-commentati.php",
             );
@@ -272,30 +270,32 @@ function build_modifica_dati_personali($username){
             $row_query_profile = $result_query_profile->fetch_assoc();
 
         $modifica_dati_personali = "<form class='form_box' method='post' action='dati-personali.php' name='modifica_dati_personali'>
-                                        <fieldset>
-                                            <legend>Modifica Dati Personali</legend>
-                                            <label for='name'>Nome</label>
-                                            <input type='text' name='name' value='".$row_query['name']."' required>
-                                            <label for='email'>Email</label>
-                                            <input type='email' name='email' value='".$row_query['email']."' required>
-                                            <label for='username'>Username</label>
-                                            <input type='text' name='username' value='".$row_query['username']."' readonly>
-                                            <label for='bio'>Biografia</label>
-                                            <input type='text' name='bio' value='".$row_query_profile['bio']."' required>
-                                            <label for='gender'>Genere</label>
+                                        <div>
+                                            <label for='name'>Nome</label><br>
+                                            <input type='text' name='name' value='".$row_query['name']."' required><br>
+                                            <label for='email'>Email</label><br>
+                                            <input type='email' name='email' value='".$row_query['email']."' required><br>
+                                            <label for='username'>Username</label><br>
+                                            <input type='text' name='username' value='".$row_query['username']."' readonly><br>
+                                            <label for='bio'>Biografia</label><br>
+                                            <input type='text' name='bio' value='".$row_query_profile['bio']."' required><br>
+                                            <label for='gender'>Genere</label><br>
                                             <select name='gender' required>
                                                 <option value='M'".($row_query['gender']=='M'?' selected':'').">M</option>
                                                 <option value='F'".($row_query['gender']=='F'?' selected':'').">F</option>
                                                 <option value='Non specificato'".($row_query['gender']=='Non specificato'?' selected':'').">Non specificato</option>
-                                            </select>
-                                            <label for='birthdate'>Data di nascita</label>
-                                            <input type='date' name='birthdate' value='".$row_query['birthdate']."' required>
-                                            <label for='location'>Luogo</label>
-                                            <input type='text' name='location' value='".$row_query_profile['location']."' required>
-                                            <label for='website'>Sito Web</label>
-                                            <input type='text' name='website' value='".$row_query_profile['website']."' required>
-                                            <button class=\"loginbtn\" type='submit' name='submit_modifica_dati_personali'>Modifica</button>
-                                        </fieldset>
+                                            </select><br>
+                                            <label for='birthdate'>Data di nascita</label><br>
+                                            <input type='date' name='birthdate' value='".$row_query['birthdate']."' required><br>
+                                            <label for='location'>Luogo</label><br>
+                                            <input type='text' name='location' value='".$row_query_profile['location']."' required><br>
+                                            <label for='website'>Sito Web</label><br>
+                                            <input type='text' name='website' value='".$row_query_profile['website']."' required><br>
+                                            <fieldset>
+                                                <legend>Bottone Modifica Dati Personali</legend>
+                                                <button class=\"loginbtn\" type='submit' name='submit_modifica_dati_personali'>Modifica</button>
+                                            </fieldset>
+                                        </div>
                                     </form>";
     }
 
