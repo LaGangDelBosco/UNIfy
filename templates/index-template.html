@@ -45,9 +45,10 @@
 				
 				<nav id="post-box">
 					<div id="text-box">
-						<form method="post" action="index.php">
+						<form method="post" action="index.php" enctype="multipart/form-data">
 							<p><textarea id="text" name="text" rows="4" cols="50" placeholder="Scrivi qualcosa..."></textarea>
-							o <button id="add_media" type="button">Aggiungi immagine</button> </p> <!--trovare il modo per aggiungere l'immagine, magari con il testo, e poi pubblicare-->
+							o <label for="media">Carica un'immagine o un video:</label>
+							<input type="file" id="media" name="media" accept="image/*, video/*"></p>
 							<button class="loginbtn" id="public-post" type="submit" name="submit-public-post">Pubblica</button>
 						</form>
 					</div>

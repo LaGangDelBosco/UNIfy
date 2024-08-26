@@ -22,10 +22,10 @@ function build_header(): string
 
     // se l'utente è loggato gli do il benvenuto e la possibilità di fare il logout
     if (isset($_SESSION['Username'])) {
-        $header_template ->insert("actionheader", "Benvenuto, ".$_SESSION['Username']." <a href=\"./logout.php\"><img class=\"log\" src=\"./img/logout.svg\" title=\"Esci\" alt=\"Pulsante di Logout\">Esci</a>");
+        $header_template ->insert("actionheader", "Benvenuto, ".$_SESSION['Username']." <a href=\"./logout.php\"><media class=\"log\" src=\"./media/logout.svg\" title=\"Esci\" alt=\"Pulsante di Logout\">Esci</a>");
     }
     else {
-        $header_template ->insert("actionheader", "<a href=\"./login.php\"><img class=\"log\" src=\"./img/login.svg\" title=\"Accedi\" alt=\"Pulsante di Login\">Accedi</a>");
+        $header_template ->insert("actionheader", "<a href=\"./login.php\"><media class=\"log\" src=\"./media/login.svg\" title=\"Accedi\" alt=\"Pulsante di Login\">Accedi</a>");
     }
 
     // restituisco il codice html dell'header
@@ -121,8 +121,20 @@ function build_lista_post(){
             $lista_post .= "<ul class=\"singolo_post\">
                                 <li><a href=\"\">".$row_query['username']."</a></li>
                                 <li>".$row_query['created_at']."</li>
-                                <li>".$row_query['content']."</li>
-                                <li>
+                                <li>".$row_query['content']."</li>";
+
+            if($db->get_media_path($post_id) != "NULL") {
+                // controlla se il media è un'immagine o un video
+                $media_path = $db->get_media_path($post_id);
+                $media_type = $db->get_media_type($post_id);
+                if ($media_type == "image") {
+                    $lista_post .= "<li class=\"media\"><img src=" . $media_path . " alt=\"\"/></li>";
+                } else if ($media_type == "video") {
+                    $lista_post .= "<li class=\"media\"><video controls><source src=" . $media_path . " type=\"video/mp4\"></video></li>";
+                }
+            }
+
+            $lista_post .=     "<li>
                                     <button class=\"like-interact\" data-post-id=\"". $post_id ."\">Mi piace</button>
                                     <span>$like_count</span>
                                 </li>
@@ -172,7 +184,7 @@ function build_mioprofilo($username){
             $row_query_profile = $result_query_profile->fetch_assoc();
         //CAMBIO IMMAGINE IN QUESTA PAGINA??
         $mioprofilo = "<ul class=\"profilo\">
-                        <li><img src = ".$row_query['profile_picture_url']." alt=\"\"/></li>  
+                        <li><media src = ".$row_query['profile_picture_url']." alt=\"\"/></li>  
                         <li><b>Nome: </b>".$row_query['name']."</li>
                         <li><b>Email: </b>".$row_query['email']."</li>
                         <li><b>Username: </b>".$row_query['username']."</li>
@@ -219,15 +231,17 @@ function build_lista_amici($username){
                 $row_query_profile = $result_query_profile->fetch_assoc();
 
             $lista_amici .= "<ul class=\"profilo\" id=\"amici\">
-                                <li><img src = ".$row_query_user['profile_picture_url']." alt=\"\"/></li>  
+                                <li><media src = ".$row_query_user['profile_picture_url']." alt=\"\"/></li>  
                                 <li><b>Nome: </b>".$row_query_user['name']."</li>
                                 <li><b>Username: </b>".$amico."</li>
                                 <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
                                 <li>
                                     <fieldset>
                                         <legend>Rimuovi amicizia a ".$amico."</legend>
-                                        <form method='post' action='amici.php' name='rimuovi_amicizia'> 
-                                            <input type='hidden' name='amico' value='".$amico."' />
+                                        <form method='post' action='amici.php' name='rimuovi_amicizia'>
+                                            <div>
+                                                <input type='hidden' name='amico' value='".$amico."' />
+                                            </div>
                                             <button class=\"loginbtn\" type='submit' name='submit_rimuovi_amicizia'>Rimuovi Amicizia</button>
                                         </form>
                                     </fieldset>
@@ -305,8 +319,20 @@ function build_mypost($username){
             $mypost .= "<ul class=\"singolo_post\">
                             <li><a href=\"\">".$row_query['username']."</a></li>
                             <li>".$row_query['created_at']."</li>
-                            <li>".$row_query['content']."</li>
-                            <li class=\"post-actions\">
+                            <li>".$row_query['content']."</li>";
+
+            if($db->get_media_path($post_id) != "NULL") {
+                // controlla se il media è un'immagine o un video
+                $media_path = $db->get_media_path($post_id);
+                $media_type = $db->get_media_type($post_id);
+                if ($media_type == "image") {
+                    $mypost .= "<li class=\"media\"><img src=" . $media_path . " alt=\"\"/></li>";
+                } else if ($media_type == "video") {
+                    $mypost .= "<li class=\"media\"><video controls><source src=" . $media_path . " type=\"video/mp4\"></video></li>";
+                }
+            }
+
+             $mypost .= "<li class=\"post-actions\">
                                 <fieldset>
                                     <legend>Interazioni post del ". $row_query['created_at'] ." </legend>
                                     <button class=\"like-interact\" data-post-id=\"". $post_id ."\">Mi piace</button>

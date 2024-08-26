@@ -1,4 +1,6 @@
 <?php
+const MB = 1048576;
+
 session_start();
 
 # Per visualizzare gli errori di PHP (su Docker non si vedevano)

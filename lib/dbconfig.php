@@ -86,8 +86,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return $result;
     }
 
-        // esegue la query
-        /**
+    /**
      * Funzione che gestisce il login
      * @param string $username username dell'utente
      * @param string $password password dell'utente
@@ -178,11 +177,18 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
-    public function inserisci_post($testo, $utente){    //TODO: cambiare query inserendo anche i media nel db
-        // prepara la query
+    /**
+     * Funzione che gestisce l'inserimento di un post
+     * @param $testo string testo del post
+     * @param $utente string username dell'utente che ha scritto il post
+     * @param $media_path string path del media allegato al post (opzionale)
+     * @return bool vero se il post è stato inserito, falso altrimenti
+     */
+    public function inserisci_post($testo, $utente, $media_path = null){    //TODO: cambiare query inserendo anche i media nel db
+
+        // Query per inserire il post
         $query = "INSERT INTO post (content, username) VALUES (?, ?)";
         $parameters = array("ss", $testo, $utente);
-        // prepara lo statement
         $stmt = $this->apriconn()->prepare($query);
         if ($stmt === false) {
             $this->err_code = true;
@@ -190,12 +196,9 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
             return false;
         }
 
-        // associa i parametri della query
         $stmt->bind_param(...$parameters);
-        // esegue la query
         $stmt->execute();
 
-        // controlla se l'inserimento è avvenuto con successo
         if ($stmt->affected_rows > 0) {
             $this->err_code = false;
         } else {
@@ -203,8 +206,44 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
             $this->err_text = "Errore durante l'inserimento del post";
         }
 
-        // chiude lo statement
         $stmt->close();
+
+        // Query per recuperare l'id dell'ultimo post inserito
+        $query = "SELECT post_id FROM post WHERE username = ? ORDER BY created_at DESC LIMIT 1";
+        $parameters = array("s", $utente);
+        $stmt = $this->apriconn()->prepare($query);
+        $stmt->bind_param(...$parameters);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $post_id = $data['post_id'];
+
+        // Se $media_path è null, significa che non è stato inserito alcun media
+        if($media_path != null) {
+            // Query per inserire il media
+            $query = "UPDATE post SET media_path = ? WHERE post_id = ?";
+            $parameters = array("si", $media_path, $post_id);
+
+            $stmt = $this->apriconn()->prepare($query);
+            if ($stmt === false) {
+                $this->err_code = true;
+                $this->err_text = "Errore nella preparazione della richiesta";
+                return false;
+            }
+
+            $stmt->bind_param(...$parameters);
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
+                $this->err_code = false;
+            } else {
+                $this->err_code = true;
+                $this->err_text = "Errore durante l'inserimento del post";
+            }
+
+            $stmt->close();
+        }
 
         // ritorna il risultato
         return !$this->err_code;
@@ -299,6 +338,19 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
+
+    /**
+     * Funzione che gestisce la modifica dei dati personali dell'utente
+     * @param $username string username dell'utente
+     * @param $nome string nome dell'utente
+     * @param $email string email dell'utente
+     * @param $bio string bio dell'utente
+     * @param $gender string genere dell'utente
+     * @param $birthdate string data di nascita dell'utente
+     * @param $location string luogo dell'utente
+     * @param $website string sito web dell'utente
+     * @return bool vero se i dati sono stati modificati, falso altrimenti
+     */
     public function modifica_dati_personali($username, $nome, $email, $bio, $gender, $birthdate, $location, $website){
         $conn = $this->apriconn();
         // prepara la query
@@ -341,6 +393,12 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
+    /**
+     * Funzione che gestisce la rimozione dell'amicizia tra due utenti
+     * @param $username string username dell'utente
+     * @param $amico string username dell'amico
+     * @return bool vero se l'amicizia è stata rimossa, falso altrimenti
+     */
     public function rimuovi_amicizia($username, $amico){
         // prepara la query
         $query = "DELETE FROM friendship WHERE (username_1 = ? AND username_2 = ?) OR (username_1 = ? AND username_2 = ?)";
@@ -374,7 +432,12 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
-    public function datiutentemioprofilo($username){
+    /**
+     * Funzione che restituisce i dati riguardanti il profilo dell'utente
+     * @param $username string username dell'utente
+     * @return array|false|null dati dell'utente o false se la query è fallita
+     */
+    public function get_dati_utente_profilo($username){
         $conn = $this->apriconn();
         $query = "SELECT profile_picture_url, name, email, birthdate FROM user WHERE username = ?";
         $stmt = $conn->prepare($query);
@@ -387,7 +450,12 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return $data;
     }
 
-    public function eliminapost($id_post){
+    /**
+     * Funzione che gestisce l'eliminazione di un post
+     * @param $id_post int id del post
+     * @return bool vero se il post è stato eliminato, falso altrimenti
+     */
+    public function elimina_post($id_post){
         $conn = $this->apriconn();
         $query = "DELETE FROM post WHERE post_id = ?";
         $stmt = $conn->prepare($query);
@@ -404,6 +472,11 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
+    /**
+     * Funzione che restituisce il numero di like di un post
+     * @param $id_post int id del post
+     * @return mixed dati del post
+     */
     public function get_like_count($id_post){
         $conn = $this->apriconn();
         $query = "SELECT COUNT(*) as count FROM likes WHERE post_id = ?";
@@ -415,5 +488,117 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $stmt->close();
         $conn->close();
         return $data['count'];
+    }
+
+    /**
+     * Funzione che controlla se il media è supportato e rispetta i limiti
+     * @param $type string tipo del media
+     * @param $size int dimensione del media
+     * @return string messaggio di successo o errore
+     */
+    public function check_media($type, $size){
+        $allowed = array('image/jpeg', 'image/png', 'image/gif', 'video/mp4');
+        if (!in_array($type, $allowed)) {
+            return "Formato non supportato";
+        }
+        if ($size > MB * 20) {
+            return "Dimensione massima consentita 20MB";
+        }
+        return "successo";
+    }
+
+    /**
+     * Funzione che restituisce il path del media di un post
+     * @param $id_post int id del post
+     * @return mixed path del media
+     */
+    public function get_media_path($id_post){
+        $conn = $this->apriconn();
+        $query = "SELECT media_path FROM post WHERE post_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_post);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data['media_path'];
+    }
+
+    /**
+     * Funzione che restituisce il tipo del media di un post
+     * @param $id_post int id del post
+     * @return string tipo del media
+     */
+    public function get_media_type($id_post){
+        $conn = $this->apriconn();
+        $query = "SELECT media_path FROM post WHERE post_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_post);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+
+        if($data['media_path'] == null){
+            return "none";
+        }
+
+        $content_type = mime_content_type($data['media_path']);
+
+
+        if($content_type == "image/jpeg" || $content_type == "image/png" || $content_type == "image/gif"){
+            return "image";
+        } else if($content_type == "video/mp4"){
+            return "video";
+        }
+        return "unknown";
+    }
+
+    /**
+     * Funzione che filtra il nome del file con vari accorgimenti
+     * @param $filename string nome del file
+     * @param $beautify bool se true applica ulteriori filtri
+     * @return string filename filtrato
+     */
+    public function filter_filename(string $filename, bool $beautify=true): string
+    {
+        // prima di tutto elimina i caratteri speciali
+        $filename = preg_replace(
+            '~
+                    [<>:"/\\\|?*]|
+                    [\x00-\x1F]|
+                    [\x7F\xA0\xAD]|
+                    [#\[\]@!$&\'()+,;=]|
+                    [{}^\~`]
+                    ~x',
+            '-', $filename);
+
+        // evitare "." o ".." e ".hiddenFiles"
+        $filename = ltrim($filename, '.-');
+
+        // alcune aggiunge opzionali
+        if($beautify){
+            $filename = $this->beautify_filename($filename);
+        }
+
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        return mb_strcut(pathinfo($filename, PATHINFO_FILENAME), 0, 255 - ($ext ? strlen($ext) + 1 : 0), mb_detect_encoding($filename)) . ($ext ? '.' . $ext : '');
+    }
+
+    /**
+     * Funzione che rende il nome del file più leggibile
+     * @param string $filename nome del file
+     * @return string nome del file formattato
+     */
+    private function beautify_filename(string $filename): string
+    {
+        // elimina caratteri consecutivi
+        $filename = preg_replace(array('/ +/', '/_+/', '/-+/'), '-', $filename);
+        $filename = preg_replace(array('/-*\.-*/', '/\.{2,}/'), '.', $filename);
+        // rendi tutto minuscolo
+        $filename = mb_strtolower($filename, mb_detect_encoding($filename));
+        return trim($filename, '.-');
     }
 }

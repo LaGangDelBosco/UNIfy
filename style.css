@@ -104,7 +104,7 @@ header{
 
 #logo{
     text-indent: -9999px;
-    background-image: url(./img/show_events.png);
+    background-image: url(./media/show_events.png);
     background-repeat: no-repeat;
     background-position: center;
     font-size:10em;
@@ -272,7 +272,7 @@ header img {
     background-color: #ffffff;
     padding:2%;
     margin:5%;
-
+    overflow: hidden;
 }
 
 .singolo_post li{
@@ -373,6 +373,11 @@ legend{
     }
 }
 
+.singolo_post .media img, .singolo_post .media video{
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
 
 /*
 ======================================
