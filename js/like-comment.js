@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             const commentList = document.getElementById(`comment_list_${post_id}`);
                             if (commentList) { // Check if commentList exists
                                 const newComment = document.createElement('ul');
-                                newComment.innerHTML = `<li><a href="#">${data.username}</a></li><li>${data.created_at}</li><li>${comment}</li>`;
+                                newComment.innerHTML = `<li><a href="profilo.php?user=${data.username}">${data.username}</a></li><li>${data.created_at}</li><li>${comment}</li>`;
                                 commentList.insertBefore(newComment, commentList.firstChild);
 
                                 newComment.classList.add('highlight');

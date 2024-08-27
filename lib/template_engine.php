@@ -57,6 +57,17 @@ class Template
         }
     }
 
+    public function insert_multiple(string $tag, string $value): void
+    {
+        // definizione del pattern
+        $pattern = self::PATT_BEGIN . $tag . self::PATT_END;
+
+        $changes = 0;
+
+        // sostituzione del tag con il valore
+        $this->data = str_replace($pattern, $value, $this->data, $changes);
+    }
+
     /**
      * Sostituisce un tag con un valore come insert() ma controlla che il tag contenga con "action"
      * @param string $tag nome del tag

@@ -116,9 +116,11 @@ function build_lista_post(){
         while($row_query = $result_query->fetch_assoc()){
             $like_count = $db->get_like_count($row_query['post_id']);
             $post_id = $row_query['post_id'];
-            $lista_post .= "<ul class=\"singolo_post\">
-                                <li><a href=\"\">".$row_query['username']."</a></li>
-                                <li>".$row_query['created_at']."</li>
+            $lista_post .= "<ul class=\"singolo_post\">";
+
+
+            $lista_post .=     "<li><a href=\"profilo.php?user=".$row_query['username']."\">".$row_query['username']."</a></li>";
+            $lista_post .=     "<li>".$row_query['created_at']."</li>
                                 <li>".$row_query['content']."</li>";
 
             if($db->get_media_path($post_id) != "NULL") {
@@ -149,7 +151,7 @@ function build_lista_post(){
             if($result_query_comment->num_rows > 0){
                 $lista_post .= "<li id='comment_list_". $post_id ."'><ul>";
                 while($row_query_comment = $result_query_comment->fetch_assoc()){
-                    $lista_post .= "<li><a href=\"\">".$row_query_comment['username']."</a></li>
+                    $lista_post .= "<li><a href=\"profilo.php?user=".$row_query_comment['username']."\">".$row_query_comment['username']."</a></li>
                                     <li>".$row_query_comment['created_at']."</li>
                                     <li class=\"content_comm\">".$row_query_comment['content']."</li>";
                 }
@@ -341,15 +343,19 @@ function build_mypost($username){
                                     <span class=\"numero_like\">$like_count</span>
                                     <label class=\"label_commento\" for=\"comment_$post_id\"> - Scrivi un commento:</label>
                                     <textarea id='comment_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                    <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>
-                                    
-                                    <form method='post' action='mio-profilo.php' name='elimina_post'>
+                                    <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>";
+
+
+            if($_SESSION['Username'] == $username) {
+                $mypost .= "            <form method='post' action='mio-profilo.php' name='elimina_post'>
                                         <div class = \"elimina_inline\"> 
-                                            <input type='hidden' name='post_id' value='".$row_query['post_id']."' />
+                                            <input type='hidden' name='post_id' value='" . $row_query['post_id'] . "' />
                                             <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
                                         </div>
-                                    </form>
-                                </fieldset>
+                                    </form>";
+            }
+
+            $mypost .= "        </fieldset>
                             </li>";
 
             $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
@@ -358,7 +364,7 @@ function build_mypost($username){
             if($result_query_comment->num_rows > 0){
                 $mypost .= "<li id='comment_list_". $post_id ."'><ul>";
                 while($row_query_comment = $result_query_comment->fetch_assoc()){
-                    $mypost .= "<li><a href=\"\">".$row_query_comment['username']."</a></li>
+                    $mypost .= "<li><a href=\"profilo.php?user=".$row_query_comment['username']."\">".$row_query_comment['username']."</a></li>
                                     <li>".$row_query_comment['created_at']."</li>
                                     <li class=\"content_comm\">".$row_query_comment['content']."</li>";
                 }
