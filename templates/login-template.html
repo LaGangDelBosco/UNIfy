@@ -5,7 +5,7 @@
 	
 	<title> Login - UNIfy </title>
 	<meta name = "description" content = "Questa pagina è funzionale ad effettuare il login nel sito" />     
-	<meta name = "keywords" content = "unify, login, accedi, social, profilo, username, password">
+	<meta name = "keywords" content = "unify, login, accedi, social, profilo, username, password" />
 	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso" />
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,8 +13,8 @@
 	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px)" />
 	<link rel="stylesheet" href="./print.css" media="print"/>
 
-	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
-	<link rel="shortcut icon" type="image/png" href="./img/show_events_icon.png" media="screen" />
+	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
+	<link rel="shortcut icon" type="image/png" href="./media/unify_icon.png" media="screen" />
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -37,19 +37,19 @@
 
 			<h2><span lang="en">Login</span></h2>
 			<component>messaggio</component>
-            <form class="form_box" name="login_form" METHOD="POST" action="login.php">
+            <form class="form_box" id="login_form" name="login_form" method="post" action="login.php">
                 <div>
 					<label for="username">Username:</label>
-                	<input type="text" name="username" placeholder="username">
+                	<input type="text" id="username" name="username" placeholder="username" />
 					<div class="error" id="username_error"></div>
 				</div>
                 <div>
 					<label for="password">Password:</label>
-                	<input type="password" name="password" placeholder="password">
+                	<input type="password" id="password" name="password" placeholder="password" />
 					<div class="error" id="password_error"></div>
 				</div>
-                <button class="loginbtn">Login</button><br>
-                Non sei registrato? <br><a href="registrazione.php">Registrati</a>
+                <button class="loginbtn" name="login">Login</button><br />
+                Non sei registrato? <br /><a href="registrazione.php">Registrati</a>
             </form>
 			<script>
 				document.addEventListener("DOMContentLoaded", function() {

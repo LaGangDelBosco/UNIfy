@@ -5,7 +5,7 @@
 	
 	<title> Registrati - UNIfy </title>
 	<meta name = "description" content = "Questa pagina è funzionale alla registrazione di un nuovo utente" />     
-	<meta name = "keywords" content = "unify, social, registrazione, utente, nuovo, registrati">
+	<meta name = "keywords" content = "unify, social, registrazione, utente, nuovo, registrati" />
 	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso" />
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,8 +13,8 @@
 	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px)" />
 	<link rel="stylesheet" href="./print.css" media="print"/>
 
-	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
-	<link rel="shortcut icon" type="image/png" href="./img/show_events_icon.png" media="screen" />
+	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
+	<link rel="shortcut icon" type="image/png" href="./media/unify_icon.png" media="screen" />
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -38,31 +38,31 @@
 			<component>messaggio</component>
 			
 
-			<form class="form_box" name="registrazione_form" method="post" action="registrazione.php">
+			<form class="form_box" id="registrazione_form" name="registrazione_form" method="post" action="registrazione.php">
 				<div>
 					<label for="username">Username:</label>
-					<input type="text" name="username" placeholder="username" required>
+					<input type="text" id="username" name="username" placeholder="username" required />
 					<div class="error" id="username_error"></div>
 				</div>
 				<div>
 					<label for="nome_cognome">Nome e Cognome:</label>
-					<input type="text" name="nome_cognome" placeholder="nome_cognome" required>
+					<input type="text" id="nome_cognome" name="nome_cognome" placeholder="nome_cognome" required />
 					<div class="error" id="nome_error"></div>
 				</div>
 				<div>
 					<label for="email"><span lang="en">Email:</span></label>
-					<input type="email" name="email" placeholder="email" aria-describedby="emailHelp" required>
+					<input type="email" id="email" name="email" placeholder="email" aria-describedby="emailHelp" required />
 					<div id="emailHelp">Inserire un indirizzo <span lang="en">E-mail</span> valido</div>
                     <div class="error" id="email_error"></div>
 				</div>
 				<div>
 					<label for="data_nascita">Data di nascita:</label>
-					<input type="date" name="data_nascita" placeholder="data_nascita" required>
+					<input type="date" id="data_nascita" name="data_nascita" placeholder="data_nascita" required />
 					<div class="error" id="data_nascita_error"></div>
 				</div>
 				<div>
 					<label for="gender">Genere:</label>
-					<select name="gender" required>
+					<select id="gender" name="gender" required>
 						<option value="M">Maschio</option>
 						<option value="F">Femmina</option>
 						<option value="Non specificato">Non specificato</option>
@@ -71,12 +71,12 @@
 				</div>
 				<div>
 					<label for="password"><span lang="en">Password:</span></label>
-					<input type="password" name="password" placeholder="password" required>
+					<input type="password" id="password" name="password" placeholder="password" required />
 					<div class="error" id="password_error"></div>
 				</div>
 				<div>
 					<label for="conferma_password">Conferma <span lang="en">Password</span>:</label>
-					<input type="password" name="conferma_password" placeholder="conferma_password" required>
+					<input type="password" id="conferma_password" name="conferma_password" placeholder="conferma_password" required />
 					<div class="error" id="conferma_password_error"></div>
 				</div>
                 <button class="loginbtn">Registrati</button><br>

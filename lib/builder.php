@@ -22,7 +22,7 @@ function build_header(): string
 
     // se l'utente è loggato gli do il benvenuto e la possibilità di fare il logout
     if (isset($_SESSION['Username'])) {
-        $header_template ->insert("actionheader", "Benvenuto, ".$_SESSION['Username']." <a href=\"./logout.php\"><media class=\"log\" src=\"./media/logout.svg\" title=\"Esci\" alt=\"Pulsante di Logout\">Esci</a>");
+        $header_template ->insert("actionheader", "Benvenuto, ".$_SESSION['Username']." <a href=\"./logout.php\"><img class=\"log\" src=\"./media/logout.svg\" title=\"Esci\" alt=\"Pulsante di Logout\" />Esci</a>");
     } else {
         // altrimenti gli do la possibilità di fare il login o la registrazione
         $header_template ->insert("actionheader", "");
@@ -132,14 +132,15 @@ function build_lista_post(){
                 }
             }
 
-            $lista_post .=     "<li>
+            $lista_post .=     "
+                                <li>
                                     <button class=\"like-interact\" data-post-id=\"". $post_id ."\">Mi piace</button>
                                     <span>$like_count</span>
                                 </li>
                                 <li>
-                                    <label for=\"comment_$post_id\">Scrivi un commento:</label>
-                                    <textarea id='comment_$post_id' placeholder=\"Commenta\"></textarea>
-                                    <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>
+                                        <label class=\"label_commento\" id=\"label_comment_$post_id\" for=\"comment_$post_id\">Scrivi un commento:</label>
+                                        <textarea class=\"textarea_commento_index\" id='comment_$post_id' placeholder=\"Commenta\"></textarea>
+                                        <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>
                                 </li>";
 
             $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
@@ -182,7 +183,7 @@ function build_mioprofilo($username){
             $row_query_profile = $result_query_profile->fetch_assoc();
         //CAMBIO IMMAGINE IN QUESTA PAGINA??
         $mioprofilo = "<ul class=\"profilo\">
-                        <li><media src = ".$row_query['profile_picture_url']." alt=\"\"/></li>  
+                        <li><img src = ".$row_query['profile_picture_url']." alt=\"\"/></li>  
                         <li><b>Nome: </b>".$row_query['name']."</li>
                         <li><b>Email: </b>".$row_query['email']."</li>
                         <li><b>Username: </b>".$row_query['username']."</li>
@@ -229,7 +230,7 @@ function build_lista_amici($username){
                 $row_query_profile = $result_query_profile->fetch_assoc();
 
             $lista_amici .= "<ul class=\"profilo\" id=\"amici\">
-                                <li><media src = ".$row_query_user['profile_picture_url']." alt=\"\"/></li>  
+                                <li><img src = ".$row_query_user['profile_picture_url']." alt=\"\"/></li>  
                                 <li><b>Nome: </b>".$row_query_user['name']."</li>
                                 <li><b>Username: </b>".$amico."</li>
                                 <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
@@ -244,7 +245,7 @@ function build_lista_amici($username){
                                         </form>
                                     </fieldset>
                                 </li>
-                            </ul><hr>"; //rimuovi_amicizia DA IMPLEMENTARE
+                            </ul><hr/>"; //rimuovi_amicizia DA IMPLEMENTARE
     
         }
     }
@@ -272,25 +273,25 @@ function build_modifica_dati_personali($username){
         $modifica_dati_personali = "<form class='form_box' method='post' action='dati-personali.php' name='modifica_dati_personali'>
                                         <div>
                                             <label for='name'>Nome</label><br>
-                                            <input type='text' name='name' value='".$row_query['name']."' required><br>
-                                            <label for='email'>Email</label><br>
-                                            <input type='email' name='email' value='".$row_query['email']."' required><br>
-                                            <label for='username'>Username</label><br>
-                                            <input type='text' name='username' value='".$row_query['username']."' readonly><br>
-                                            <label for='bio'>Biografia</label><br>
-                                            <input type='text' name='bio' value='".$row_query_profile['bio']."' required><br>
-                                            <label for='gender'>Genere</label><br>
-                                            <select name='gender' required>
+                                            <input type='text' id='name' name='name' value='".$row_query['name']."' required /><br/>
+                                            <label for='email'>Email</label><br/>
+                                            <input type='email' id='email' name='email' value='".$row_query['email']."' required /><br/>
+                                            <label for='username'>Username</label><br/>
+                                            <input type='text' id='username' name='username' value='".$row_query['username']."' readonly /><br/>
+                                            <label for='bio'>Biografia</label><br/>
+                                            <input type='text' id='bio' name='bio' value='".$row_query_profile['bio']."' required /><br/>
+                                            <label for='gender'>Genere</label><br/>
+                                            <select id='gender' name='gender' required>
                                                 <option value='M'".($row_query['gender']=='M'?' selected':'').">M</option>
                                                 <option value='F'".($row_query['gender']=='F'?' selected':'').">F</option>
                                                 <option value='Non specificato'".($row_query['gender']=='Non specificato'?' selected':'').">Non specificato</option>
-                                            </select><br>
-                                            <label for='birthdate'>Data di nascita</label><br>
-                                            <input type='date' name='birthdate' value='".$row_query['birthdate']."' required><br>
+                                            </select><br/>
+                                            <label for='birthdate'>Data di nascita</label><br/>
+                                            <input type='date' id='birthdate' name='birthdate' value='".$row_query['birthdate']."' required /><br/>
                                             <label for='location'>Luogo</label><br>
-                                            <input type='text' name='location' value='".$row_query_profile['location']."' required><br>
+                                            <input type='text' id='location' name='location' value='".$row_query_profile['location']."' required /><br/>
                                             <label for='website'>Sito Web</label><br>
-                                            <input type='text' name='website' value='".$row_query_profile['website']."' required><br>
+                                            <input type='text' id='website' name='website' value='".$row_query_profile['website']."' required /><br/>
                                             <fieldset>
                                                 <legend>Bottone Modifica Dati Personali</legend>
                                                 <button class=\"loginbtn\" type='submit' name='submit_modifica_dati_personali'>Modifica</button>
@@ -336,15 +337,15 @@ function build_mypost($username){
                                 <fieldset>
                                     <legend>Interazioni post del ". $row_query['created_at'] ." </legend>
                                     <button class=\"like-interact\" data-post-id=\"". $post_id ."\">Mi piace</button>
-                                    <span>$like_count</span>
-                                    <label for=\"comment_$post_id\">Scrivi un commento:</label>
-                                    <textarea id='comment_$post_id' placeholder=\"Commenta\"></textarea>
+                                    <span class=\"numero_like\">$like_count</span>
+                                    <label class=\"label_commento\" for=\"comment_$post_id\"> - Scrivi un commento:</label>
+                                    <textarea id='comment_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
                                     <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>
                                     
                                     <form method='post' action='mio-profilo.php' name='elimina_post'>
                                         <div class = \"elimina_inline\"> 
                                             <input type='hidden' name='post_id' value='".$row_query['post_id']."' />
-                                            <button class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
+                                            <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
                                         </div>
                                     </form>
                                 </fieldset>

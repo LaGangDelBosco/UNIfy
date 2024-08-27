@@ -15,7 +15,7 @@ SEZIONE GLOBALE
     --logboxsfondo: rgba(107, 141, 193, 0.149);
     --txtcolor: rgb(0, 0, 0);
     --boxcolor: #040082; 
-    --boxhover: #39a739; 
+    --boxhover: #a4a4a4; 
     --linkcolor: #000d94;
     --currentlinkcolor: #e1e1e1;
     --visitedlinkcolor: #61008e;
@@ -106,11 +106,16 @@ header{
 
 #logo{
     text-indent: -9999px;
-    background-image: url(./media/show_events.png);
+    background-image: url(./media/unify_logo.png);
     background-repeat: no-repeat;
+    background-size: contain;
     background-position: center;
     font-size:10em;
-    height: 350px;
+    height: 15vw;
+    width: 18vw; 
+    position: absolute; 
+    top: 80px;
+    left: 10px; 
 }
 
 header img {
@@ -157,13 +162,20 @@ header img {
 ======================================
 */
 
+#menu{
+    flex:1;
+    overflow: auto;
+}
+
 .menu{
     background-color: var(--breadcolor);
     color: var(--linkcolor);
-    flex:1;
     align-items: center;
     flex-wrap:nowrap;
     overflow:hidden;
+    margin-top: 150px;
+    width: 65%;
+    border-radius:5px;
 }
 
 @media (max-width: 1200px) {
@@ -219,6 +231,15 @@ header img {
 ======================================
 */
 
+#login_form{
+    margin-top: 7%;
+    margin-bottom: 7%;
+}
+
+#registrazione_form{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
 
 .loginbtn{
     color: #ffffff;
@@ -254,20 +275,23 @@ header img {
 }
 
 #post-box{
-    max-width: 60%;
+    max-width: 80%;
     flex:2;
     height:800px;
     overflow: auto;
+    margin-right: -10%;
+    margin-left:-10%;
 }
 
 #text-box{
-    margin-left: 5%;
+    margin-left: 15%;
 }
 
 #extra-section{
     flex:3;
-    max-width: 30%;
+    max-width: 20%;
     overflow: hidden;
+    margin-left: 10%;
 }
 
 .singolo_post{
@@ -275,6 +299,7 @@ header img {
     padding:2%;
     margin:5%;
     overflow: hidden;
+    border-radius: 10px;
 }
 
 .singolo_post li{
@@ -285,11 +310,16 @@ header img {
 .interact, .like-interact, .comment-interact{
     background-color: rgba(74, 114, 185, 0.633);
     padding: 1%;
+    border-radius: 5px;
 }
 
 .interact:hover, .like-interact:hover, .comment-interact:hover{
     background-color: rgba(103, 145, 216, 0.633);
     cursor:pointer;
+}
+
+.elimina_inline .interact{
+    padding:20%;
 }
 
 .form_box{
@@ -354,6 +384,31 @@ legend{
     text-align: center;
 }
 
+#search, #text{
+    padding: 10px; 
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.textarea_commento{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.textarea_commento_index{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-bottom:-3%;
+}
+
+.label_commento, .numero_like{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 .content_comm{
     border-bottom : 1px inset #727272;
 }
@@ -379,6 +434,19 @@ legend{
     max-width: 100%;
     height: auto;
     display: block;
+}
+
+hr{
+    border: 0px;
+    height: 2px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #1a3d95, #ccc);
+}
+
+.social img{
+    width: 4%;
+    height: 4%;
+    margin: 0.5%;
 }
 
 /*

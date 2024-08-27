@@ -13,8 +13,8 @@
 	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
 	<link rel="stylesheet" href="./print.css" media="print"/>
 
-	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
-	<link rel="shortcut icon" type="image/png" href="./img/unify_icon.png" media="screen" /> <!--icona visibile su browser-->
+	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
+	<link rel="shortcut icon" type="image/png" href="./media/unify_icon.png" media="screen" /> <!--icona visibile su browser-->
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -36,7 +36,7 @@
 			<!-- da qui partono i 3 blocchi di contenuto -->
 			<div class="content">
 				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
-				<nav id="menu">
+				<nav id="menu" aria-label="Sezione di visualizzazione dati personali">
 					<component>menu</component>
 				</nav>
 				
@@ -52,7 +52,8 @@
 					
 				<nav id="extra-section">
                     <div id="search-bar">
-                        <input type="text" id="search" placeholder="Cerca...">
+						<label for="search">Cerca:</label>
+                        <input type="text" id="search" placeholder="Cerca..." />
                         <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
                     </div>
                     <!-- potrebbe interessarti -->
