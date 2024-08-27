@@ -164,7 +164,7 @@ function build_lista_post(){
     return $lista_post;
 }
 
-function build_mioprofilo($username){
+function build_mioprofilo($username){ // TODO: cambiare nome alla funzione
     $db = new Servizio;
     $db->apriconn();
 
@@ -181,9 +181,8 @@ function build_mioprofilo($username){
         $row_query = $result_query->fetch_assoc();
         if($result_query_profile->num_rows > 0)
             $row_query_profile = $result_query_profile->fetch_assoc();
-        //CAMBIO IMMAGINE IN QUESTA PAGINA??
         $mioprofilo = "<ul class=\"profilo\">
-                        <li><img src = ".$row_query['profile_picture_url']." alt=\"\"/></li>  
+                        <li><img class='profile-picture' src = ".$row_query['profile_picture_path']." alt=\"\"/></li>  
                         <li><b>Nome: </b>".$row_query['name']."</li>
                         <li><b>Email: </b>".$row_query['email']."</li>
                         <li><b>Username: </b>".$row_query['username']."</li>
@@ -230,7 +229,7 @@ function build_lista_amici($username){
                 $row_query_profile = $result_query_profile->fetch_assoc();
 
             $lista_amici .= "<ul class=\"profilo\" id=\"amici\">
-                                <li><img src = ".$row_query_user['profile_picture_url']." alt=\"\"/></li>  
+                                <li><img class='profile-picture'  src = ".$row_query_user['profile_picture_path']." alt=\"\"/></li>  
                                 <li><b>Nome: </b>".$row_query_user['name']."</li>
                                 <li><b>Username: </b>".$amico."</li>
                                 <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
@@ -270,7 +269,7 @@ function build_modifica_dati_personali($username){
         if($result_query_profile->num_rows > 0)
             $row_query_profile = $result_query_profile->fetch_assoc();
 
-        $modifica_dati_personali = "<form class='form_box' method='post' action='dati-personali.php' name='modifica_dati_personali'>
+        $modifica_dati_personali = "<form class='form_box' method='post' action='dati-personali.php' name='modifica_dati_personali' enctype='multipart/form-data'>
                                         <div>
                                             <label for='name'>Nome</label><br>
                                             <input type='text' id='name' name='name' value='".$row_query['name']."' required /><br/>
@@ -292,6 +291,8 @@ function build_modifica_dati_personali($username){
                                             <input type='text' id='location' name='location' value='".$row_query_profile['location']."' required /><br/>
                                             <label for='website'>Sito Web</label><br>
                                             <input type='text' id='website' name='website' value='".$row_query_profile['website']."' required /><br/>
+                                            <label for='profile_picture_path'>Cambia immagine profilo</label><br>
+                                            <input type='file' id='profile_picture_path' name='profile_picture_path' accept='image/*'/><br/>
                                             <fieldset>
                                                 <legend>Bottone Modifica Dati Personali</legend>
                                                 <button class=\"loginbtn\" type='submit' name='submit_modifica_dati_personali'>Modifica</button>

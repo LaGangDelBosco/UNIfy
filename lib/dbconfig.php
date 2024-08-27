@@ -146,9 +146,11 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // trasforma la password in sha256
         $hashed_password = hash('sha256', $password);
 
+        $profile_picture_path = "media/profile_pictures/default.jpg";
+
         // prepara la query
-        $query = "INSERT INTO user (username, name, email, password, birthdate, gender) VALUES (?, ?, ?, ?, ?, ?)";
-        $parameters = array("ssssss", $username, $nome_cognome, $email, $hashed_password, $data_nascita, $gender);
+        $query = "INSERT INTO user (username, name, email, password, birthdate, gender, profile_picture_path) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $parameters = array("sssssss", $username, $nome_cognome, $email, $hashed_password, $data_nascita, $gender, $profile_picture_path);
         // prepara lo statement
         $stmt = $this->apriconn()->prepare($query);
         if ($stmt === false) {
@@ -351,13 +353,18 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
      * @param $website string sito web dell'utente
      * @return bool vero se i dati sono stati modificati, falso altrimenti
      */
-    public function modifica_dati_personali($username, $nome, $email, $bio, $gender, $birthdate, $location, $website){
+    public function modifica_dati_personali($username, $nome, $email, $bio, $gender, $birthdate, $location, $website, $profile_picture_path = null){
         $conn = $this->apriconn();
-        // prepara la query
-        $query = "UPDATE user SET name = ?, email = ?, birthdate = ?, gender = ?, updated_at = NOW() WHERE username = ?";
+
+        if($profile_picture_path != null) {
+            $query = "UPDATE user SET name = ?, email = ?, birthdate = ?, gender = ?, profile_picture_path = ?, updated_at = NOW() WHERE username = ?";
+            $parameters = array("ssssss", $nome, $email, $birthdate, $gender, $profile_picture_path, $username);
+        } else {
+            $query = "UPDATE user SET name = ?, email = ?, birthdate = ?, gender = ?, updated_at = NOW() WHERE username = ?";
+            $parameters = array("sssss", $nome, $email, $birthdate, $gender, $username);
+        }
 
         $query2 = "UPDATE profile SET bio = ?, location = ?, website = ?, updated_at = NOW() WHERE username = ?";
-        $parameters = array("sssss", $nome, $email, $birthdate, $gender, $username);
         $parameters2 = array("ssss", $bio, $location, $website, $username);
 
         // prepara lo statement
@@ -439,7 +446,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
      */
     public function get_dati_utente_profilo($username){
         $conn = $this->apriconn();
-        $query = "SELECT profile_picture_url, name, email, birthdate FROM user WHERE username = ?";
+        $query = "SELECT profile_picture_path, name, email, birthdate FROM user WHERE username = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $username);
         $stmt->execute();

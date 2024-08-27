@@ -26,7 +26,7 @@ if(isset($_POST['submit_elimina_post'])){
 
 if($db->get_dati_utente_profilo($username)){
     $datiutente = $db->get_dati_utente_profilo($username);
-    $mioprofilo_template->insert("immagine", $datiutente['profile_picture_url']);
+    $mioprofilo_template->insert("immagine", $datiutente['profile_picture_path']);
     $mioprofilo_template->insert("nome", $datiutente['name']);
     $mioprofilo_template->insert("email", $datiutente['email']);
     $mioprofilo_template->insert("birthdate", $datiutente['birthdate']);

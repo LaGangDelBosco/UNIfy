@@ -357,6 +357,11 @@ header img {
     padding-bottom: 4%;
 }
 
+.profile-picture{
+    width: 40%;
+    height: auto;
+}
+
 fieldset{
     border: none;
     display: flex;
@@ -370,12 +375,15 @@ legend{
 
 #profile-info{
     display: flex;
+    margin-left: 30%;
+    margin-right: 20%;
 }
 
 #profile-data{
     display: inline-block;
     margin-left: auto;
     margin-right: auto;
+    width: 110%;
 }
 
 #search-bar{
