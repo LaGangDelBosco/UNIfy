@@ -135,7 +135,7 @@ header img {
     left: -9999px;
 }
 
-.skip-link.show {
+.skip-link:focus {
     position: static;
     left: auto;
 }
