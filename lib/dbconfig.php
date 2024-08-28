@@ -608,4 +608,68 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $filename = mb_strtolower($filename, mb_detect_encoding($filename));
         return trim($filename, '.-');
     }
+
+    public function check_amicizia($mittente, $destinatario){
+        $conn = $this->apriconn();
+        $query = "SELECT status, username_1 FROM friendship WHERE (username_1 = ? AND username_2 = ?) OR (username_1 = ? AND username_2 = ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ssss", $mittente, $destinatario, $destinatario, $mittente);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data;
+    }
+
+    public function invia_richiesta_amicizia($mittente, $destinatario){
+        $conn = $this->apriconn();
+        $query = "INSERT INTO friendship (username_1, username_2, status) VALUES (?, ?, 'pending')";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ss", $mittente, $destinatario);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'invio della richiesta di amicizia";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
+
+    public function accetta_amicizia($mittente, $destinatario){
+        $conn = $this->apriconn();
+        $query = "UPDATE friendship SET status = 'accepted' WHERE username_1 = ? AND username_2 = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ss", $destinatario, $mittente);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'accettazione della richiesta di amicizia";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
+
+    public function elimina_amicizia($mittente, $destinatario){
+        $conn = $this->apriconn();
+        $query = "DELETE FROM friendship WHERE (username_1 = ? AND username_2 = ?) OR (username_1 = ? AND username_2 = ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ssss", $mittente, $destinatario, $destinatario, $mittente);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante la cancellazione dell'amicizia";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
 }

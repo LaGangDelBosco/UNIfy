@@ -121,7 +121,7 @@ function build_lista_post(){
 
             $lista_post .=     "<li><a href=\"profilo.php?user=".$row_query['username']."\">".$row_query['username']."</a></li>";
             $lista_post .=     "<li>".$row_query['created_at']."</li>
-                                <li>".$row_query['content']."</li>";
+                                <li class=\"player\">".$row_query['content']."</li>";
 
             if($db->get_media_path($post_id) != "NULL") {
                 // controlla se il media è un'immagine o un video

@@ -32,7 +32,7 @@
     </nav>
 
     <main>
-        <h2>Profilo di <component>username</component></h2>
+        <h2 class="page_title">Profilo di <component>username</component></h2>
 
         <!-- da qui partono i 3 blocchi di contenuto -->
         <div class="content">
@@ -52,6 +52,11 @@
                         <p><strong>Username:</strong> <component>username</component></p>
                         <p><strong>Data di nascita:</strong> <component>birthdate</component></p>
                         <p><strong>Email:</strong> <component>email</component></p>
+                    </div>
+                    <div id="friendship">
+                        <form action="profilo.php?user=<component>username</component>" method="post">
+                            <component>friendship_button</component>
+                        </form>
                     </div>
                 </div>
 

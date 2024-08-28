@@ -42,6 +42,50 @@ if($db->get_dati_utente_profilo($utente_profilo)){
 else
     echo "Errore nel caricamento dei dati utente";
 
+$amicizia_info = $db->check_amicizia($username, $utente_profilo);
+
+if(!$amicizia_info){
+    $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"submit_friendship\" id=\"friend_button\" type=\"submit\">Invia richiesta di amicizia</button>");
+}else{
+    if($amicizia_info['status'] == 'pending'){
+        if($amicizia_info['username_1'] == $username){
+            $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\">Annulla richiesta di amicizia</button>");
+        }else{
+            $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"accept_friendship\" id=\"friend_button\" type=\"submit\">Accetta richiesta di amicizia</button>
+                                                                <button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\">Rifiuta richiesta di amicizia</button>");
+        }
+    }else{
+        $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\">Rimuovi dagli amici</button>");
+    }
+}
+
+if(isset($_POST['submit_friendship'])){
+    if($db->invia_richiesta_amicizia($username, $utente_profilo)){
+        header("Location: profilo.php?user=$utente_profilo");
+        exit();
+    }else{
+        echo "Errore nell'invio della richiesta di amicizia";
+    }
+}
+
+if(isset($_POST['delete_friendship'])){
+    if($db->elimina_amicizia($username, $utente_profilo)){
+        header("Location: profilo.php?user=$utente_profilo");
+        exit();
+    }else{
+        echo "Errore nella cancellazione dell'amicizia";
+    }
+}
+
+if(isset($_POST['accept_friendship'])){
+    if($db->accetta_amicizia($username, $utente_profilo)){
+        header("Location: profilo.php?user=$utente_profilo");
+        exit();
+    }else{
+        echo "Errore nell'accettazione dell'amicizia";
+    }
+}
+
 $mioprofilo_template->insert("menu", build_menu());
 
 $mioprofilo_template->insert("post", build_mypost($utente_profilo));

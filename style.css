@@ -283,6 +283,12 @@ header img {
     margin-left:-10%;
 }
 
+.page_title{
+    border-bottom: 1px solid #000000;
+    margin-left: 21%;
+    margin-right: 21%;
+}
+
 #text-box{
     margin-left: 15%;
 }
@@ -292,6 +298,7 @@ header img {
     max-width: 20%;
     overflow: hidden;
     margin-left: 10%;
+    border-left: 1px solid #000000;
 }
 
 .singolo_post{
@@ -320,6 +327,12 @@ header img {
 
 .elimina_inline .interact{
     padding:20%;
+}
+
+#friend_button{
+    padding: 5%;
+    width: 100%;
+    margin-left: 30%;
 }
 
 .form_box{
@@ -357,6 +370,12 @@ header img {
     padding-bottom: 4%;
 }
 
+#profile-pic{
+    width: 100%;
+    height: auto;
+    margin-right: -20%;
+}
+
 .profile-picture{
     width: 40%;
     height: auto;
@@ -375,15 +394,16 @@ legend{
 
 #profile-info{
     display: flex;
-    margin-left: 30%;
-    margin-right: 20%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 #profile-data{
     display: inline-block;
     margin-left: auto;
     margin-right: auto;
-    width: 110%;
+    width: 100%;
+    margin-right:-20%;
 }
 
 #search-bar{
@@ -441,6 +461,12 @@ legend{
 .singolo_post .media img, .singolo_post .media video{
     max-width: 100%;
     height: auto;
+    display: block;
+}
+
+.singolo_post .player iframe{
+    max-width: 100%;
+    min-height: 100%;
     display: block;
 }
 

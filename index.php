@@ -14,9 +14,17 @@ $index_template = $template_engine->load_template("index-template.html");
 #$index_template->insert("build_keywords", build_keywords());
 $index_template->insert("menu", build_menu());
 
+function convert_youtube_links_to_iframe($text) {
+    $pattern = '/(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/i';
+    $replacement = '<iframe width="560" height="315" src="https://www.youtube.com/embed/$4" frameborder="0" allowfullscreen></iframe>';
+    return preg_replace($pattern, $replacement, $text);
+}
+
 if(isset($_POST['submit-public-post'])){
     $text = $_POST['text'];
     $media = $_FILES['media'];
+
+    $text = convert_youtube_links_to_iframe($text);
 
     if($media['error'] == 0 && $db->check_media($media['type'], $media['size']) == "successo"){
         // filtra il nome del file
