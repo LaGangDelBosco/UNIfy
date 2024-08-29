@@ -45,17 +45,17 @@ else
 $amicizia_info = $db->check_amicizia($username, $utente_profilo);
 
 if(!$amicizia_info){
-    $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"submit_friendship\" id=\"friend_button\" type=\"submit\">Invia richiesta di amicizia</button>");
+    $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"submit_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di invio richiesta di amicizia\">Invia richiesta di amicizia</button>");
 }else{
     if($amicizia_info['status'] == 'pending'){
         if($amicizia_info['username_1'] == $username){
-            $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\">Annulla richiesta di amicizia</button>");
+            $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di annullamento richiesta di amicizia\">Annulla richiesta di amicizia</button>");
         }else{
-            $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"accept_friendship\" id=\"friend_button\" type=\"submit\">Accetta richiesta di amicizia</button>
-                                                                <button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\">Rifiuta richiesta di amicizia</button>");
+            $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"accept_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di accettazione richiesta di amicizia\">Accetta richiesta di amicizia</button>
+                                                                <button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di rifiuto richiesta di amicizia\">Rifiuta richiesta di amicizia</button>");
         }
     }else{
-        $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\">Rimuovi dagli amici</button>");
+        $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di rimozione profilo dagli amici\">Rimuovi dagli amici</button>");
     }
 }
 
