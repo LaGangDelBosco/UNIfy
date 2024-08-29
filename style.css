@@ -57,7 +57,7 @@ main h2{
 
 h3{
     text-align: center;
-    padding: 1em;
+    padding: 0.2em;
     font-size: 1.5em;
 }
 
@@ -481,6 +481,53 @@ hr{
     width: 4%;
     height: 4%;
     margin: 0.5%;
+}
+
+.product-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.product-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    width: calc(33.333% - 32px); /* Tre riquadri per riga con spazio */
+    box-sizing: border-box;
+    text-align: center;
+    background-color: #d5e9ff;
+}
+
+.product-card li{
+    list-style-type: none;
+}
+
+.product-info{
+    word-break: break-word;
+}
+
+.product-info p{
+    padding-bottom: 4%;
+}
+
+#sell-book-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #023975;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1000; /* Assicurati che il pulsante sia sopra altri elementi */
+}
+
+#sell-book-btn:hover {
+    background-color: #0056b3;
 }
 
 /*

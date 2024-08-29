@@ -72,6 +72,7 @@ function build_menu(){
             "<span lang=\"en\">Home</span>" => "index.php",
             "Il mio profilo" => "mio-profilo.php",
             "Amici" => "amici.php",
+            "Compro/Vendo Libri" => "compro-vendo-libri.php",
             "I miei dati personali" => "dati-personali.php",
             "Post che mi piacciono" => "post-piacciono.php",
             "Post commentati" => "post-commentati.php",
@@ -84,6 +85,7 @@ function build_menu(){
                 "<span lang=\"en\">Home</span>" => "index.php",
                 "Il mio profilo" => "mio-profilo.php",
                 "Amici" => "amici.php",
+                "Compro/Vendo Libri" => "compro-vendo-libri.php",
                 "I miei dati personali" => "dati-personali.php",
                 "Post che mi piacciono" => "post-piacciono.php",
                 "Post commentati" => "post-commentati.php",
@@ -380,3 +382,52 @@ function build_mypost($username){
     return $mypost;
 }
 
+function build_lista_libri(){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM books ORDER BY created_at DESC";
+    $result_query = $db->query($query);
+
+    $lista_libri = "";
+
+    if($result_query->num_rows > 0){
+        $lista_libri = "<div class=\"product-list\">";
+        while($row_query = $result_query->fetch_assoc()){
+            $lista_libri .= "<ul class=\"product-card\">
+                                    <li class=\"product-image\">
+                                        <img src=".$row_query['cover_path']." alt=\"Libro in vendita\" />
+                                    </li>
+                                    <li class=\"product-info\">
+                                        <h3>".$row_query['title']. "</h3>
+                                        <p><b>Autore: </b>".$row_query['author']. "</p>
+                                        <p><b>Categoria: </b>".$row_query['genre']. "</p>
+                                        <p><b>Anno di pubblicazione: </b>".$row_query['year']. "</p>
+                                        <p><b>Descrizione: </b>".$row_query['description']. "</p>
+                                        <p><b>Venditore: </b>".$row_query['username']. "</p>
+                                        <p><b>Prezzo: </b> €".$row_query['price']. "</p>";
+
+            if(isset($_SESSION['Username']) && $_SESSION['Username'] == $row_query['username']){
+                $lista_libri .= "<form method='post' action='annuncio.php' name='vedi_annuncio'>
+                                    <div>
+                                        <input type='hidden' name='book_id' value='".$row_query['book_id']."' />
+                                        <button class=\"loginbtn\" type='submit' name='submit_vedi_annuncio'>Vedi il tuo annuncio</button>
+                                    </div>
+                                </form>";
+            }else{
+                $lista_libri .= "<form method='post' action='annuncio.php' name='contatta_venditore'>
+                                    <div>
+                                        <input type='hidden' name='book_id' value='".$row_query['book_id']."' />
+                                        <button class=\"loginbtn\" type=\"submit\" name \"submit_contatta_venditore\">Contatta il venditore</button>
+                                    </div>
+                                </form>";
+            }
+            $lista_libri .= "</li>
+                                </ul>";
+        }
+        $lista_libri .= "</div>";
+    }else
+        $lista_libri .= "<p>Non ci sono libri in vendita</p>";
+
+    return $lista_libri;
+}

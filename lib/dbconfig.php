@@ -672,4 +672,21 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $conn->close();
         return !$this->err_code;
     }
+
+    public function vendi_libro($venditore, $titolo, $autore, $categoria, $anno, $descrizione, $prezzo){
+        $conn = $this->apriconn();
+        $query = "INSERT INTO books (username, title, author, genre, year, description, cover_path, created_at, updated_at, price) VALUES (?, ?, ?, ?, ?, ?, null, NOW(), NOW(), ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sssssss", $venditore, $titolo, $autore, $categoria, $anno, $descrizione, $prezzo);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante la vendita del libro";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
 }
