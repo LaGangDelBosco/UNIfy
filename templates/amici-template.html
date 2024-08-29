@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="utf-8" />
+	
+	<title> I miei amici - UNIfy </title>
+	<meta name = "description" content = "Questa pagina mostra la lista di amici associati al proprio profilo, con la possibilità di rimuovere le amicizie o di visitare i loro profili." />
+	<meta name = "keywords" content = "unify, social, amici, amicizia, interazione, rimuovi, visita, profilo" />
+	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso" />
+	
+	
+	<link rel="stylesheet" href="./style.css" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
+	<link rel="stylesheet" href="./print.css" media="print"/>
+
+	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
+	<link rel="shortcut icon" type="image/png" href="./media/unify_icon.png" media="screen" /> <!--icona visibile su browser-->
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script src="./js/menu.js"></script>
+	<script src="./js/menu_mobile.js"></script>
+</head>
+
+<body>	
+    <div id="container">
+        <component>header</component>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">      
+			<p>Ti trovi in: <a href="index.php"><span lang="en">Home</span></a> &gt;&gt; I miei amici</p>
+		</nav>
+
+        <main>
+			<h2 class="page_title">I miei Amici</h2>
+
+			<!-- da qui partono i 3 blocchi di contenuto -->
+			<div class="content">
+				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+				<nav id="menu" aria-label="Menù del sito">
+					<component>menu</component>
+				</nav>
+				
+				<nav id="post-box" aria-label="Lista di amici">					
+					<div id="post">
+						<component>lista_amici</component>
+					</div>
+
+				</nav>
+					
+					
+				<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
+                    <div id="search-bar">
+						<label for="search">Cerca:</label>
+                        <input type="text" id="search" placeholder="Cerca..." />
+                        <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+                    </div>
+                    <!-- potrebbe interessarti -->
+                </nav>
+			<!-- fine dei 3 blocchi di contenuto -->
+			</div>
+
+			<component>goback</component>
+		</main>
+	</div>
+    <component>footer</component>
+
+</body>
+</html>

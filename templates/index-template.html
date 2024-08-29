@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="utf-8" />
+	
+	<title> Home - UNIfy </title>
+	<meta name = "description" content = "Questa è la pagina principale del sito. Qui si possono trovare i post dei vari utenti e aggiungere reazioni" />
+	<meta name ="keywords" content ="unify, università, studenti, social, reazioni, like, commenti, post, foto, video" />
+	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso"/>
+	
+	
+	<link rel="stylesheet" href="./style.css" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
+	<link rel="stylesheet" href="./print.css" media="print"/>
+
+	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
+	<link rel="shortcut icon" type="image/png" href="./media/unify_icon.png" media="screen" /> <!--icona visibile su browser-->
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script src="./js/menu.js"></script>
+	<script src="./js/menu_mobile.js"></script>
+	<script src="./js/like-comment.js"></script>
+</head>
+
+<body>	
+    <div id="container">
+        <component>header</component>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">      
+			<p>Ti trovi in: <span lang="en">Home</span></p>
+		</nav>
+
+        <main>
+			<h2 class="page_title">Benvenuti su UNIfy</h2>
+
+			<!-- da qui partono i 3 blocchi di contenuto -->
+			<div class="content">
+				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+				<nav id="menu" aria-label="Menù del sito">
+					<component>menu</component>
+				</nav>
+				
+				<nav id="post-box" aria-label="Sezione visualizzazione post">
+					<div id="text-box">
+						<form method="post" action="index.php" enctype="multipart/form-data">
+							<p><label for="text">Scrivi un post:</label><br/>
+								<textarea id="text" name="text" rows="4" cols="50" placeholder="Scrivi qualcosa..."></textarea><br/>
+							o <label for="media">Carica un'immagine o un video:</label>
+							<input type="file" id="media" name="media" accept="image/*, video/*" /></p>
+							<button class="loginbtn" id="public-post" type="submit" name="submit-public-post">Pubblica</button>
+						</form>
+					</div>
+					
+					<div id="post">
+						<component>lista_post</component>
+					</div>
+					<script>
+						like_post();
+					</script>
+
+				</nav>
+					
+					
+				<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
+                    <div id="search-bar">
+						<label for="search">Cerca qui:</label><br/>
+                        <input type="text" id="search" placeholder="Cerca..." />
+                        <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+                    </div>
+                    <!-- potrebbe interessarti -->
+                </nav>
+			<!-- fine dei 3 blocchi di contenuto -->
+			</div>
+
+			<br>
+			<hr/><h2>Contatti</h2>
+			<h3 class="social">Seguici sui social: <a href="https://it-it.facebook.com/"> <img src="./media/facebook.svg" alt="Icona di Facebook" /></a> <a href="https://www.instagram.com/"> <img src="./media/instagram.svg" alt="Icona di Instagram" /></a></h3>
+
+			<component>goback</component>
+		</main>
+	</div>
+    <component>footer</component>
+
+</body>
+</html>
