@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS reaction;
 DROP TABLE IF EXISTS message;
 DROP TABLE IF EXISTS likes;
 DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS chat_messages;
 
 CREATE TABLE user (
     username VARCHAR(100) PRIMARY KEY,
@@ -109,6 +110,18 @@ CREATE TABLE books (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     price DECIMAL(10, 2),
     FOREIGN KEY (username) REFERENCES user(username)
+);
+
+CREATE TABLE chat_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_annuncio INT,
+    sender_username VARCHAR(100),
+    receiver_username VARCHAR(100),
+    message TEXT,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_annuncio) REFERENCES books(book_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (sender_username) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (receiver_username) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 

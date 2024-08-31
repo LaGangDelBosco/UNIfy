@@ -689,4 +689,52 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $conn->close();
         return !$this->err_code;
     }
+
+    public function get_annuncio($id_annuncio){
+        $conn = $this->apriconn();
+        $query = "SELECT * FROM books WHERE book_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_annuncio);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data;
+    }
+
+    public function delete_annuncio($id_annuncio){
+        $conn = $this->apriconn();
+        $query = "DELETE FROM books WHERE book_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_annuncio);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'eliminazione dell'annuncio";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
+
+    public function get_chat_messages($id_annuncio, $sender_username, $receiver_username) {
+        $conn = $this->apriconn();
+        $query = "SELECT * FROM chat_messages WHERE id_annuncio = ? AND ((sender_username = ? AND receiver_username = ?) OR (sender_username = ? AND receiver_username = ?)) ORDER BY timestamp ASC";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("issss", $id_annuncio, $sender_username, $receiver_username, $receiver_username, $sender_username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function send_chat_message($id_annuncio, $sender_username, $receiver_username, $message) {
+        $conn = $this->apriconn();
+        $query = "INSERT INTO chat_messages (id_annuncio, sender_username, receiver_username, message) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("isss", $id_annuncio, $sender_username, $receiver_username, $message);
+        $stmt->execute();
+    }
 }

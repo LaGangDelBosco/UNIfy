@@ -408,17 +408,15 @@ function build_lista_libri(){
                                         <p><b>Prezzo: </b> €".$row_query['price']. "</p>";
 
             if(isset($_SESSION['Username']) && $_SESSION['Username'] == $row_query['username']){
-                $lista_libri .= "<form method='post' action='annuncio.php' name='vedi_annuncio'>
+                $lista_libri .= "<form method='get' action='annuncio.php?myid=".$row_query['book_id']."' name='vedi_annuncio'>
                                     <div>
-                                        <input type='hidden' name='book_id' value='".$row_query['book_id']."' />
-                                        <button class=\"loginbtn\" type='submit' name='submit_vedi_annuncio'>Vedi il tuo annuncio</button>
+                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."'>Vedi il tuo annuncio</button>
                                     </div>
                                 </form>";
             }else{
-                $lista_libri .= "<form method='post' action='annuncio.php' name='contatta_venditore'>
+                $lista_libri .= "<form method='post' action='annuncio.php?id=".$row_query['book_id']."' name='contatta_venditore'>
                                     <div>
-                                        <input type='hidden' name='book_id' value='".$row_query['book_id']."' />
-                                        <button class=\"loginbtn\" type=\"submit\" name \"submit_contatta_venditore\">Contatta il venditore</button>
+                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."'>Vedi annuncio</button>
                                     </div>
                                 </form>";
             }
@@ -430,4 +428,81 @@ function build_lista_libri(){
         $lista_libri .= "<p>Non ci sono libri in vendita</p>";
 
     return $lista_libri;
+}
+
+
+function build_annuncio($annuncio){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $annuncio = "<ul>
+                    <li>
+                        <img src=".$annuncio['cover_path']." alt=\"\"/>
+                    </li>
+                    <ul>
+                        <li><b>Autore: </b>".$annuncio['author']."</li>
+                        <li><b>Categoria: </b>".$annuncio['genre']."</li>
+                        <li><b>Anno di pubblicazione: </b>".$annuncio['year']."</li>
+                        <li><b>Descrizione: </b>".$annuncio['description']."</li>
+                        <li><b>Venditore: </b>".$annuncio['username']."</li>
+                        <li><b>Prezzo: </b> €".$annuncio['price']."</li>
+                    </ul>
+                </ul>";
+    
+    return $annuncio;
+
+}
+
+
+function build_buttons_mybook($id_annuncio){
+    $buttons="<form method='post' action='annuncio.php?myid=".$id_annuncio."' name='form_elimina_annuncio' >
+                <div>
+                    <input type='hidden' name='id_annuncio' value='".$id_annuncio."'>
+                    <button class=\"deletebtn\" type=\"submit\" name=\"submit_elimina_annuncio\">Elimina annuncio</button>
+                </div>
+            </form>";
+    return $buttons;
+}
+
+function build_buttons_otherbook($id_annuncio, $username){
+    $buttons = "<form id='contactForm_".$id_annuncio."' onsubmit='openChat(".$id_annuncio.", \"".$username."\"); return false;'>
+                    <div>
+                        <button class=\"loginbtn\" type=\"submit\">Contatta il venditore</button>
+                    </div>
+                </form>";
+    return $buttons;
+}
+
+function build_tabella_interessati($id_annuncio){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT DISTINCT sender_username FROM chat_messages WHERE id_annuncio = $id_annuncio AND sender_username != '".$_SESSION['Username']."'";
+    $result_query = $db->query($query);
+
+    $tabella_interessati = "<h3> Interessati </h3>";
+
+    if($result_query->num_rows > 0){
+        $tabella_interessati .= "<table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>";
+        while ($contact = $result_query->fetch_assoc()) {
+        $tabella_interessati .= "<tr>
+                            <td>".$contact['sender_username']."</td>
+                            <td>
+                                <button class=\"loginbtn\" onclick='openChat(".$id_annuncio.", \"".$contact['sender_username']."\")'>Apri Chat</button>
+                            </td>
+                        </tr>";
+        }
+        $tabella_interessati .= "</tbody></table>";
+    }
+    else
+        $tabella_interessati .= "<p>Non ci sono interessati</p>";
+
+    return $tabella_interessati;
 }
