@@ -622,6 +622,76 @@ hr{
     color: #0056b3;
 }
 
+.form_filtri{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    flex-wrap: wrap;
+}
+
+.filtri div{
+    margin-right: 1%;
+}
+
+.filtri select{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.filtri select:hover{
+    border: 1px solid #000000;
+}
+
+.filtri button{
+    padding: 8px;
+}
+
+.filtri #search:hover{
+    border: 1px solid #000000;
+}
+
+.annuncio_container{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.img_annuncio{
+    width: 20%;
+    height: auto;
+}
+
+.dati_annuncio{
+    width: 70%;
+    list-style-type: none;
+    padding:1%;
+}
+
+.interessati{
+    min-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.interessati tbody{
+    text-align: center;
+}
+
+.interessati td{
+    border-top: 1px solid #000000;
+}
+
+#descrizione_tab_interessati{
+    text-indent: -9999px;
+}
+
+.msg_centrato{
+    text-align: center;
+}
+
 /*
 ======================================
                 FOOTER

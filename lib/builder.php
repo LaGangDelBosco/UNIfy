@@ -403,7 +403,6 @@ function build_lista_libri(){
                                         <p><b>Autore: </b>".$row_query['author']. "</p>
                                         <p><b>Categoria: </b>".$row_query['genre']. "</p>
                                         <p><b>Anno di pubblicazione: </b>".$row_query['year']. "</p>
-                                        <p><b>Descrizione: </b>".$row_query['description']. "</p>
                                         <p><b>Venditore: </b>".$row_query['username']. "</p>
                                         <p><b>Prezzo: </b> €".$row_query['price']. "</p>";
 
@@ -435,11 +434,11 @@ function build_annuncio($annuncio){
     $db = new Servizio;
     $db->apriconn();
 
-    $annuncio = "<ul>
-                    <li>
+    $annuncio = "<ul class='annuncio_container'>
+                    <li class='img_annuncio'>
                         <img src=".$annuncio['cover_path']." alt=\"\"/>
                     </li>
-                    <ul>
+                    <ul class='dati_annuncio'>
                         <li><b>Autore: </b>".$annuncio['author']."</li>
                         <li><b>Categoria: </b>".$annuncio['genre']."</li>
                         <li><b>Anno di pubblicazione: </b>".$annuncio['year']."</li>
@@ -458,8 +457,9 @@ function build_buttons_mybook($id_annuncio){
     $buttons="<form method='post' action='annuncio.php?myid=".$id_annuncio."' name='form_elimina_annuncio' >
                 <div>
                     <input type='hidden' name='id_annuncio' value='".$id_annuncio."'>
-                    <button class=\"deletebtn\" type=\"submit\" name=\"submit_elimina_annuncio\">Elimina annuncio</button>
+                    <button id=\"annuncio_button\" class=\"deletebtn\" type=\"submit\" name=\"submit_elimina_annuncio\">Elimina annuncio</button>
                 </div>
+                <hr/>
             </form>";
     return $buttons;
 }
@@ -467,7 +467,7 @@ function build_buttons_mybook($id_annuncio){
 function build_buttons_otherbook($id_annuncio, $username){
     $buttons = "<form id='contactForm_".$id_annuncio."' onsubmit='openChat(".$id_annuncio.", \"".$username."\"); return false;'>
                     <div>
-                        <button class=\"loginbtn\" type=\"submit\">Contatta il venditore</button>
+                        <button id=\"annuncio_button\" class=\"loginbtn\" type=\"submit\">Contatta il venditore</button>
                     </div>
                 </form>";
     return $buttons;
@@ -483,11 +483,12 @@ function build_tabella_interessati($id_annuncio){
     $tabella_interessati = "<h3> Interessati </h3>";
 
     if($result_query->num_rows > 0){
-        $tabella_interessati .= "<table>
+        $tabella_interessati .= "<table class=\"interessati\" aria-describedby=\"descrizione_tab_interessati\">
+        <p id=\"descrizione_tab_interessati\">Questa tabella mostra gli utenti interessati all'annuncio. La prima colonna mostra il nome utente dell'interessato, la seconda colonna contiene un pulsante per aprire la chat con l'utente interessato.</p>
         <thead>
             <tr>
-                <th>Username</th>
-                <th>Azioni</th>
+                <th scope=\"col\">Username</th>
+                <th scope=\"col\">Azioni</th>
             </tr>
         </thead>
         <tbody>";
@@ -502,7 +503,193 @@ function build_tabella_interessati($id_annuncio){
         $tabella_interessati .= "</tbody></table>";
     }
     else
-        $tabella_interessati .= "<p>Non ci sono interessati</p>";
+        $tabella_interessati .= "<p class=\"msg_centrato\">Non ci sono interessati</p>";
 
     return $tabella_interessati;
+}
+
+function build_filtri_libri(){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT DISTINCT genre, author, year FROM books ORDER BY genre ASC, author ASC, year DESC";
+    $result_query = $db->query($query);
+
+    $genres = [];
+    $authors = [];
+    $years = [];
+
+    if($result_query->num_rows > 0){
+        while($row_query = $result_query->fetch_assoc()){
+            if (!in_array($row_query['genre'], $genres)) {
+                $genres[] = $row_query['genre'];
+            }
+            if (!in_array($row_query['author'], $authors)) {
+                $authors[] = $row_query['author'];
+            }
+            if (!in_array($row_query['year'], $years)) {
+                $years[] = $row_query['year'];
+            }
+        }
+    }
+
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+    $selected_genre = isset($_GET['genre']) ? $_GET['genre'] : '';
+    $selected_author = isset($_GET['author']) ? $_GET['author'] : '';
+    $selected_year = isset($_GET['year']) ? $_GET['year'] : '';
+
+    $filtri_libri = "<form method='get' class='form_filtri' action='compro-vendo-libri.php' name='filtri_libri'>
+                        <div>
+                            <label for='genre'>Genere: </label>
+                            <select id='genre' name='genre'>
+                                <option value=''>Tutti</option>";
+    foreach ($genres as $genre) {
+        $selected = $genre == $selected_genre ? "selected" : "";
+        $filtri_libri .= "<option value='".$genre."' ".$selected.">".$genre."</option>";
+    }
+    $filtri_libri .= "</select>
+                    </div>
+                    <div>
+                        <label for='author'>Autore: </label>
+                        <select id='author' name='author'>
+                            <option value=''>Tutti</option>";
+    foreach ($authors as $author) {
+        $selected = $author == $selected_author ? "selected" : "";
+        $filtri_libri .= "<option value='".$author."' ".$selected.">".$author."</option>";
+    }
+    $filtri_libri .= "</select>
+                    </div>
+                    <div>
+                        <label for='year'>Anno di pubblicazione: </label>
+                        <select id='year' name='year'>
+                            <option value=''>Tutti</option>";
+    foreach ($years as $year) {
+        $selected = $year == $selected_year ? "selected" : "";
+        $filtri_libri .= "<option value='".$year."' ".$selected.">".$year."</option>";
+    }
+    $filtri_libri .= "</select>
+                    </div>
+                    <div>
+                        <button class='interact' type='submit' name='submit_filtri_libri' aria-label='Bottone di ricerca per filtri'>Filtra</button>
+                    </div>
+                    <div>
+                            <label for='search'>Cerca: </label>
+                            <input type='text' id='search' name='search' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
+                            <button class='interact' type='submit' name='submit_search' aria-label='Bottone di ricerca per input'>Cerca</button>
+                    </div>
+                </form>";
+
+    return $filtri_libri;
+}
+
+function build_lista_libri_filter($genere, $autore, $anno){
+    $db = new Servizio;
+    $db->apriconn();
+
+        // Inizio la query di base
+        $query = "SELECT * FROM books WHERE 1=1";
+
+        // Aggiungo condizioni dinamiche in base ai filtri selezionati
+        if (!empty($genere)) {
+            $query .= " AND LOWER(genre) = LOWER('$genere')";
+        }
+        if (!empty($autore)) {
+            $query .= " AND LOWER(author) = LOWER('$autore')";
+        }
+        if (!empty($anno)) {
+            $query .= " AND year = '$anno'";
+        }
+    
+        // Ordino i risultati
+        $query .= " ORDER BY created_at DESC";
+
+    $result_query = $db->query($query);
+
+    $lista_libri = "";
+
+    if($result_query->num_rows > 0){
+        $lista_libri = "<div class=\"product-list\">";
+        while($row_query = $result_query->fetch_assoc()){
+            $lista_libri .= "<ul class=\"product-card\">
+                                    <li class=\"product-image\">
+                                        <img src=".$row_query['cover_path']." alt=\"Libro in vendita\" />
+                                    </li>
+                                    <li class=\"product-info\">
+                                        <h3>".$row_query['title']. "</h3>
+                                        <p><b>Autore: </b>".$row_query['author']. "</p>
+                                        <p><b>Categoria: </b>".$row_query['genre']. "</p>
+                                        <p><b>Anno di pubblicazione: </b>".$row_query['year']. "</p>
+                                        <p><b>Venditore: </b>".$row_query['username']. "</p>
+                                        <p><b>Prezzo: </b> €".$row_query['price']. "</p>";
+
+            if(isset($_SESSION['Username']) && $_SESSION['Username'] == $row_query['username']){
+                $lista_libri .= "<form method='get' action='annuncio.php?myid=".$row_query['book_id']."' name='vedi_annuncio'>
+                                    <div>
+                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."'>Vedi il tuo annuncio</button>
+                                    </div>
+                                </form>";
+            }else{
+                $lista_libri .= "<form method='post' action='annuncio.php?id=".$row_query['book_id']."' name='contatta_venditore'>
+                                    <div>
+                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."'>Vedi annuncio</button>
+                                    </div>
+                                </form>";
+            }
+            $lista_libri .= "</li>
+                                </ul>";
+        }
+        $lista_libri .= "</div>";
+    }else
+        $lista_libri .= "<p class=\"msg_centrato\">Non ci sono libri in vendita per i filtri selezionati</p>";
+
+    return $lista_libri;
+}
+
+function build_lista_libri_search($stringa){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $stringa = strtolower($stringa);
+
+    $query = "SELECT * FROM books WHERE LOWER(title) LIKE '%$stringa%' OR LOWER(author) LIKE '%$stringa%' OR LOWER(genre) LIKE '%$stringa%' ORDER BY created_at DESC";
+    $result_query = $db->query($query);
+
+    $lista_libri = "";
+
+    if($result_query->num_rows > 0){
+        $lista_libri = "<div class=\"product-list\">";
+        while($row_query = $result_query->fetch_assoc()){
+            $lista_libri .= "<ul class=\"product-card\">
+                                    <li class=\"product-image\">
+                                        <img src=".$row_query['cover_path']." alt=\"Libro in vendita\" />
+                                    </li>
+                                    <li class=\"product-info\">
+                                        <h3>".$row_query['title']. "</h3>
+                                        <p><b>Autore: </b>".$row_query['author']. "</p>
+                                        <p><b>Categoria: </b>".$row_query['genre']. "</p>
+                                        <p><b>Anno di pubblicazione: </b>".$row_query['year']. "</p>
+                                        <p><b>Venditore: </b>".$row_query['username']. "</p>
+                                        <p><b>Prezzo: </b> €".$row_query['price']. "</p>";
+
+            if(isset($_SESSION['Username']) && $_SESSION['Username'] == $row_query['username']){
+                $lista_libri .= "<form method='get' action='annuncio.php?myid=".$row_query['book_id']."' name='vedi_annuncio'>
+                                    <div>
+                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."'>Vedi il tuo annuncio</button>
+                                    </div>
+                                </form>";
+            }else{
+                $lista_libri .= "<form method='post' action='annuncio.php?id=".$row_query['book_id']."' name='contatta_venditore'>
+                                    <div>
+                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."'>Vedi annuncio</button>
+                                    </div>
+                                </form>";
+            }
+            $lista_libri .= "</li>
+                                </ul>";
+        }
+        $lista_libri .= "</div>";
+    }else
+        $lista_libri .= "<p class=\"msg_centrato\">Non ci sono libri in vendita per la ricerca effettuata</p>";
+
+    return $lista_libri;
 }

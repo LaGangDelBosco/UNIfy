@@ -54,14 +54,14 @@
 					<div id="chatContainer">
 						<div id="chatHeader">
 							Chat con <component>destinatario</component>
-							<button class="close_chat" onclick="closeChat()">&times;</button>
+							<button class="close_chat" onclick="closeChat()" title="Chiudi chat" aria-label="Bottone di chiusura della chat">&times;</button>
 						</div>
 						<div id="chatMessages">
 							<!-- Messaggi della chat -->
 						</div>
 						<div id="chatInput">
 							<input type="text" id="chatMessage" placeholder="Scrivi un messaggio...">
-							<button id="sendButton" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+							<button id="sendButton" onclick="sendMessage()" title="Invia" aria-label="Bottone di invio del messaggio" ><i class="fas fa-paper-plane"></i></button>
 						</div>
 					</div>
 				</nav>
