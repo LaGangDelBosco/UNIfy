@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+
+  <title> Post che ti piacciono - UNIfy </title>
+  <meta name = "description" content = "Questa pagina è finalizzata a visualizzare i post ai quali è stato messo 'mi piace'" />
+  <meta name = "keywords" content = "unify, social, profilo, post, mi piace, like" />
+  <meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso" />
+
+
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
+  <link rel="stylesheet" href="./print.css" media="print"/>
+
+  <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
+  <link rel="shortcut icon" type="image/png" href="./media/unify_icon.png" media="screen" /> <!--icona visibile su browser-->
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="./js/menu.js"></script>
+  <script src="./js/menu_mobile.js"></script>
+  <script src="./js/like-comment.js"></script>
+</head>
+
+<body>
+<div id="container">
+  <component>header</component>
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <p>Ti trovi in: <a href="index.php"><span lang="en">Home</span></a> &gt;&gt; Post che ti piacciono</p>
+  </nav>
+
+  <main>
+    <h2 class="page_title">Post che ti piacciono</h2>
+
+    <div class="content">
+      <nav id="menu" aria-label="Menù del sito">
+        <component>menu</component>
+      </nav>
+
+      <nav id="post-box" aria-label="Sezione visualizzazione mio profilo e miei post">
+        <div id="my-posts">
+          <component>post</component>
+        </div>
+        <script>
+          like_post();
+        </script>
+
+      </nav>
+
+
+      <nav id="extra-section" aria-label="Sezine di ricerca e interessi">
+        <div id="search-bar">
+          <label for="search">Cerca:</label>
+          <input type="text" id="search" placeholder="Cerca qui..." />
+          <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+        </div>
+      </nav>
+    </div>
+
+    <component>goback</component>
+  </main>
+</div>
+<component>footer</component>
+
+</body>
+</html>
