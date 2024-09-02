@@ -16,6 +16,9 @@ CREATE TABLE user (
     birthdate DATE NOT NULL,
     gender VARCHAR(32) NOT NULL,
     profile_picture_path VARCHAR(100),
+    banned BOOLEAN DEFAULT FALSE,
+    ban_reason TEXT DEFAULT NULL,
+    ban_start TIMESTAMP DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -36,6 +39,7 @@ CREATE TABLE post (
     username VARCHAR(100),
     content TEXT,
     media_path VARCHAR(100) DEFAULT NULL,
+    hidden BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (username) REFERENCES user(username)
@@ -106,6 +110,10 @@ INSERT INTO user (username, name, email, password, birthdate, gender, profile_pi
 ('laura', 'Laura Bianchi', 'laura.bianchi@gmail.com', 'f6537a5a2f097921d1d1ab410facd30c4356da7326783c2f9ed29f093852cfe2', '1994-09-25', 'female', './media/profile-pictures/default.jpg', '2024-07-31', '2024-07-31'), -- password: password987
 ('francesco', 'Francesco Neri', 'francesco.neri@gmail.com', 'd601d7629b263221dd541a3131d865a9bcb087e3edc702867143a996803307ab', '1988-10-31', 'male', './media/profile-pictures/default.jpg', '2024-07-24', '2024-07-24'), -- password: password147
 ('elena', 'Elena Gialli', 'elena.gialli@gmail.com', 'ff7fb48ec0bd80876c9c246d33d18efd0648bff6467fcc945db7f49692dab1e1', '1989-05-30', 'female', './media/profile-pictures/default.jpg', '2024-07-31', '2024-07-31'); -- password: password258
+
+# TEST BANNED USER
+INSERT INTO user (username, name, email, password, birthdate, gender, profile_picture_path, banned, ban_reason, ban_start, created_at, updated_at) VALUES
+('banned', 'Banned User', 'banned@gmail.com', '071ccd9453661bfdf4b1d89093d4b7c28b898c8d40e7ccaf3a0f7a7ee7f043b0', '1990-01-01', 'male', './media/profile-pictures/default.jpg', TRUE, 'TEST_BAN', '2024-07-31', '2024-07-31', '2024-07-31'); -- password: password369
 
 INSERT INTO profile (profile_id, username, bio, location, website, created_at, updated_at) VALUES
 (1, 'admin', 'I am the admin', 'Milan, Italy', 'https://www.example.com', '2024-07-21', '2024-07-21'),
@@ -297,3 +305,55 @@ INSERT INTO message (message_id, sender_id, receiver_id, content, created_at, up
 (13, 'supermario', 'luigi', 'Hi, Luigi! 2', '2024-07-31', '2024-07-31'),
 (14, 'luigi', 'supermario', 'Hello, Mario! 2', '2024-07-26', '2024-07-26'),
 (15, 'giuseppe', 'anna', 'Hi, Anna! 2', '2024-08-01', '2024-08-01');
+
+INSERT INTO likes (post_id, username, created_at) VALUES
+(1, 'user', '2024-07-21'),
+(2, 'admin', '2024-07-22'),
+(3, 'luigi', '2024-07-31'),
+(4, 'supermario', '2024-07-26'),
+(5, 'anna', '2024-08-01'),
+(6, 'giuseppe', '2024-07-29'),
+(7, 'laura', '2024-07-30'),
+(8, 'marco', '2024-07-31'),
+(9, 'elena', '2024-07-24'),
+(10, 'francesco', '2024-07-31'),
+(11, 'user', '2024-07-21'),
+(12, 'admin', '2024-07-22'),
+(13, 'luigi', '2024-07-31'),
+(14, 'supermario', '2024-07-26'),
+(15, 'anna', '2024-08-01'),
+(16, 'giuseppe', '2024-07-29'),
+(17, 'laura', '2024-07-30'),
+(18, 'marco', '2024-07-31'),
+(19, 'elena', '2024-07-24'),
+(20, 'francesco', '2024-07-31'),
+(21, 'user', '2024-07-21'),
+(22, 'admin', '2024-07-22'),
+(23, 'luigi', '2024-07-31'),
+(24, 'supermario', '2024-07-26'),
+(25, 'anna', '2024-08-01'),
+(26, 'giuseppe', '2024-07-29'),
+(27, 'laura', '2024-07-30'),
+(28, 'marco', '2024-07-31'),
+(29, 'elena', '2024-07-24'),
+(30, 'francesco', '2024-07-31'),
+(31, 'user', '2024-07-21'),
+(32, 'admin', '2024-07-22');
+
+DELIMITER //
+
+CREATE TRIGGER user_ban_update
+    BEFORE UPDATE ON user
+    FOR EACH ROW
+BEGIN
+    IF NEW.banned = TRUE AND OLD.banned = FALSE THEN
+        SET NEW.ban_start = CURRENT_TIMESTAMP;
+    ELSEIF NEW.banned = FALSE AND OLD.banned = TRUE THEN
+        SET NEW.ban_reason = NULL;
+        SET NEW.ban_start = NULL;
+    END IF;
+END;
+
+//
+
+DELIMITER ;

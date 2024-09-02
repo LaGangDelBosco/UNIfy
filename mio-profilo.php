@@ -35,6 +35,14 @@ if($db->get_dati_utente_profilo($username)){
 else   
     echo "Errore nel caricamento dei dati utente";
 
+if(isset($_POST['submit_nascondi_post'])){
+    $id_post = $_POST['id_post'];
+    $current_page = $_POST['current_page'];
+    $db->nascondi_post($id_post);
+    header("Location: $current_page");
+    exit();
+}
+
 $mioprofilo_template->insert("menu", build_menu());
 
 $mioprofilo_template->insert("post", build_mypost($username));

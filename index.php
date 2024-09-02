@@ -46,6 +46,14 @@ if(isset($_POST['submit-public-post'])){
     header("Location: index.php?error=$error");
 }
 
+if(isset($_POST['submit_nascondi_post'])){
+    $id_post = $_POST['id_post'];
+    $current_page = $_POST['current_page'];
+    $db->nascondi_post($id_post);
+    header("Location: $current_page");
+    exit();
+}
+
 $index_template->insert("lista_post", build_lista_post());
 
 $index_template->insert("header", build_header());
