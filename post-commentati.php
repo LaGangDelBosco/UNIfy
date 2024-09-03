@@ -17,14 +17,23 @@ if(isset($_SESSION['Username']))
 if(isset($_POST['submit_elimina_post'])){
     $id_post = $_POST['post_id'];
     if($db->elimina_post($id_post)){
-        header("Location: post-commentati.php");    //da aggiungere messaggio get
+        header("Location: post-commentati.php?messaggio=Post eliminato con successo");
         exit();
     }
     else
-        echo "Errore nell'eliminazione del post";
+        header("Location: post-commentati.php?messaggio=Errore nell'eliminazione del post");
 }
 
 $mioprofilo_template->insert("menu", build_menu());
+
+if(isset($_GET['messaggio'])){
+    $messaggio = htmlspecialchars($_GET['messaggio']);
+    if($messaggio == "Errore nell'eliminazione del post")
+        $mioprofilo_template->insert("messaggio", "<div id='messaggioerrore'>" . $messaggio . "</div>");
+    else
+        $mioprofilo_template->insert("messaggio", "<div id='messaggio'>" . $messaggio . "</div>");
+}else
+    $mioprofilo_template->insert("messaggio", "");
 
 $mioprofilo_template->insert("post", build_commented_posts($username));
 
