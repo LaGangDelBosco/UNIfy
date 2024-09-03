@@ -15,23 +15,27 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function openChat(id_annuncio, receiver_username) {
-    document.getElementById('chatContainer').style.display = 'block';
-    document.getElementById('chatContainer').dataset.idAnnuncio = id_annuncio;
-    document.getElementById('chatContainer').dataset.receiverUsername = receiver_username;
+    var chatContainer = document.getElementById('chatContainer');
+    chatContainer.classList.add('visible');
+    chatContainer.dataset.idAnnuncio = id_annuncio;
+    chatContainer.dataset.receiverUsername = receiver_username;
     loadChatMessages(id_annuncio, receiver_username);
+    setTimeout(scrollToBottom, 100); // Scorrimento automatico verso il basso
 }
 
 // Aggiorna i messaggi della chat ogni 4 secondi
 setInterval(function() {
-    if (document.getElementById('chatContainer').style.display !== 'none') {
-        var id_annuncio = document.getElementById('chatContainer').dataset.idAnnuncio;
-        var receiver_username = document.getElementById('chatContainer').dataset.receiverUsername;
+    var chatContainer = document.getElementById('chatContainer');
+    if (chatContainer.classList.contains('visible')) {
+        var id_annuncio = chatContainer.dataset.idAnnuncio;
+        var receiver_username = chatContainer.dataset.receiverUsername;
         loadChatMessages(id_annuncio, receiver_username);
     }
 }, 4000);
 
 function closeChat() {
-    document.getElementById('chatContainer').style.display = 'none';
+    var chatContainer = document.getElementById('chatContainer');
+    chatContainer.classList.remove('visible');
 }
 
 function loadChatMessages(id_annuncio, receiver_username) {
@@ -51,6 +55,12 @@ function loadChatMessages(id_annuncio, receiver_username) {
     xhr.send();
 }
 
+function scrollToBottom() {
+    var chatContainer = document.getElementById('chatMessages');
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+
 function sendMessage() {
     var message = document.getElementById('chatMessage').value;
     if (message.trim() === '') return;
@@ -66,6 +76,7 @@ function sendMessage() {
         if (xhr.status === 200) {
             document.getElementById('chatMessage').value = '';
             loadChatMessages(id_annuncio, receiver_username); // Ricarica i messaggi della chat
+            setTimeout(scrollToBottom, 100); // Scorrimento automatico verso il basso
         } else {
             console.error('Errore nell\'invio del messaggio:', xhr.status, xhr.statusText);
         }

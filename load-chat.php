@@ -11,7 +11,7 @@ if (empty($id_annuncio) || empty($sender_username) || empty($receiver_username))
     exit;
 }
 
-$messages = $db->get_chat_messages($id_annuncio, $sender_username, $receiver_username);
+$messages = $db->get_chat_message($id_annuncio, $sender_username, $receiver_username);
 
 foreach ($messages as $message) {
     $class = $message['sender_username'] === $sender_username ? 'sent' : 'received';

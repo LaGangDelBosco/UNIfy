@@ -8,8 +8,8 @@ DROP TABLE IF EXISTS friendship;
 DROP TABLE IF EXISTS reaction;
 DROP TABLE IF EXISTS message;
 DROP TABLE IF EXISTS likes;
-DROP TABLE IF EXISTS books;
-DROP TABLE IF EXISTS chat_messages;
+DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS chat_message;
 
 CREATE TABLE user (
     username VARCHAR(100) PRIMARY KEY,
@@ -97,7 +97,7 @@ CREATE TABLE likes (
     FOREIGN KEY (username) REFERENCES user(username)
 );
 
-CREATE TABLE books (
+CREATE TABLE book (
     book_id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100),
     title VARCHAR(100) NOT NULL,
@@ -112,14 +112,14 @@ CREATE TABLE books (
     FOREIGN KEY (username) REFERENCES user(username)
 );
 
-CREATE TABLE chat_messages (
+CREATE TABLE chat_message (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_annuncio INT,
     sender_username VARCHAR(100),
     receiver_username VARCHAR(100),
     message TEXT,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_annuncio) REFERENCES books(book_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (id_annuncio) REFERENCES book(book_id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (sender_username) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (receiver_username) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -328,7 +328,7 @@ INSERT INTO message (message_id, sender_id, receiver_id, content, created_at, up
 (14, 'luigi', 'supermario', 'Hello, Mario! 2', '2024-07-26', '2024-07-26'),
 (15, 'giuseppe', 'anna', 'Hi, Anna! 2', '2024-08-01', '2024-08-01');
 
-INSERT INTO books (book_id, username, title, author, genre, year, description, cover_path, created_at, updated_at, price) VALUES
+INSERT INTO book (book_id, username, title, author, genre, year, description, cover_path, created_at, updated_at, price) VALUES
 (1, 'admin', 'Introduzione agli Algoritmi', 'Thomas H. Cormen', 'Informatica', 2009, 'Un libro completo sugli algoritmi.', '/covers/intro_to_algorithms.jpg', '2024-07-21', '2024-07-21', 50.00),
 (2, 'luigi', 'Intelligenza Artificiale: Un Approccio Moderno', 'Stuart Russell', 'Informatica', 2010, 'Un libro sull\'intelligenza artificiale.', '/covers/ai_modern_approach.jpg', '2024-07-22', '2024-07-22', 45.00),
 (3, 'admin', 'Concetti di Sistemi di Database', 'Abraham Silberschatz', 'Informatica', 2011, 'Un libro sui sistemi di database.', '/covers/db_system_concepts.jpg', '2024-07-23', '2024-07-23', 55.00),

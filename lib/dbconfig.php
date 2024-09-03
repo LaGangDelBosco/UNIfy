@@ -673,11 +673,18 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
-    public function vendi_libro($venditore, $titolo, $autore, $categoria, $anno, $descrizione, $prezzo){
+    public function vendi_libro($venditore, $titolo, $autore, $categoria, $anno, $descrizione, $prezzo, $immagine = null){
         $conn = $this->apriconn();
-        $query = "INSERT INTO books (username, title, author, genre, year, description, cover_path, created_at, updated_at, price) VALUES (?, ?, ?, ?, ?, ?, null, NOW(), NOW(), ?)";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("sssssss", $venditore, $titolo, $autore, $categoria, $anno, $descrizione, $prezzo);
+
+        if($immagine != null) {
+            $query = "INSERT INTO book (username, title, author, genre, year, description, cover_path, created_at, updated_at, price) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("ssssssss", $venditore, $titolo, $autore, $categoria, $anno, $descrizione, $immagine, $prezzo);
+        } else {
+            $query = "INSERT INTO book (username, title, author, genre, year, description, created_at, updated_at, price) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("sssssss", $venditore, $titolo, $autore, $categoria, $anno, $descrizione, $prezzo);
+        }
         $stmt->execute();
         if ($stmt->affected_rows > 0) {
             $this->err_code = false;
@@ -692,7 +699,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
     public function get_annuncio($id_annuncio){
         $conn = $this->apriconn();
-        $query = "SELECT * FROM books WHERE book_id = ?";
+        $query = "SELECT * FROM book WHERE book_id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id_annuncio);
         $stmt->execute();
@@ -705,7 +712,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
     public function delete_annuncio($id_annuncio){
         $conn = $this->apriconn();
-        $query = "DELETE FROM books WHERE book_id = ?";
+        $query = "DELETE FROM book WHERE book_id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id_annuncio);
         $stmt->execute();
@@ -720,9 +727,9 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
-    public function get_chat_messages($id_annuncio, $sender_username, $receiver_username) {
+    public function get_chat_message($id_annuncio, $sender_username, $receiver_username) {
         $conn = $this->apriconn();
-        $query = "SELECT * FROM chat_messages WHERE id_annuncio = ? AND ((sender_username = ? AND receiver_username = ?) OR (sender_username = ? AND receiver_username = ?)) ORDER BY timestamp ASC";
+        $query = "SELECT * FROM chat_message WHERE id_annuncio = ? AND ((sender_username = ? AND receiver_username = ?) OR (sender_username = ? AND receiver_username = ?)) ORDER BY timestamp ASC";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("issss", $id_annuncio, $sender_username, $receiver_username, $receiver_username, $sender_username);
         $stmt->execute();
@@ -732,7 +739,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
     public function send_chat_message($id_annuncio, $sender_username, $receiver_username, $message) {
         $conn = $this->apriconn();
-        $query = "INSERT INTO chat_messages (id_annuncio, sender_username, receiver_username, message) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO chat_message (id_annuncio, sender_username, receiver_username, message) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("isss", $id_annuncio, $sender_username, $receiver_username, $message);
         $stmt->execute();

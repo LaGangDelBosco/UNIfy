@@ -386,7 +386,7 @@ function build_lista_libri(){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT * FROM books ORDER BY created_at DESC";
+    $query = "SELECT * FROM book ORDER BY created_at DESC";
     $result_query = $db->query($query);
 
     $lista_libri = "";
@@ -409,13 +409,13 @@ function build_lista_libri(){
             if(isset($_SESSION['Username']) && $_SESSION['Username'] == $row_query['username']){
                 $lista_libri .= "<form method='get' action='annuncio.php?myid=".$row_query['book_id']."' name='vedi_annuncio'>
                                     <div>
-                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."'>Vedi il tuo annuncio</button>
+                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."' aria-label=\"Vedi il tuo annuncio del libro ".$row_query['title']."\" >Vedi il tuo annuncio</button>
                                     </div>
                                 </form>";
             }else{
                 $lista_libri .= "<form method='post' action='annuncio.php?id=".$row_query['book_id']."' name='contatta_venditore'>
                                     <div>
-                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."'>Vedi annuncio</button>
+                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."' aria-label=\"Vedi annuncio del libro ".$row_query['title']."\">Vedi annuncio</button>
                                     </div>
                                 </form>";
             }
@@ -424,7 +424,7 @@ function build_lista_libri(){
         }
         $lista_libri .= "</div>";
     }else
-        $lista_libri .= "<p>Non ci sono libri in vendita</p>";
+        $lista_libri .= "<p class=\"msg_centrato\">Non ci sono libri in vendita</p>";
 
     return $lista_libri;
 }
@@ -477,7 +477,7 @@ function build_tabella_interessati($id_annuncio){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT DISTINCT sender_username FROM chat_messages WHERE id_annuncio = $id_annuncio AND sender_username != '".$_SESSION['Username']."'";
+    $query = "SELECT DISTINCT sender_username FROM chat_message WHERE id_annuncio = $id_annuncio AND sender_username != '".$_SESSION['Username']."'";
     $result_query = $db->query($query);
 
     $tabella_interessati = "<h3> Interessati </h3>";
@@ -496,7 +496,7 @@ function build_tabella_interessati($id_annuncio){
         $tabella_interessati .= "<tr>
                             <td>".$contact['sender_username']."</td>
                             <td>
-                                <button class=\"loginbtn\" onclick='openChat(".$id_annuncio.", \"".$contact['sender_username']."\")'>Apri Chat</button>
+                                <button class=\"loginbtn\" onclick='openChat(".$id_annuncio.", \"".$contact['sender_username']."\")' aria-label=\"Bottone per aprire la chat con l'utente ".$contact['sender_username']."\">Apri chat</button>
                             </td>
                         </tr>";
         }
@@ -512,8 +512,14 @@ function build_filtri_libri(){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT DISTINCT genre, author, year FROM books ORDER BY genre ASC, author ASC, year DESC";
+    $query = "SELECT DISTINCT genre FROM book ORDER BY genre ASC";
     $result_query = $db->query($query);
+
+    $query2 = "SELECT DISTINCT author FROM book ORDER BY author ASC";
+    $result_query2 = $db->query($query2);
+
+    $query3 = "SELECT DISTINCT year FROM book ORDER BY year DESC";
+    $result_query3 = $db->query($query3);
 
     $genres = [];
     $authors = [];
@@ -524,9 +530,19 @@ function build_filtri_libri(){
             if (!in_array($row_query['genre'], $genres)) {
                 $genres[] = $row_query['genre'];
             }
+        }
+    }
+
+    if($result_query2->num_rows > 0){
+        while($row_query = $result_query2->fetch_assoc()){
             if (!in_array($row_query['author'], $authors)) {
                 $authors[] = $row_query['author'];
             }
+        }
+    }
+
+    if($result_query3->num_rows > 0){
+        while($row_query = $result_query3->fetch_assoc()){
             if (!in_array($row_query['year'], $years)) {
                 $years[] = $row_query['year'];
             }
@@ -587,7 +603,7 @@ function build_lista_libri_filter($genere, $autore, $anno){
     $db->apriconn();
 
         // Inizio la query di base
-        $query = "SELECT * FROM books WHERE 1=1";
+        $query = "SELECT * FROM book WHERE 1=1";
 
         // Aggiungo condizioni dinamiche in base ai filtri selezionati
         if (!empty($genere)) {
@@ -651,7 +667,7 @@ function build_lista_libri_search($stringa){
 
     $stringa = strtolower($stringa);
 
-    $query = "SELECT * FROM books WHERE LOWER(title) LIKE '%$stringa%' OR LOWER(author) LIKE '%$stringa%' OR LOWER(genre) LIKE '%$stringa%' ORDER BY created_at DESC";
+    $query = "SELECT * FROM book WHERE LOWER(title) LIKE '%$stringa%' OR LOWER(author) LIKE '%$stringa%' OR LOWER(genre) LIKE '%$stringa%' ORDER BY created_at DESC";
     $result_query = $db->query($query);
 
     $lista_libri = "";

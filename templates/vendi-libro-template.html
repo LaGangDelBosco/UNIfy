@@ -41,7 +41,7 @@
 				</nav>
 				
 				<nav id="post-box" aria-label="Sezione compilazione dati per mettere in vendita un libro">
-					<form class="form_box" id="vendi_libro_form" name="vendi_libro_form" method="post" action="vendi-libro.php">
+					<form class="form_box" id="vendi_libro_form" name="vendi_libro_form" method="post" action="vendi-libro.php" enctype="multipart/form-data">
                         <div>
                             <label for="titolo">Titolo:</label>
                             <input type="text" id="titolo" name="titolo" placeholder="titolo" required />
@@ -72,11 +72,11 @@
                             <input type="number" id="prezzo" name="prezzo" placeholder="prezzo" required />
                             <div class="error" id="prezzo_error"></div>
                         </div>
-                        <!-- <div>
-                            <label for="foto">Foto:</label>
-                            <input type="file" id="foto" name="foto" accept="image/*" />
+                        <div>
+                            <label for="book_picture_path">Foto:</label>
+                            <input type="file" id="book_picture_path" name="book_picture_path" accept="image/*" />
                             <div class="error" id="foto_error"></div>
-                        </div> -->
+                        </div>
                         <button class="loginbtn" type="submit" name="submit_vendi_libro" aria-label="Bottone per pubblicare la messa in vendita del libro">Vendi</button>
 
                     </form>

@@ -526,6 +526,11 @@ hr{
     padding-bottom: 4%;
 }
 
+.product-image img{
+    width: 100%;
+    height: auto;
+}
+
 #sell-book-btn {
     position: fixed;
     bottom: 20px;
@@ -545,13 +550,18 @@ hr{
     background-color: #0056b3;
 }
 
+#sell-book-btn:focus {
+    outline: 2px solid #ff9100; /* ad esempio, giallo oro */
+    outline-offset: 4px;
+}
+
 #chatContainer{
     display:none; 
     position:fixed; 
     bottom:0; 
     right:22%; 
-    width:300px; 
-    height:400px; 
+    width: 18.75em; 
+    height: 25em; 
     border:1px solid #ccc; 
     background-color:#fff;
 }
@@ -622,6 +632,10 @@ hr{
     color: #0056b3;
 }
 
+#chatContainer.visible{
+    display: block;
+}
+
 .form_filtri{
     display: flex;
     justify-content: space-between;
@@ -659,8 +673,8 @@ hr{
     margin-bottom: 2%;
 }
 
-.img_annuncio{
-    width: 20%;
+.img_annuncio img{
+    width: 100%;
     height: auto;
 }
 
