@@ -708,4 +708,153 @@ function build_lista_libri_search($stringa){
         $lista_libri .= "<p class=\"msg_centrato\">Non ci sono libri in vendita per la ricerca effettuata</p>";
 
     return $lista_libri;
+}function build_liked_posts($username)
+{
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM post WHERE post_id IN (SELECT post_id FROM likes WHERE username = '$username') ORDER BY created_at DESC";
+    $result_query = $db->query($query);
+
+    $liked_posts = "";
+
+    if ($result_query->num_rows > 0) {
+        while ($row_query = $result_query->fetch_assoc()) {
+            $post_id = $row_query['post_id'];
+            $post_username = $row_query['username'];
+            $like_count = $db->get_like_count($post_id);
+
+            $liked_posts .= "<ul class=\"singolo_post\">
+                            <li><a href=\"profilo.php?user=$post_username\">$post_username</a></li>
+                            <li>$row_query[created_at]</li>
+                            <li>$row_query[content]</li>";
+
+            if ($db->get_media_path($post_id) != "NULL") {
+                // controlla se il media è un'immagine o un video
+                $media_path = $db->get_media_path($post_id);
+                $media_type = $db->get_media_type($post_id);
+                if ($media_type == "image") {
+                    $liked_posts .= "<li class=\"media\"><img src=$media_path alt=\"\"/></li>";
+                } else if ($media_type == "video") {
+                    $liked_posts .= "<li class=\"media\"><video controls><source src=$media_path type=\"video/mp4\"></video></li>";
+                }
+            }
+
+            $liked_posts .= "<li class=\"post-actions\">
+                                <fieldset>
+                                    <legend>Interazioni post del $row_query[created_at]</legend>
+                                    <button class=\"like-interact\" data-post-id=\"$post_id\">Mi piace</button>
+                                    <span class=\"numero_like\">$like_count</span>
+                                    <label class=\"label_commento\" for=\"comment_$post_id\"> - Scrivi un commento:</label>
+                                    <textarea id='comment_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
+                                    <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>";
+
+            if($_SESSION['Username'] == $post_username) {
+                $liked_posts .= "            <form method='post' action='post-piacciono.php' name='elimina_post'>
+                                        <div class = \"elimina_inline\"> 
+                                            <input type='hidden' name='post_id' value='" . $row_query['post_id'] . "' />
+                                            <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
+                                        </div>
+                                    </form>
+                                    </fieldset>
+                                    </li>";
+            }else{
+                $liked_posts .= "</fieldset></li>";
+            }
+
+            $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
+            $result_query_comment = $db->query($query);
+
+            if ($result_query_comment->num_rows > 0) {
+                $liked_posts .= "<li id='comment_list_$post_id'><ul>";
+                while ($row_query_comment = $result_query_comment->fetch_assoc()) {
+                    $liked_posts .= "<li><a href=\"profilo.php?user=$row_query_comment[username]\">$row_query_comment[username]</a></li>
+                                    <li>$row_query_comment[created_at]</li>
+                                    <li class=\"content_comm\">$row_query_comment[content]</li>";
+                }
+                $liked_posts .= "</ul></li>";
+            } else {
+                $liked_posts .= "<li id='comment_list_$post_id'></li>";
+            }
+
+            $liked_posts .= "</ul>";
+        }
+    }
+
+    return $liked_posts;
+}
+
+function build_commented_posts($username){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM post WHERE post_id IN (SELECT post_id FROM comment WHERE username = '$username') ORDER BY created_at DESC";
+    $result_query = $db->query($query);
+
+    $commented_posts = "";
+
+    if($result_query->num_rows > 0) {
+        while ($row_query = $result_query->fetch_assoc()) {
+            $post_id = $row_query['post_id'];
+            $post_username = $row_query['username'];
+            $like_count = $db->get_like_count($post_id);
+
+            $commented_posts .= "<ul class=\"singolo_post\">
+                            <li><a href=\"profilo.php?user=$post_username\">$post_username</a></li>
+                            <li>$row_query[created_at]</li>
+                            <li>$row_query[content]</li>";
+
+            if ($db->get_media_path($post_id) != "NULL") {
+                // controlla se il media è un'immagine o un video
+                $media_path = $db->get_media_path($post_id);
+                $media_type = $db->get_media_type($post_id);
+                if ($media_type == "image") {
+                    $commented_posts .= "<li class=\"media\"><img src=$media_path alt=\"\"/></li>";
+                } else if ($media_type == "video") {
+                    $commented_posts .= "<li class=\"media\"><video controls><source src=$media_path type=\"video/mp4\"></video></li>";
+                }
+            }
+
+            $commented_posts .= "<li class=\"post-actions\">
+                                <fieldset>
+                                    <legend>Interazioni post del $row_query[created_at]</legend>
+                                    <button class=\"like-interact\" data-post-id=\"$post_id\">Mi piace</button>
+                                    <span class=\"numero_like\">$like_count</span>
+                                    <label class=\"label_commento\" for=\"comment_$post_id\"> - Scrivi un commento:</label>
+                                    <textarea id='comment_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
+                                    <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>";
+
+            if ($_SESSION['Username'] == $post_username) {
+                $commented_posts .= "            <form method='post' action='post-commentati.php' name='elimina_post'>
+                                        <div class = \"elimina_inline\"> 
+                                            <input type='hidden' name='post_id' value='" . $row_query['post_id'] . "' />
+                                            <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
+                                        </div>
+                                    </form>
+                                    </fieldset>
+                                    </li>";
+            }else{
+                $commented_posts .= "</fieldset></li>";
+            }
+
+            $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
+            $result_query_comment = $db->query($query);
+
+            if ($result_query_comment->num_rows > 0) {
+                $commented_posts .= "<li id='comment_list_$post_id'><ul>";
+                while ($row_query_comment = $result_query_comment->fetch_assoc()) {
+                    $commented_posts .= "<li><a href=\"profilo.php?user=$row_query_comment[username]\">$row_query_comment[username]</a></li>
+                                    <li>$row_query_comment[created_at]</li>
+                                    <li class=\"content_comm\">$row_query_comment[content]</li>";
+                }
+                $commented_posts .= "</ul></li>";
+            } else {
+                $commented_posts .= "<li id='comment_list_$post_id'></li>";
+            }
+
+            $commented_posts .= "</ul>";
+        }
+    }
+
+    return $commented_posts;
 }
