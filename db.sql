@@ -16,6 +16,7 @@ CREATE TABLE user (
     birthdate DATE NOT NULL,
     gender VARCHAR(32) NOT NULL,
     profile_picture_path VARCHAR(100),
+    notifications_amount INT DEFAULT 0, 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -94,6 +95,16 @@ CREATE TABLE likes (
     FOREIGN KEY (username) REFERENCES user(username)
 );
 
+CREATE TABLE notification (
+    notification_id INT PRIMARY KEY AUTO_INCREMENT,
+    receiver_username VARCHAR(100),
+    sender_username VARCHAR(100),
+    type VARCHAR(32),
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (receiver_username) REFERENCES user(username),
+    FOREIGN KEY (sender_username) REFERENCES user(username)
+);
 
 INSERT INTO user (username, name, email, password, birthdate, gender, profile_picture_path, created_at, updated_at) VALUES
 ('admin', 'Admin Admin', 'admin@example.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '2000-01-01', 'male', './media/profile-pictures/default.jpg', '2024-07-21', '2024-07-21'), -- password: admin
@@ -297,3 +308,47 @@ INSERT INTO message (message_id, sender_id, receiver_id, content, created_at, up
 (13, 'supermario', 'luigi', 'Hi, Luigi! 2', '2024-07-31', '2024-07-31'),
 (14, 'luigi', 'supermario', 'Hello, Mario! 2', '2024-07-26', '2024-07-26'),
 (15, 'giuseppe', 'anna', 'Hi, Anna! 2', '2024-08-01', '2024-08-01');
+
+DELIMITER //
+
+CREATE TRIGGER like_notification
+    AFTER INSERT ON likes
+    FOR EACH ROW
+BEGIN 
+    DECLARE receiver_username VARCHAR(100);
+    DECLARE content TEXT;
+    SELECT username INTO receiver_username FROM post WHERE post_id = NEW.post_id;
+    SET content = CONCAT('Ha messo mi piace al tuo <a href="./mio-profilo.php?user=', receiver_username, '#', NEW.post_id, '">post</a>');
+    INSERT INTO notification (receiver_username, sender_username, type, content) VALUES 
+    (receiver_username, NEW.username, 'like', content);
+    UPDATE user SET notifications_amount = notifications_amount + 1 WHERE username = receiver_username;
+END;
+//
+
+CREATE TRIGGER comment_notification
+    AFTER INSERT ON comment
+    FOR EACH ROW
+BEGIN 
+    DECLARE receiver_username VARCHAR(100);
+    DECLARE content TEXT;
+    SELECT username INTO receiver_username FROM post WHERE post_id = NEW.post_id;
+    SET content = CONCAT('Ha commentato il tuo <a href="./mio-profilo.php?user=', receiver_username, '#', NEW.post_id, '">post</a>');
+    INSERT INTO notification (receiver_username, sender_username, type, content) VALUES 
+    (receiver_username, NEW.username, 'comment', content);
+    UPDATE user SET notifications_amount = notifications_amount + 1 WHERE username = receiver_username;
+END;
+//
+
+CREATE TRIGGER friendship_notification
+    AFTER INSERT ON friendship
+    FOR EACH ROW
+BEGIN 
+    DECLARE content TEXT;
+    SET content = CONCAT(NEW.username_1, ' ti ha inviato una richiesta di amicizia');
+    INSERT INTO notification (receiver_username, sender_username, type, content) VALUES 
+    (NEW.username_2, NEW.username_1, 'friendship', content);
+    UPDATE user SET notifications_amount = notifications_amount + 1 WHERE username = NEW.username_2;
+END;
+//
+
+DELIMITER ;

@@ -66,6 +66,8 @@ function build_goback(): string
 
 function build_menu(){
     // costruzione voci del menu
+    $db = new Servizio();
+    $notification_amount = $db->get_numero_notifiche($_SESSION['Username']);
 
     if(isset($_SESSION['Username']) && ($_SESSION['Username']=="admin")){
         $menu_items=array(
@@ -77,6 +79,7 @@ function build_menu(){
             "Post commentati" => "post-commentati.php",
             "Utenti bloccati" => "utenti-bloccati.php", 
             "Post nascosti" => "post-nascosti.php",
+            "Notifiche ".$notification_amount => "notifiche.php",
         );
     }else{
         if(isset($_SESSION['Username'])){
@@ -87,6 +90,7 @@ function build_menu(){
                 "I miei dati personali" => "dati-personali.php",
                 "Post che mi piacciono" => "post-piacciono.php",
                 "Post commentati" => "post-commentati.php",
+                "Notifiche ".$notification_amount => "notifiche.php",
             );
         }
     }
@@ -320,7 +324,7 @@ function build_mypost($username){
             $post_id = $row_query['post_id'];
             $like_count = $db->get_like_count($post_id);
 
-            $mypost .= "<ul class=\"singolo_post\">
+            $mypost .= "<ul class=\"singolo_post\" id=$post_id>
                             <li><a href=\"\">".$row_query['username']."</a></li>
                             <li>".$row_query['created_at']."</li>
                             <li>".$row_query['content']."</li>";
@@ -378,5 +382,44 @@ function build_mypost($username){
     }
 
     return $mypost;
+}
+
+function build_lista_notifiche($username){
+    $db = new Servizio();
+    $db->apriconn();
+
+    $query = "SELECT * FROM notification WHERE receiver_username = '$username' ORDER BY created_at DESC";
+    $result_query = $db->query($query);
+
+    $notifiche = "";
+
+    if($result_query->num_rows > 0){
+
+        $notifiche = "<form method='post' action='notifiche.php' name='elimina_tutte_notifiche'>
+                        <div>
+                            <button class=\"interact\" type='submit' name='submit_elimina_tutte_notifiche'>Elimina tutte le notifiche</button>
+                        </div>
+                    </form>";
+
+        while($row_query = $result_query->fetch_assoc()){
+            $notifiche .= "<ul class=\"singola_notifica\">
+                            <li><a href=\"profilo.php?user=".$row_query['sender_username']."\">".$row_query['sender_username']."</a></li>
+                            <li>".$row_query['created_at']."</li>";
+            $notifiche .= "<li>".$row_query['content']."</li>
+                            <li>
+                                <form method='post' action='notifiche.php' name='elimina_notifica'>
+                                    <div>
+                                        <input type='hidden' name='notification_id' value='".$row_query['notification_id']."' />
+                                        <button class=\"interact\" type='submit' name='submit_elimina_notifica'>Elimina</button>
+                                    </div>
+                                </form>
+                            </li>
+                        </ul>";
+        }
+    } else {
+        $notifiche .= "<p>Non è presente alcuna notifica</p>";
+    }
+
+    return $notifiche;
 }
 
