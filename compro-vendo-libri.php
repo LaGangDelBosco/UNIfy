@@ -13,6 +13,13 @@ $comprovendolibri_template = $template_engine->load_template("compro-vendo-libri
 
 $comprovendolibri_template->insert("menu", build_menu());
 
+if(isset($_GET['messaggio'])){
+    $messaggio = htmlspecialchars($_GET['messaggio']);
+    $comprovendolibri_template->insert("messaggio", "<div id='messaggio'>".$messaggio."</div>");
+}else{
+    $comprovendolibri_template->insert("messaggio", "");
+}
+
 $comprovendolibri_template->insert("filtri", build_filtri_libri());
 
 $genre = isset($_GET['genre']) ? $_GET['genre'] : '';

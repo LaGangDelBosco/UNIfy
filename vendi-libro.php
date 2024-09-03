@@ -37,7 +37,7 @@ if(isset($_POST['submit_vendi_libro'])){
             exit();
         }
         else {
-            header("Location: vendi-libro.php?messaggio=Errore nella vendita del libro");
+            header("Location: vendi-libro.php?messaggio=Errore nell'aggiunta del libro");
             exit();
         }
     }else{
@@ -46,7 +46,7 @@ if(isset($_POST['submit_vendi_libro'])){
         exit();
     }
     else{
-        header("Location: vendi-libro.php?messaggio=Errore nella vendita del libro");
+        header("Location: vendi-libro.php?messaggio=Errore nell'aggiunta del libro");
         exit();
     }
 }
@@ -56,6 +56,13 @@ if(isset($_POST['submit_vendi_libro'])){
 $vendilibro_template = $template_engine->load_template("vendi-libro-template.html");
 
 $vendilibro_template->insert("menu", build_menu());
+
+if(isset($_GET['messaggio'])){
+    $messaggio = htmlspecialchars($_GET['messaggio']);
+    $vendilibro_template->insert("messaggio", "<div id='messaggioerrore'>".$messaggio."</div>");
+}else{
+    $vendilibro_template->insert("messaggio", "");
+}
 
 $vendilibro_template->insert("header", build_header());
 $vendilibro_template->insert("goback", build_goback());
