@@ -76,7 +76,7 @@ function build_menu(){
             "I miei dati personali" => "dati-personali.php",
             "Post che mi piacciono" => "post-piacciono.php",
             "Post commentati" => "post-commentati.php",
-            "Utenti bloccati" => "utenti-bloccati.php", 
+            "Utenti banditi" => "utenti-banditi.php",
             "Post nascosti" => "post-nascosti.php",
         );
     }else{
@@ -109,7 +109,7 @@ function build_lista_post(){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT * FROM post ORDER BY created_at DESC";
+    $query = "SELECT * FROM post WHERE hidden = 0 ORDER BY created_at DESC";
     $result_query = $db->query($query);
 
     $lista_post = "";
@@ -122,6 +122,20 @@ function build_lista_post(){
 
 
             $lista_post .=     "<li><a href=\"profilo.php?user=".$row_query['username']."\">".$row_query['username']."</a></li>";
+
+            if($_SESSION['Username'] == 'admin'){
+                $current_page = $_SERVER['REQUEST_URI'];
+                $lista_post .= "<li>
+                                    <form method='post' action='index.php' name='nascondi_post'>
+                                        <div>
+                                            <input type='hidden' name='id_post' value='".$post_id."' />
+                                            <input type='hidden' name='current_page' value='".$current_page."' />
+                                            <button class=\"interact\" type='submit' name='submit_nascondi_post'>Nascondi</button>
+                                        </div>
+                                    </form>
+                                </li>";
+            }
+
             $lista_post .=     "<li>".$row_query['created_at']."</li>
                                 <li class=\"player\">".$row_query['content']."</li>";
 
@@ -312,7 +326,7 @@ function build_mypost($username){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT * FROM post WHERE username = '$username' ORDER BY created_at DESC";
+    $query = "SELECT * FROM post WHERE username = '$username' AND hidden = 0 ORDER BY created_at DESC";
     $result_query = $db->query($query);
 
     $mypost = "";
@@ -323,8 +337,22 @@ function build_mypost($username){
             $like_count = $db->get_like_count($post_id);
 
             $mypost .= "<ul class=\"singolo_post\">
-                            <li><a href=\"\">".$row_query['username']."</a></li>
-                            <li>".$row_query['created_at']."</li>
+                            <li><a href=\"\">".$row_query['username']."</a></li>";
+
+            if($_SESSION['Username'] == 'admin'){
+                $current_page = $_SERVER['REQUEST_URI'];
+                $mypost .= "<li>
+                                <form method='post' action='mio-profilo.php' name='nascondi_post'>
+                                    <div>
+                                        <input type='hidden' name='id_post' value='".$post_id."' />
+                                        <input type='hidden' name='current_page' value='".$current_page."' />
+                                        <button class=\"interact\" type='submit' name='submit_nascondi_post'>Nascondi</button>
+                                    </div>
+                                </form>
+                            </li>";
+            }
+
+            $mypost .= "<li>".$row_query['created_at']."</li>
                             <li>".$row_query['content']."</li>";
 
             if($db->get_media_path($post_id) != "NULL") {
@@ -857,4 +885,111 @@ function build_commented_posts($username){
     }
 
     return $commented_posts;
+}function build_lista_utenti_banditi(){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM user WHERE banned = 1";
+    $result_query = $db->query($query);
+
+    $lista_utenti_banditi = "";
+
+    if($result_query->num_rows > 0) {
+        while ($row_query = $result_query->fetch_assoc()) {
+            $lista_utenti_banditi .= "<ul class=\"profilo\">
+                                        <li><img class='profile-picture' src = " . $row_query['profile_picture_path'] . " alt=\"\"/></li>  
+                                        <li><b>Nome: </b>" . $row_query['name'] . "</li>
+                                        <li><b>Email: </b>" . $row_query['email'] . "</li>
+                                        <li><b>Username: </b>" . $row_query['username'] . "</li>
+                                        <li><b>Motivo del ban: </b>" . $row_query['ban_reason'] . "</li>
+                                        <li><b>Data del ban: </b>" . $row_query['ban_start'] . "</li>
+                                        <li>
+                                            <fieldset>
+                                                <legend>Rimuovi ban a " . $row_query['username'] . "</legend>
+                                                <form method='post' action='utenti-banditi.php' name='rimuovi_ban'>
+                                                    <div>
+                                                        <input type='hidden' name='username' value='" . $row_query['username'] . "' />
+                                                    </div>
+                                                    <button class=\"loginbtn\" type='submit' name='submit_rimuovi_ban'>Rimuovi Ban</button>
+                                                </form>
+                                            </fieldset>
+                                        </li>
+                                    </ul><hr/>";
+        }
+    }
+
+    return $lista_utenti_banditi;
+}
+
+function build_post_nascosti(){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM post WHERE hidden = 1";
+    $result_query = $db->query($query);
+
+    $post_nascosti = "";
+
+    if($result_query->num_rows > 0) {
+        while ($row_query = $result_query->fetch_assoc()) {
+            $post_id = $row_query['post_id'];
+            $like_count = $db->get_like_count($post_id);
+
+            $post_nascosti .= "<ul class=\"singolo_post\">
+                            <li><a href=\"profilo.php?user=" . $row_query['username'] . "\">" . $row_query['username'] . "</a></li>";
+
+
+            $post_nascosti .= "<li>
+                                    <form method='post' action='post-nascosti.php' name='mostra_post'>
+                                        <div>
+                                            <input type='hidden' name='id_post' value='" . $post_id . "' />
+                                            <button class=\"interact\" type='submit' name='submit_mostra_post'>Mostra</button>
+                                        </div>
+                                    </form>
+                                </li>";
+
+            $post_nascosti .= "<li>" . $row_query['created_at'] . "</li>
+                            <li>" . $row_query['content'] . "</li>";
+
+            if ($db->get_media_path($post_id) != "NULL") {
+                // controlla se il media è un'immagine o un video
+                $media_path = $db->get_media_path($post_id);
+                $media_type = $db->get_media_type($post_id);
+                if ($media_type == "image") {
+                    $post_nascosti .= "<li class=\"media\"><img src=" . $media_path . " alt=\"\"/></li>";
+                } else if ($media_type == "video") {
+                    $post_nascosti .= "<li class=\"media\"><video controls><source src=" . $media_path . " type=\"video/mp4\"></video></li>";
+                }
+            }
+
+            $post_nascosti .= "<li class=\"post-actions\">
+                                <fieldset>
+                                    <legend>Interazioni post del " . $row_query['created_at'] . " </legend>
+                                    <button class=\"like-interact\" data-post-id=\"" . $post_id . "\">Mi piace</button>
+                                    <span class=\"numero_like\">$like_count</span>
+                                    <label class=\"label_commento\" for=\"comment_$post_id\"> - Scrivi un commento:</label>
+                                    <textarea id='comment_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
+                                    <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>
+                                </fieldset>
+                            </li>";
+
+            $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
+            $result_query_comment = $db->query($query);
+
+            if ($result_query_comment->num_rows > 0) {
+                $post_nascosti .= "<li id='comment_list_" . $post_id . "'><ul>";
+                while ($row_query_comment = $result_query_comment->fetch_assoc()) {
+                    $post_nascosti .= "<li><a href=\"profilo.php?user=" . $row_query_comment['username'] . "\">" . $row_query_comment['username'] . "</a></li>
+                                    <li>" . $row_query_comment['created_at'] . "</li>
+                                    <li class=\"content_comm\">" . $row_query_comment['content'] . "</li>";
+                }
+                $post_nascosti .= "</ul></li>";
+            } else {
+                $post_nascosti .= "<li id='comment_list_" . $post_id . "'></li>";
+            }
+            $post_nascosti .= "</ul>";
+        }
+    }
+
+    return $post_nascosti;
 }

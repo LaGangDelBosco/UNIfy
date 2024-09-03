@@ -706,6 +706,11 @@ hr{
     text-align: center;
 }
 
+#ban_button{
+    margin-left: 40%;
+    margin-right: auto;
+}
+
 /*
 ======================================
                 FOOTER
