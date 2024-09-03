@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS message;
 DROP TABLE IF EXISTS likes;
 DROP TABLE IF EXISTS book;
 DROP TABLE IF EXISTS chat_message;
+DROP TABLE IF EXISTS room;
+DROP TABLE IF EXISTS room_message;
 
 CREATE TABLE user (
     username VARCHAR(100) PRIMARY KEY,
@@ -126,6 +128,23 @@ CREATE TABLE chat_message (
     FOREIGN KEY (id_annuncio) REFERENCES book(book_id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (sender_username) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (receiver_username) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE room (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    code VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(255) NOT NULL,
+    FOREIGN KEY (created_by) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE room_message (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    room_code VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -396,6 +415,16 @@ INSERT INTO likes (post_id, username, created_at) VALUES
 (30, 'francesco', '2024-07-31'),
 (31, 'user', '2024-07-21'),
 (32, 'admin', '2024-07-22');
+
+INSERT INTO room (id, name, code, created_at, created_by) VALUES
+(1, 'Corso di Informatica', 'informatica', '2024-07-21', 'admin'),
+(2, 'Corso di Matematica', 'matematica', '2024-07-22', 'user'),
+(3, 'Corso di Fisica', 'fisica', '2024-07-23', 'admin'),
+(4, 'Corso di Chimica', 'chimica', '2024-07-24', 'user'),
+(5, 'Corso di Economia', 'economia', '2024-07-25', 'anna'),
+(6, 'Corso di Filosofia', 'filosofia', '2024-07-26', 'admin'),
+(7, 'Corso di Medicina', 'medicina', '2024-07-27', 'user'),
+(8, 'Corso di Umanistico', 'umanistico', '2024-07-28', 'giuseppe');
 
 DELIMITER //
 

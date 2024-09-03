@@ -828,4 +828,44 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $conn->close();
         return !$this->err_code;
     }
+
+    public function delete_aula($aula_id){
+        $conn = $this->apriconn();
+        $query = "DELETE FROM room WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $aula_id);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'eliminazione dell'aula";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
+
+    public function get_aula($aula_id){
+        $conn = $this->apriconn();
+        $query = "SELECT * FROM room WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $aula_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data;
+    }
+
+    public function get_room_chat_message($aula_id) {
+        $conn = $this->apriconn();
+        $query = "SELECT * FROM room_message WHERE room_code = ? ORDER BY timestamp ASC";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $aula_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }

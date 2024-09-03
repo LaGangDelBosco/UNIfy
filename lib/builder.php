@@ -73,6 +73,7 @@ function build_menu(){
             "Il mio profilo" => "mio-profilo.php",
             "Amici" => "amici.php",
             "Compro/Vendo Libri" => "compro-vendo-libri.php",
+            "Aule Studio Virtuali" => "aule-studio-virtuali.php",
             "I miei dati personali" => "dati-personali.php",
             "Post che mi piacciono" => "post-piacciono.php",
             "Post commentati" => "post-commentati.php",
@@ -86,6 +87,7 @@ function build_menu(){
                 "Il mio profilo" => "mio-profilo.php",
                 "Amici" => "amici.php",
                 "Compro/Vendo Libri" => "compro-vendo-libri.php",
+                "Aule Studio Virtuali" => "aule-studio-virtuali.php",
                 "I miei dati personali" => "dati-personali.php",
                 "Post che mi piacciono" => "post-piacciono.php",
                 "Post commentati" => "post-commentati.php",
@@ -992,4 +994,47 @@ function build_post_nascosti(){
     }
 
     return $post_nascosti;
+}
+
+function build_lista_aule(){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM room ORDER BY name ASC";
+    $result_query = $db->query($query);
+
+    $lista_aule = "";
+
+    if($result_query->num_rows > 0) {
+        $lista_aule = "<div class=\"product-list\">";
+        while ($row_query = $result_query->fetch_assoc()) {
+            $lista_aule .= "<ul class=\"product-card\">
+                                    <li class=\"product-info\">
+                                        <h3>" . $row_query['name'] . "</h3>
+                                        <p><b>Codice: </b>" . $row_query['code'] . "</p>
+                                        <p><b>Creata il: </b>" . $row_query['created_at'] . "</p>
+                                        <p><b>Creata da: </b>" . $row_query['created_by'] . "</p>
+                                    </li>";
+            if($_SESSION['Username'] == $row_query['created_by']){
+                $lista_aule .= "<form method='post' action='aule-studio-virtuali.php' name='elimina_aula'>
+                                    <div>
+                                        <input type='hidden' name='id_aula' value='".$row_query['id']."' />
+                                        <button class=\"deletebtn\" type='submit' name='submit_elimina_aula' aria-label='Elimina aula di \"".$row_query['name']."\"'>Elimina</button>
+                                    </div>
+                                </form>";
+            }
+            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\"&room_name=urlencode(\"".$row_query['name']."\")' name='vedi_aula'>
+                                    <div>
+                                        <input type='hidden' name='room_name' value='".urlencode($row_query['name'])."' />
+                                        <button class=\"loginbtn\" type='submit' name='room_code' value='".$row_query['id']."' aria-label='Entra in aula di \"".$row_query['name']."\"'>Entra in aula</button>
+                                    </div>
+                                </form>
+                            </ul>";
+
+        }
+        $lista_aule .= "</div>";
+    }else
+        $lista_aule .= "<p class=\"msg_centrato\">Non ci sono aule disponibili</p>";
+
+    return $lista_aule;
 }
