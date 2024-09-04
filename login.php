@@ -8,6 +8,12 @@ if (isset($_POST['username']) && isset($_POST['password'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
     $result = $db->login($username, $password);
+
+    if($db->check_ban($username)){
+        header("Location: ./login.php?messaggio=Utente bannato");
+        exit();
+    }
+
     if(!$result){
         echo $db->err_text;
         $db->err_text = "";

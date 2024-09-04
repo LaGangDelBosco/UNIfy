@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="utf-8" />
+	
+	<title> Crea un'aula virtuale - UNIfy </title>
+	<meta name = "description" content = "Questa pagina è dedicata alla vendita dei libri universitari" />
+	<meta name ="keywords" content ="unify, università, studenti, social, reazioni, like, commenti, post, foto, video" /> <!--TODO: DA MODIFICARE-->
+	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso"/>
+	
+	
+	<link rel="stylesheet" href="./style.css" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
+	<link rel="stylesheet" href="./print.css" media="print"/>
+
+	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
+	<link rel="shortcut icon" type="image/png" href="./media/unify_icon.png" media="screen" /> <!--icona visibile su browser-->
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script src="./js/menu.js"></script>
+	<script src="./js/menu_mobile.js"></script>
+</head>
+
+<body>	
+    <div id="container">
+        <component>header</component>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">      
+			<p>Ti trovi in: <a href="index.php"><span lang="en">Home</span></a> &gt;&gt; <a href="aule-studio-virtuali.php">Aule Studio Virtuali</a> &gt;&gt; Crea un'aula</p>
+		</nav>
+
+        <main>
+			<h2 class="page_title">Crea un'aula virtuale</h2>
+
+			<!-- da qui partono i 3 blocchi di contenuto -->
+			<div class="content">
+				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+				<nav id="menu" aria-label="Menù del sito">
+					<component>menu</component>
+				</nav>
+				
+				<nav id="post-box" aria-label="Sezione compilazione dati per creare un'aula virtale">
+                    <component>messaggio</component>
+					<form class="form_box" id="crea_aula_form" name="crea_aula_form" method="post" action="crea-aula.php">
+                        <div>
+                            <label for="name">Nome aula:</label>
+                            <input type="text" id="name" name="name" placeholder="nome" required />
+                            <div class="error" id="name_error"></div>
+                        </div>
+                        <div>
+                            <label for="genre">Categoria:</label>
+                            <input type="text" id="genre" name="genre" placeholder="categoria" required />
+                            <div class="error" id="genre_error"></div>
+                        </div>
+                        <button class="loginbtn" type="submit" name="submit_crea_aula" aria-label="Bottone per pubblicare la creazione dell'aula">Crea</button>
+
+                    </form>
+                    
+
+				</nav>
+					
+					
+				<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
+                    <div id="search-bar">
+						<label for="search">Cerca qui:</label><br/>
+                        <input type="text" id="search" placeholder="Cerca..." />
+                        <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+                    </div>
+                    <!-- potrebbe interessarti -->
+                </nav>
+			<!-- fine dei 3 blocchi di contenuto -->
+			</div>
+
+			
+			<component>goback</component>
+		</main>
+	</div>
+    <component>footer</component>
+
+</body>
+</html>

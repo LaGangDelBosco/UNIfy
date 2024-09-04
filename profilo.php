@@ -59,6 +59,16 @@ if(!$amicizia_info){
     }
 }
 
+if($_SESSION['Username'] == "admin"){
+    $mioprofilo_template->insert("ban_button", "<form method=\"post\" action=\"utenti-banditi.php\">
+                                            <input type=\"hidden\" name=\"username\" value=\"$utente_profilo\">
+                                            <button class=\"interact\" name=\"submit_ban\" id=\"ban_button\" type=\"submit\" aria-label=\"Bottone di ban utente\">Bandisci utente</button>
+                                            </form>");
+} else
+{
+    $mioprofilo_template->insert("ban_button", "");
+}
+
 if(isset($_POST['submit_friendship'])){
     if($db->invia_richiesta_amicizia($username, $utente_profilo)){
         header("Location: profilo.php?user=$utente_profilo");
