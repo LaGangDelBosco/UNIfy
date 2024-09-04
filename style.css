@@ -566,7 +566,7 @@ hr{
     background-color:#fff;
 }
 
-#chatHeader{
+#chatHeader, #chatHeaderRoom{
     background-color:#007bff; 
     color:#fff; 
     padding:10px; 
@@ -586,7 +586,13 @@ hr{
     overflow-y:scroll;
 }
 
-#chatMessages .sent{
+#chatMessagesRoom{
+    padding:10px; 
+    height: 450px;
+    overflow-y:scroll;
+}
+
+#chatMessages .sent, #chatMessagesRoom .sent{
     background-color: #0048ff;
     color: #fff;
     padding: 5px;
@@ -595,11 +601,17 @@ hr{
     margin-left: auto;
     margin-right: 0;
     margin-bottom: 0.2em;
-
 }
 
-#chatMessages .received{
-    background-color: #f1f1f1;
+#chatMessagesRoom .sent, #chatMessagesRoom .received{
+    max-width: 50%;
+    width: auto;
+    word-wrap: break-word;
+    display: block;
+}
+
+#chatMessages .received, #chatMessagesRoom .received{
+    background-color: #b8b6b6;
     padding: 5px;
     border-radius: 5px;
     max-width: 70%;
@@ -608,11 +620,11 @@ hr{
     margin-bottom: 0.2em;
 }
 
-#chatInput{
+#chatInput, #chatInputRoom{
     padding: 10px;
 }
 
-#chatMessage{
+#chatMessage, #chatMessageRoom{
     width:80%;
     padding: 5px;
     border: 1px solid #ccc;
@@ -638,7 +650,6 @@ hr{
 
 .form_filtri{
     display: flex;
-    justify-content: space-between;
     margin-top: 2%;
     margin-bottom: 2%;
     flex-wrap: wrap;
@@ -704,6 +715,11 @@ hr{
 
 .msg_centrato{
     text-align: center;
+}
+
+#ban_button{
+    margin-left: 40%;
+    margin-right: auto;
 }
 
 /*

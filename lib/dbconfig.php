@@ -744,4 +744,145 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $stmt->bind_param("isss", $id_annuncio, $sender_username, $receiver_username, $message);
         $stmt->execute();
     }
+
+    public function ban_user($username, $reason){
+        $time_now = time();
+        $formatted_time = date("Y-m-d H:i:s", $time_now);
+        $conn = $this->apriconn();
+        $query = "UPDATE user SET banned = 1, ban_reason = ? WHERE username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ss", $reason, $username);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante il ban dell'utente";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
+
+    public function remove_user_ban($username)
+    {
+        $conn = $this->apriconn();
+        $query = "UPDATE user SET banned = 0 WHERE username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante la rimozione del ban dell'utente";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
+
+    public function check_ban($username){
+        $conn = $this->apriconn();
+        $query = "SELECT banned FROM user WHERE username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data['banned'];
+    }
+
+    public function nascondi_post($post_id){
+        $conn = $this->apriconn();
+        $query = "UPDATE post SET hidden = TRUE WHERE post_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $post_id);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante la cancellazione del post";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
+
+    public function mostra_post($post_id){
+        $conn = $this->apriconn();
+        $query = "UPDATE post SET hidden = FALSE WHERE post_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $post_id);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante la cancellazione del post";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
+
+    public function delete_aula($aula_id){
+        $conn = $this->apriconn();
+        $query = "DELETE FROM room WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $aula_id);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'eliminazione dell'aula";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
+
+    public function get_aula($aula_id){
+        $conn = $this->apriconn();
+        $query = "SELECT * FROM room WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $aula_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data;
+    }
+
+    public function get_room_chat_message($aula_id) {
+        $conn = $this->apriconn();
+        $query = "SELECT * FROM room_message WHERE room_code = ? ORDER BY timestamp ASC";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $aula_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function crea_aula($nome, $categoria, $username){
+        $conn = $this->apriconn();
+        $query = "INSERT INTO room (name, genre, created_at, created_by) VALUES (?, ?, NOW(), ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sss", $nome, $categoria, $username);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante la creazione dell'aula";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
 }

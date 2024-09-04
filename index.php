@@ -46,6 +46,23 @@ if(isset($_POST['submit-public-post'])){
     header("Location: index.php?error=$error");
 }
 
+if(isset($_POST['submit_nascondi_post'])){
+    $id_post = $_POST['id_post'];
+    $current_page = $_POST['current_page'];
+    $db->nascondi_post($id_post);
+    header("Location: $current_page?messaggio=Post nascosto con successo");
+    exit();
+}
+
+if(isset($_GET['messaggio'])){
+    $messaggio = htmlspecialchars($_GET['messaggio']);
+    if($messaggio == "Errore nell'eliminazione del post")
+        $index_template->insert("messaggio", "<div id='messaggioerrore'>" . $messaggio . "</div>");
+    else
+        $index_template->insert("messaggio", "<div id='messaggio'>" . $messaggio . "</div>");
+}else
+    $index_template->insert("messaggio", "");
+
 $index_template->insert("lista_post", build_lista_post());
 
 $index_template->insert("header", build_header());

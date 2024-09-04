@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS message;
 DROP TABLE IF EXISTS likes;
 DROP TABLE IF EXISTS book;
 DROP TABLE IF EXISTS chat_message;
+DROP TABLE IF EXISTS room;
+DROP TABLE IF EXISTS room_message;
 
 CREATE TABLE user (
     username VARCHAR(100) PRIMARY KEY,
@@ -19,6 +21,9 @@ CREATE TABLE user (
     birthdate DATE NOT NULL,
     gender VARCHAR(32) NOT NULL,
     profile_picture_path VARCHAR(100),
+    banned BOOLEAN DEFAULT FALSE,
+    ban_reason TEXT DEFAULT NULL,
+    ban_start TIMESTAMP DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -39,6 +44,7 @@ CREATE TABLE post (
     username VARCHAR(100),
     content TEXT,
     media_path VARCHAR(100) DEFAULT NULL,
+    hidden BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (username) REFERENCES user(username)
@@ -124,6 +130,24 @@ CREATE TABLE chat_message (
     FOREIGN KEY (receiver_username) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE room (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    genre VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(255) NOT NULL,
+    FOREIGN KEY (created_by) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE room_message (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    room_code INT NOT NULL,
+    username VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (room_code) REFERENCES room(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 
 INSERT INTO user (username, name, email, password, birthdate, gender, profile_picture_path, created_at, updated_at) VALUES
 ('admin', 'Admin Admin', 'admin@example.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '2000-01-01', 'male', './media/profile-pictures/default.jpg', '2024-07-21', '2024-07-21'), -- password: admin
@@ -136,6 +160,10 @@ INSERT INTO user (username, name, email, password, birthdate, gender, profile_pi
 ('laura', 'Laura Bianchi', 'laura.bianchi@gmail.com', 'f6537a5a2f097921d1d1ab410facd30c4356da7326783c2f9ed29f093852cfe2', '1994-09-25', 'female', './media/profile-pictures/default.jpg', '2024-07-31', '2024-07-31'), -- password: password987
 ('francesco', 'Francesco Neri', 'francesco.neri@gmail.com', 'd601d7629b263221dd541a3131d865a9bcb087e3edc702867143a996803307ab', '1988-10-31', 'male', './media/profile-pictures/default.jpg', '2024-07-24', '2024-07-24'), -- password: password147
 ('elena', 'Elena Gialli', 'elena.gialli@gmail.com', 'ff7fb48ec0bd80876c9c246d33d18efd0648bff6467fcc945db7f49692dab1e1', '1989-05-30', 'female', './media/profile-pictures/default.jpg', '2024-07-31', '2024-07-31'); -- password: password258
+
+# TEST BANNED USER
+INSERT INTO user (username, name, email, password, birthdate, gender, profile_picture_path, banned, ban_reason, ban_start, created_at, updated_at) VALUES
+('banned', 'Banned User', 'banned@gmail.com', '071ccd9453661bfdf4b1d89093d4b7c28b898c8d40e7ccaf3a0f7a7ee7f043b0', '1990-01-01', 'male', './media/profile-pictures/default.jpg', TRUE, 'TEST_BAN', '2024-07-31', '2024-07-31', '2024-07-31'); -- password: password369
 
 INSERT INTO profile (profile_id, username, bio, location, website, created_at, updated_at) VALUES
 (1, 'admin', 'I am the admin', 'Milan, Italy', 'https://www.example.com', '2024-07-21', '2024-07-21'),
@@ -354,3 +382,92 @@ INSERT INTO book (book_id, username, title, author, genre, year, description, co
 (23, 'admin', 'Immunologia', 'Abbas', 'Medico', 2017, 'Un libro di testo sull\'immunologia.', '/covers/immunologia.jpg', '2024-08-13', '2024-08-13', 150.00),
 (24, 'user', 'Chirurgia Generale', 'Sabiston', 'Medico', 2018, 'Un libro di testo sulla chirurgia generale.', '/covers/chirurgia_generale.jpg', '2024-08-14', '2024-08-14', 155.00),
 (25, 'admin', 'Diagnostica per Immagini', 'Brant e Helms', 'Medico', 2021, 'Un libro di testo sulla diagnostica per immagini.', '/covers/diagnostica_per_immagini.jpg', '2024-08-15', '2024-08-15', 160.00);
+
+INSERT INTO likes (post_id, username, created_at) VALUES
+(1, 'user', '2024-07-21'),
+(2, 'admin', '2024-07-22'),
+(3, 'luigi', '2024-07-31'),
+(4, 'supermario', '2024-07-26'),
+(5, 'anna', '2024-08-01'),
+(6, 'giuseppe', '2024-07-29'),
+(7, 'laura', '2024-07-30'),
+(8, 'marco', '2024-07-31'),
+(9, 'elena', '2024-07-24'),
+(10, 'francesco', '2024-07-31'),
+(11, 'user', '2024-07-21'),
+(12, 'admin', '2024-07-22'),
+(13, 'luigi', '2024-07-31'),
+(14, 'supermario', '2024-07-26'),
+(15, 'anna', '2024-08-01'),
+(16, 'giuseppe', '2024-07-29'),
+(17, 'laura', '2024-07-30'),
+(18, 'marco', '2024-07-31'),
+(19, 'elena', '2024-07-24'),
+(20, 'francesco', '2024-07-31'),
+(21, 'user', '2024-07-21'),
+(22, 'admin', '2024-07-22'),
+(23, 'luigi', '2024-07-31'),
+(24, 'supermario', '2024-07-26'),
+(25, 'anna', '2024-08-01'),
+(26, 'giuseppe', '2024-07-29'),
+(27, 'laura', '2024-07-30'),
+(28, 'marco', '2024-07-31'),
+(29, 'elena', '2024-07-24'),
+(30, 'francesco', '2024-07-31'),
+(31, 'user', '2024-07-21'),
+(32, 'admin', '2024-07-22');
+
+INSERT INTO room (id, name, genre, created_at, created_by) VALUES
+(1, 'Corso di Informatica', 'informatica', '2024-07-21', 'admin'),
+(2, 'Corso di Matematica', 'matematica', '2024-07-22', 'user'),
+(3, 'Corso di Fisica', 'fisica', '2024-07-23', 'admin'),
+(4, 'Corso di Chimica', 'chimica', '2024-07-24', 'user'),
+(5, 'Corso di Economia', 'economia', '2024-07-25', 'anna'),
+(6, 'Corso di Filosofia', 'filosofia', '2024-07-26', 'admin'),
+(7, 'Corso di Medicina', 'medicina', '2024-07-27', 'user'),
+(8, 'Corso di Umanistico', 'umanistico', '2024-07-28', 'giuseppe');
+
+INSERT INTO room_message(id, room_code, username, message, timestamp) VALUES 
+(1, 1, 'admin', 'Ciao a tutti!', '2024-07-21'), 
+(2, 1, 'user', 'Salve!', '2024-07-21'), 
+(3, 1, 'luigi', 'Buongiorno!', '2024-07-21'), 
+(4, 2, 'user', 'Qualcuno può aiutarmi con questo problema?', '2024-07-22'), 
+(5, 2, 'admin', 'Certamente, dimmi qual è il problema.', '2024-07-22'), 
+(6, 2, 'user', 'Ho bisogno di calcolare l\' integrale di questa funzione...', '2024-07-22'), 
+(7, 3, 'admin', 'Benvenuti al corso di Fisica!', '2024-07-23'), 
+(8, 3, 'user', 'Grazie!', '2024-07-23'), 
+(9, 3, 'laura', 'Sono molto interessata a questo corso.', '2024-07-23'), 
+(10, 4, 'user', 'Qual è il programma del corso?', '2024-07-24'), 
+(11, 4, 'admin', 'Studieremo i principi fondamentali della chimica...', '2024-07-24'), 
+(12, 4, 'user', 'Mi sembra molto interessante!', '2024-07-24'), 
+(13, 5, 'anna', 'Ciao a tutti!', '2024-07-25'), 
+(14, 5, 'user', 'Salve!', '2024-07-25'), 
+(15, 5, 'giuseppe', 'Buongiorno!', '2024-07-25'), 
+(16, 6, 'admin', 'Benvenuti al corso di Filosofia!', '2024-07-26'), 
+(17, 6, 'user', 'Grazie!', '2024-07-26'), 
+(18, 6, 'giuseppe', 'Sono molto interessato a questo corso.', '2024-07-26'), 
+(19, 7, 'user', 'Qual è il programma del corso?', '2024-07-27'), 
+(20, 7, 'admin', 'Studieremo i principi fondamentali della medicina...', '2024-07-27'), 
+(21, 7, 'user', 'Mi sembra molto interessante!', '2024-07-27'), 
+(22, 8, 'anna', 'Ciao a tutti!', '2024-07-28'), 
+(23, 8, 'user', 'Salve!', '2024-07-28'), 
+(24, 8, 'giuseppe', 'Buongiorno!', '2024-07-28');
+
+
+DELIMITER //
+
+CREATE TRIGGER user_ban_update
+    BEFORE UPDATE ON user
+    FOR EACH ROW
+BEGIN
+    IF NEW.banned = TRUE AND OLD.banned = FALSE THEN
+        SET NEW.ban_start = CURRENT_TIMESTAMP;
+    ELSEIF NEW.banned = FALSE AND OLD.banned = TRUE THEN
+        SET NEW.ban_reason = NULL;
+        SET NEW.ban_start = NULL;
+    END IF;
+END;
+
+//
+
+DELIMITER ;
