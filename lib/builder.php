@@ -248,23 +248,45 @@ function build_lista_amici($username){
             if($result_query_profile->num_rows > 0)
                 $row_query_profile = $result_query_profile->fetch_assoc();
 
-            $lista_amici .= "<ul class=\"profilo\" id=\"amici\">
-                                <li><img class='profile-picture'  src = ".$row_query_user['profile_picture_path']." alt=\"\"/></li>  
-                                <li><b>Nome: </b>".$row_query_user['name']."</li>
-                                <li><b>Username: </b>".$amico."</li>
-                                <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
-                                <li>
-                                    <fieldset>
-                                        <legend>Rimuovi amicizia a ".$amico."</legend>
-                                        <form method='post' action='amici.php' name='rimuovi_amicizia'>
-                                            <div>
-                                                <input type='hidden' name='amico' value='".$amico."' />
-                                            </div>
-                                            <button class=\"loginbtn\" type='submit' name='submit_rimuovi_amicizia'>Rimuovi Amicizia</button>
-                                        </form>
-                                    </fieldset>
-                                </li>
-                            </ul><hr/>"; //rimuovi_amicizia DA IMPLEMENTARE
+            // $lista_amici .= "<ul class=\"profilo\" id=\"amici\">
+            //                     <li><img class='profile-picture'  src = ".$row_query_user['profile_picture_path']." alt=\"\"/></li>  
+            //                     <li><b>Nome: </b>".$row_query_user['name']."</li>
+            //                     <li><b>Username: </b>".$amico."</li>
+            //                     <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
+            //                     <li>
+            //                         <fieldset>
+            //                             <legend>Rimuovi amicizia a ".$amico."</legend>
+            //                             <form method='post' action='amici.php' name='rimuovi_amicizia'>
+            //                                 <div>
+            //                                     <input type='hidden' name='amico' value='".$amico."' />
+            //                                 </div>
+            //                                 <button class=\"loginbtn\" type='submit' name='submit_rimuovi_amicizia'>Rimuovi Amicizia</button>
+            //                             </form>
+            //                         </fieldset>
+            //                     </li>
+            //                 </ul><hr/>"; //rimuovi_amicizia DA IMPLEMENTARE
+
+            $lista_amici .= "<div class='amico'>
+                    <div class='amico-foto'>
+                        <img class='profile-picture' id='friend-picture' src='".$row_query_user['profile_picture_path']."' alt=''/>
+                    </div>
+                    <div class='amico-info'>
+                        <ul class='profilo'>
+                            <li><b>Nome: </b>".$row_query_user['name']."</li>
+                            <li><b>Username: </b>".$amico."</li>
+                            <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
+                        </ul>
+                    </div>
+                    <div class='amico-azione'>
+                        <fieldset>
+                            <legend>Rimuovi amicizia a ".$amico."</legend>
+                            <form method='post' action='amici.php' name='rimuovi_amicizia'>
+                                <input type='hidden' name='amico' value='".$amico."' />
+                                <button class='loginbtn' type='submit' name='submit_rimuovi_amicizia'>Rimuovi Amicizia</button>
+                            </form>
+                        </fieldset>
+                    </div>
+                </div><hr/>";
     
         }
     }
@@ -355,7 +377,7 @@ function build_mypost($username){
             }
 
             $mypost .= "<li>".$row_query['created_at']."</li>
-                            <li>".$row_query['content']."</li>";
+                            <li class=\"player\">".$row_query['content']."</li>";
 
             if($db->get_media_path($post_id) != "NULL") {
                 // controlla se il media è un'immagine o un video
@@ -439,13 +461,13 @@ function build_lista_libri(){
             if(isset($_SESSION['Username']) && $_SESSION['Username'] == $row_query['username']){
                 $lista_libri .= "<form method='get' action='annuncio.php?myid=".$row_query['book_id']."' name='vedi_annuncio'>
                                     <div>
-                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."' aria-label=\"Vedi il tuo annuncio del libro ".$row_query['title']."\" >Vedi il tuo annuncio</button>
+                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."' aria-label=\"Vedi il tuo annuncio del libro ".togliSpan($row_query['title'])."\" >Vedi il tuo annuncio</button>
                                     </div>
                                 </form>";
             }else{
                 $lista_libri .= "<form method='post' action='annuncio.php?id=".$row_query['book_id']."' name='contatta_venditore'>
                                     <div>
-                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."' aria-label=\"Vedi annuncio del libro ".$row_query['title']."\">Vedi annuncio</button>
+                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."' aria-label=\"Vedi annuncio del libro ".togliSpan($row_query['title'])."\">Vedi annuncio</button>
                                     </div>
                                 </form>";
             }
@@ -1027,9 +1049,9 @@ function build_lista_aule(){
                                     </div>
                                 </form>";
             }
-            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\"&room_name=urlencode(\"".$row_query['name']."\")' name='vedi_aula'>
+            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\"&room_name=urlencode(\"".toglispan($row_query['name'])."\")' name='vedi_aula'>
                                     <div>
-                                        <input type='hidden' name='room_name' value='".urlencode($row_query['name'])."' />
+                                        <input type='hidden' name='room_name' value='".urlencode(toglispan($row_query['name']))."' />
                                         <button class=\"loginbtn\" type='submit' name='room_code' value='".$row_query['id']."' aria-label='Entra in aula di \"".$row_query['name']."\"'>Entra in aula</button>
                                     </div>
                                 </form>
@@ -1129,9 +1151,9 @@ function build_lista_aule_filter($categoria){
                                     </div>
                                 </form>";
             }
-            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\"&room_name=urlencode(\"".$row_query['name']."\")' name='vedi_aula'>
+            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\"&room_name=urlencode(\"".toglispan($row_query['name'])."\")' name='vedi_aula'>
                                     <div>
-                                        <input type='hidden' name='room_name' value='".urlencode($row_query['name'])."' />
+                                        <input type='hidden' name='room_name' value='".urlencode(toglispan($row_query['name']))."' />
                                         <button class=\"loginbtn\" type='submit' name='room_code' value='".$row_query['id']."' aria-label='Entra in aula di \"".$row_query['name']."\"'>Entra in aula</button>
                                     </div>
                                 </form>
@@ -1173,9 +1195,9 @@ function build_lista_aule_search($search){
                                     </div>
                                 </form>";
             }
-            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\"&room_name=urlencode(\"".$row_query['name']."\")' name='vedi_aula'>
+            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\"&room_name=urlencode(\"".toglispan($row_query['name'])."\")' name='vedi_aula'>
                                     <div>
-                                        <input type='hidden' name='room_name' value='".urlencode($row_query['name'])."' />
+                                        <input type='hidden' name='room_name' value='".urlencode(toglispan($row_query['name']))."' />
                                         <button class=\"loginbtn\" type='submit' name='room_code' value='".$row_query['id']."' aria-label='Entra in aula di \"".$row_query['name']."\"'>Entra in aula</button>
                                     </div>
                                 </form>
@@ -1186,4 +1208,24 @@ function build_lista_aule_search($search){
         $lista_aule .= "<p class=\"msg_centrato\">Non ci sono aule disponibili per la ricerca effettuata</p>";
 
     return $lista_aule;
+}
+
+function contrassegnaParoleInglesi($testo) {
+    // Sostituisce i tag [en] e [/en] con <span lang="en"> e </span>
+    $testoConTag = preg_replace('/\[en\](.*?)\[\/en\]/', '<span lang="en">$1</span>', $testo);
+    return $testoConTag;
+}
+
+function cambialospan($testo){
+    // Sostituisce i tag <span lang="en"> e </span> con [en] e [/en]
+    $testo = str_replace("<span lang=\"en\">", "[en]", $testo);
+    $testo = str_replace("</span>", "[/en]", $testo);
+    return $testo;
+}
+
+function toglispan($testo){
+    // Sostituisce i tag <span lang="en"> e </span> con [en] e [/en]
+    $testo = str_replace("<span lang=\"en\">", "", $testo);
+    $testo = str_replace("</span>", "", $testo);
+    return $testo;
 }

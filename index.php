@@ -24,6 +24,8 @@ if(isset($_POST['submit-public-post'])){
     $text = $_POST['text'];
     $media = $_FILES['media'];
 
+    $text = contrassegnaParoleInglesi($text);
+
     $text = convert_youtube_links_to_iframe($text);
 
     if($media['error'] == 0 && $db->check_media($media['type'], $media['size']) == "successo"){

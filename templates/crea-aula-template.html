@@ -42,14 +42,15 @@
 				
 				<nav id="post-box" aria-label="Sezione compilazione dati per creare un'aula virtale">
                     <component>messaggio</component>
+					<p class="info-tag-center">Per contrassegnare le parole in inglese, utilizza i tag [en]...[/en] nelle caselle di testo.</p>
 					<form class="form_box" id="crea_aula_form" name="crea_aula_form" method="post" action="crea-aula.php">
                         <div>
-                            <label for="name">Nome aula:</label>
+                            <label for="name">Nome aula:</label><br/>
                             <input type="text" id="name" name="name" placeholder="nome" required />
                             <div class="error" id="name_error"></div>
                         </div>
                         <div>
-                            <label for="genre">Categoria:</label>
+                            <label for="genre">Categoria:</label><br/>
                             <input type="text" id="genre" name="genre" placeholder="categoria" required />
                             <div class="error" id="genre_error"></div>
                         </div>

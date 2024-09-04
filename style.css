@@ -374,7 +374,7 @@ header img {
 .form_box{
     text-align: center;
     padding: 15px;
-    max-width: 27%;
+    max-width: 37%;
     margin: auto;
     border: 6px solid #000000;
     margin-bottom: 2%;
@@ -415,6 +415,31 @@ header img {
 .profile-picture{
     width: 40%;
     height: auto;
+    border-radius: 50%;
+}
+
+#friend-picture{
+    width: 100%;
+    border-radius:50%;
+}
+
+.amico {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.amico-foto {
+    margin-left: 2em;
+    width: 25%;
+}
+
+.amico-info {
+    flex-grow: 1;
+}
+
+.amico-azione {
+    margin-right: 2em;
 }
 
 fieldset{
@@ -587,6 +612,12 @@ hr{
     background-color:#fff;
 }
 
+#chatContainerRoom{
+    border-left: 1px solid #0048ff;
+    border-bottom: 1px solid #0048ff;
+    border-top: 1px solid #0048ff;
+}
+
 #chatHeader, #chatHeaderRoom{
     background-color:#007bff; 
     color:#fff; 
@@ -741,6 +772,19 @@ hr{
 #ban_button{
     margin-left: 40%;
     margin-right: auto;
+}
+
+.info-tag{
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 0.8em;
+}
+
+.info-tag-center{
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 0.8em;
+    text-align: center;
 }
 
 /*

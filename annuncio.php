@@ -40,6 +40,7 @@ $annuncio_template->insert("menu", build_menu());
 
 if($annuncio!=null){
     $annuncio_template->insert_multiple("nome_libro", $annuncio['title']);
+    $annuncio_template->insert("nome_libro_title", toglispan($annuncio['title']));
     $annuncio_template->insert("annuncio", build_annuncio($annuncio));
 }
 

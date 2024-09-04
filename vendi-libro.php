@@ -11,11 +11,11 @@ if(!isset($_SESSION['Username'])){
 
 if(isset($_POST['submit_vendi_libro'])){
     $venditore = $_SESSION['Username'];
-    $titolo = $_POST['titolo'];
-    $autore = $_POST['autore'];
-    $categoria = $_POST['categoria'];
+    $titolo = contrassegnaParoleInglesi($_POST['titolo']);
+    $autore = contrassegnaParoleInglesi($_POST['autore']);
+    $categoria = contrassegnaParoleInglesi($_POST['categoria']);
     $anno = $_POST['anno'];
-    $descrizione = $_POST['descrizione'];
+    $descrizione = contrassegnaParoleInglesi($_POST['descrizione']);
     $prezzo = $_POST['prezzo'];
     if($_FILES['book_picture_path']['size'] > 0){
         $book_picture_path = $_FILES['book_picture_path']['tmp_name'];

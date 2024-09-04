@@ -12,8 +12,8 @@ if(!isset($_SESSION['Username'])){
 }
 
 if(isset($_POST['submit_crea_aula'])){
-    $nome_aula = $_POST['name'];
-    $categoria = $_POST['genre'];
+    $nome_aula = contrassegnaParoleInglesi($_POST['name']);
+    $categoria = contrassegnaParoleInglesi($_POST['genre']);
     if($db->crea_aula($nome_aula, $categoria, $username)){
         header("Location: aule-studio-virtuali.php?messaggio=Aula creata con successo");
         exit();
