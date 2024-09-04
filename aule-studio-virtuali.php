@@ -34,7 +34,20 @@ if(isset($_GET['messaggio'])){
 }else
     $aule_studio_virtuali_template->insert("messaggio", "");
 
-$aule_studio_virtuali_template->insert("lista_aule", build_lista_aule());
+$aule_studio_virtuali_template->insert("filtri", build_filtri_aule());
+
+$genre = isset($_GET['genre']) ? $_GET['genre'] : '';
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+if($genre === '' && $search === ''){
+    $aule_studio_virtuali_template->insert("lista_aule", build_lista_aule());
+}else{
+    if($search !== ''){
+        $aule_studio_virtuali_template->insert("lista_aule", build_lista_aule_search($search));
+    }else{
+        $aule_studio_virtuali_template->insert("lista_aule", build_lista_aule_filter($genre));
+    }
+}
 
 $aule_studio_virtuali_template->insert("header", build_header());
 $aule_studio_virtuali_template->insert("goback", build_goback());

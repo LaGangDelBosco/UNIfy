@@ -868,4 +868,21 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function crea_aula($nome, $categoria, $username){
+        $conn = $this->apriconn();
+        $query = "INSERT INTO room (name, genre, created_at, created_by) VALUES (?, ?, NOW(), ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sss", $nome, $categoria, $username);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante la creazione dell'aula";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
 }

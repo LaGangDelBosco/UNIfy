@@ -133,7 +133,7 @@ CREATE TABLE chat_message (
 CREATE TABLE room (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    code VARCHAR(255) NOT NULL,
+    genre VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(255) NOT NULL,
     FOREIGN KEY (created_by) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE
@@ -416,7 +416,7 @@ INSERT INTO likes (post_id, username, created_at) VALUES
 (31, 'user', '2024-07-21'),
 (32, 'admin', '2024-07-22');
 
-INSERT INTO room (id, name, code, created_at, created_by) VALUES
+INSERT INTO room (id, name, genre, created_at, created_by) VALUES
 (1, 'Corso di Informatica', 'informatica', '2024-07-21', 'admin'),
 (2, 'Corso di Matematica', 'matematica', '2024-07-22', 'user'),
 (3, 'Corso di Fisica', 'fisica', '2024-07-23', 'admin'),

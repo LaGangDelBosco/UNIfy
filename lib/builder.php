@@ -616,14 +616,18 @@ function build_filtri_libri(){
     $filtri_libri .= "</select>
                     </div>
                     <div>
-                        <button class='interact' type='submit' name='submit_filtri_libri' aria-label='Bottone di ricerca per filtri'>Filtra</button>
+                        <button class='interact' type='submit' aria-label='Bottone di ricerca per filtri'>Filtra</button>
                     </div>
-                    <div>
-                            <label for='search'>Cerca: </label>
-                            <input type='text' id='search' name='search' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
-                            <button class='interact' type='submit' name='submit_search' aria-label='Bottone di ricerca per input'>Cerca</button>
-                    </div>
+                    
                 </form>";
+
+                $filtri_libri .= "<form method='get' class='form_search' action='compro-vendo-libri.php' name='search_libri'>
+                                    <div>
+                                        <label for='search'>Cerca: </label>
+                                        <input type='text' id='search' name='search' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
+                                        <button class='interact' type='submit' aria-label='Bottone di ricerca per input'>Cerca</button>
+                                    </div> 
+                                </form>";
 
     return $filtri_libri;
 }
@@ -1011,7 +1015,7 @@ function build_lista_aule(){
             $lista_aule .= "<ul class=\"product-card\">
                                     <li class=\"product-info\">
                                         <h3>" . $row_query['name'] . "</h3>
-                                        <p><b>Codice: </b>" . $row_query['code'] . "</p>
+                                        <p><b>Categoria: </b>" . $row_query['genre'] . "</p>
                                         <p><b>Creata il: </b>" . $row_query['created_at'] . "</p>
                                         <p><b>Creata da: </b>" . $row_query['created_by'] . "</p>
                                     </li>";
@@ -1035,6 +1039,151 @@ function build_lista_aule(){
         $lista_aule .= "</div>";
     }else
         $lista_aule .= "<p class=\"msg_centrato\">Non ci sono aule disponibili</p>";
+
+    return $lista_aule;
+}
+
+function build_filtri_aule(){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT DISTINCT genre FROM room ORDER BY genre ASC";
+    $result_query = $db->query($query);
+
+    $genres = [];
+
+    if($result_query->num_rows > 0){
+        while($row_query = $result_query->fetch_assoc()){
+            if (!in_array($row_query['genre'], $genres)) {
+                $genres[] = $row_query['genre'];
+            }
+        }
+    }
+
+    $selected_genre = isset($_GET['genre']) ? $_GET['genre'] : '';
+
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+
+    $filtri_aule = "<form method='get' class='form_filtri' action='aule-studio-virtuali.php' name='filtri_aule'>
+                        <div>
+                            <label for='genre'>Genere: </label>
+                            <select id='genre' name='genre'>
+                                <option value=''>Tutti</option>";
+    foreach ($genres as $genre) {
+        $selected = $genre == $selected_genre ? "selected" : "";
+        $filtri_aule .= "<option value='".$genre."' ".$selected.">".$genre."</option>";
+    }
+
+    $filtri_aule .= "</select>
+                    </div>
+                    <div>
+                        <button class='interact' type='submit' aria-label='Bottone di ricerca per filtri'>Filtra</button>
+                    </div>
+                </form>";
+
+    $filtri_aule .= "<form method='get' class='form_search' action='aule-studio-virtuali.php' name='search_aule'>
+                        <div>
+                            <label for='search'>Cerca: </label>
+                            <input type='text' id='search' name='search' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
+                            <button class='interact' type='submit' aria-label='Bottone di ricerca per input'>Cerca</button>
+                        </div>
+                    </form>";
+
+    return $filtri_aule;
+}
+
+function build_lista_aule_filter($categoria){
+    $db = new Servizio;
+    $db->apriconn();
+
+    // Inizio la query di base
+    $query = "SELECT * FROM room WHERE 1=1";
+
+    // Aggiungo condizioni dinamiche in base ai filtri selezionati
+    if (!empty($categoria)) {
+        $query .= " AND LOWER(genre) = LOWER('$categoria')";
+    }
+
+    // Ordino i risultati
+    $query .= " ORDER BY created_at DESC";
+
+    $result_query = $db->query($query);
+
+    $lista_aule = "";
+
+    if($result_query->num_rows > 0){
+        $lista_aule = "<div class=\"product-list\">";
+        while($row_query = $result_query->fetch_assoc()){
+            $lista_aule .= "<ul class=\"product-card\">
+                                    <li class=\"product-info\">
+                                        <h3>".$row_query['name']. "</h3>
+                                        <p><b>Categoria: </b>".$row_query['genre']. "</p>
+                                        <p><b>Creata il: </b>".$row_query['created_at']. "</p>
+                                        <p><b>Creata da: </b>".$row_query['created_by']. "</p>
+                                    </li>";
+            if($_SESSION['Username'] == $row_query['created_by']){
+                $lista_aule .= "<form method='post' action='aule-studio-virtuali.php' name='elimina_aula'>
+                                    <div>
+                                        <input type='hidden' name='id_aula' value='".$row_query['id']."' />
+                                        <button class=\"deletebtn\" type='submit' name='submit_elimina_aula' aria-label='Elimina aula di \"".$row_query['name']."\"'>Elimina</button>
+                                    </div>
+                                </form>";
+            }
+            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\"&room_name=urlencode(\"".$row_query['name']."\")' name='vedi_aula'>
+                                    <div>
+                                        <input type='hidden' name='room_name' value='".urlencode($row_query['name'])."' />
+                                        <button class=\"loginbtn\" type='submit' name='room_code' value='".$row_query['id']."' aria-label='Entra in aula di \"".$row_query['name']."\"'>Entra in aula</button>
+                                    </div>
+                                </form>
+                            </ul>";
+        }
+        $lista_aule .= "</div>";
+    }else
+        $lista_aule .= "<p class=\"msg_centrato\">Non ci sono aule disponibili per i filtri selezionati</p>";
+
+    return $lista_aule;    
+}
+
+function build_lista_aule_search($search){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $search = strtolower($search);
+
+    $query = "SELECT * FROM room WHERE LOWER(name) LIKE '%$search%' OR LOWER(genre) LIKE '%$search%' OR LOWER(created_by) LIKE '%$search%' ORDER BY created_at DESC";
+    $result_query = $db->query($query);
+
+    $lista_aule = "";
+
+    if($result_query->num_rows > 0){
+        $lista_aule = "<div class=\"product-list\">";
+        while($row_query = $result_query->fetch_assoc()){
+            $lista_aule .= "<ul class=\"product-card\">
+                                    <li class=\"product-info\">
+                                        <h3>".$row_query['name']. "</h3>
+                                        <p><b>Categoria: </b>".$row_query['genre']. "</p>
+                                        <p><b>Creata il: </b>".$row_query['created_at']. "</p>
+                                        <p><b>Creata da: </b>".$row_query['created_by']. "</p>
+                                    </li>";
+            if($_SESSION['Username'] == $row_query['created_by']){
+                $lista_aule .= "<form method='post' action='aule-studio-virtuali.php' name='elimina_aula'>
+                                    <div>
+                                        <input type='hidden' name='id_aula' value='".$row_query['id']."' />
+                                        <button class=\"deletebtn\" type='submit' name='submit_elimina_aula' aria-label='Elimina aula di \"".$row_query['name']."\"'>Elimina</button>
+                                    </div>
+                                </form>";
+            }
+            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\"&room_name=urlencode(\"".$row_query['name']."\")' name='vedi_aula'>
+                                    <div>
+                                        <input type='hidden' name='room_name' value='".urlencode($row_query['name'])."' />
+                                        <button class=\"loginbtn\" type='submit' name='room_code' value='".$row_query['id']."' aria-label='Entra in aula di \"".$row_query['name']."\"'>Entra in aula</button>
+                                    </div>
+                                </form>
+                            </ul>";
+        }
+        $lista_aule .= "</div>";
+    }else
+        $lista_aule .= "<p class=\"msg_centrato\">Non ci sono aule disponibili per la ricerca effettuata</p>";
 
     return $lista_aule;
 }
