@@ -231,6 +231,27 @@ header img {
 ======================================
 */
 
+
+/*---- MESSAGGI GET ------*/
+#messaggio{
+    text-align: center;
+    padding: 10px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    background-color: var(--logboxsfondo);
+    font-weight: bold;
+}
+
+#messaggioerrore{
+    text-align: center;
+    padding: 10px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    background-color: var(--logboxsfondo);
+    font-weight: bold;
+    color: rgb(165, 0, 0);
+}
+
 #login_form{
     margin-top: 7%;
     margin-bottom: 7%;
