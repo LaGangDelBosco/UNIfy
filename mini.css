@@ -22,6 +22,10 @@ header h1{
     text-align:justify;
 }
 
+#b_header {
+    height: 3em;
+}
+
 /*GESTIONE DEL LOGO*/
 
 
@@ -39,11 +43,11 @@ header {
     background-size: contain;
     background-position: center;
     font-size: 10em;
-    height: 15vw;
-    width: 18vw; 
+    height: 25vw; 
+    width: 30vw;  
     position: static;
     margin-left: auto;
-    margin-right: auto;;
+    margin-right: auto;
 }
 
 .menu {
@@ -80,15 +84,17 @@ main h2{
 
 .menu{
     display: none; /* Nascondi il menu inizialmente */
-    /*border-radius: 0% 0% 5% 0%;*/
     top: 13%; 
     left: 0%;
     width: 90%;
     height:auto;
     background-color: var(--breadcolor);
     padding: 0px;
-    /*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);*/
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     transition: 0.3s;
+    margin-top: -10%;
+    margin-left: 2%;
+    max-width: 60%;
 }
 
 .menu{
@@ -100,6 +106,64 @@ main h2{
     height: 20%;
     width: 45%;
     list-style-type: none;
+}
+
+/* GESTIONE LOGIN BOX E POST BOX */
+
+#post-box {
+   margin-left: -20%; 
+   margin-right: auto;
+}
+
+#text-box {
+    margin-left: 0%;
+    margin-right: auto;
+}
+
+#text {
+    max-width: 80%;
+}
+
+#public-post {
+    margin-top: 5%;
+}
+
+.form_box input {
+    max-width: 90%;
+    margin-bottom: 2em;
+}
+
+.loginbtn { 
+    padding: 1em 1.50em; 
+    margin-bottom: 2em;
+}
+
+.like-interact {
+    padding: 1em 1.50em; 
+}
+
+.comment-interact {
+    padding: 1em 1.50em;  
+}
+
+.interact {
+    padding: 1em 1.50em;  
+}
+
+/* GESTIONE PAGINA IL MIO PROFILO */
+
+#profile-info {
+    margin-left: 0%;
+    margin-right: auto;
+}
+
+#profile-data {
+    margin-left: 0%;
+    margin-right: auto;
+}
+
+.profile-picture {
+    margin-top: 5%;
 }
 
 
