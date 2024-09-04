@@ -611,7 +611,7 @@ hr{
 }
 
 #chatMessages .received, #chatMessagesRoom .received{
-    background-color: #f1f1f1;
+    background-color: #b8b6b6;
     padding: 5px;
     border-radius: 5px;
     max-width: 70%;

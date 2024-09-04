@@ -141,10 +141,11 @@ CREATE TABLE room (
 
 CREATE TABLE room_message (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    room_code VARCHAR(255) NOT NULL,
+    room_code INT NOT NULL,
     username VARCHAR(255) NOT NULL,
     message TEXT NOT NULL,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (room_code) REFERENCES room(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
@@ -425,6 +426,33 @@ INSERT INTO room (id, name, genre, created_at, created_by) VALUES
 (6, 'Corso di Filosofia', 'filosofia', '2024-07-26', 'admin'),
 (7, 'Corso di Medicina', 'medicina', '2024-07-27', 'user'),
 (8, 'Corso di Umanistico', 'umanistico', '2024-07-28', 'giuseppe');
+
+INSERT INTO room_message(id, room_code, username, message, timestamp) VALUES 
+(1, 1, 'admin', 'Ciao a tutti!', '2024-07-21'), 
+(2, 1, 'user', 'Salve!', '2024-07-21'), 
+(3, 1, 'luigi', 'Buongiorno!', '2024-07-21'), 
+(4, 2, 'user', 'Qualcuno può aiutarmi con questo problema?', '2024-07-22'), 
+(5, 2, 'admin', 'Certamente, dimmi qual è il problema.', '2024-07-22'), 
+(6, 2, 'user', 'Ho bisogno di calcolare l\' integrale di questa funzione...', '2024-07-22'), 
+(7, 3, 'admin', 'Benvenuti al corso di Fisica!', '2024-07-23'), 
+(8, 3, 'user', 'Grazie!', '2024-07-23'), 
+(9, 3, 'laura', 'Sono molto interessata a questo corso.', '2024-07-23'), 
+(10, 4, 'user', 'Qual è il programma del corso?', '2024-07-24'), 
+(11, 4, 'admin', 'Studieremo i principi fondamentali della chimica...', '2024-07-24'), 
+(12, 4, 'user', 'Mi sembra molto interessante!', '2024-07-24'), 
+(13, 5, 'anna', 'Ciao a tutti!', '2024-07-25'), 
+(14, 5, 'user', 'Salve!', '2024-07-25'), 
+(15, 5, 'giuseppe', 'Buongiorno!', '2024-07-25'), 
+(16, 6, 'admin', 'Benvenuti al corso di Filosofia!', '2024-07-26'), 
+(17, 6, 'user', 'Grazie!', '2024-07-26'), 
+(18, 6, 'giuseppe', 'Sono molto interessato a questo corso.', '2024-07-26'), 
+(19, 7, 'user', 'Qual è il programma del corso?', '2024-07-27'), 
+(20, 7, 'admin', 'Studieremo i principi fondamentali della medicina...', '2024-07-27'), 
+(21, 7, 'user', 'Mi sembra molto interessante!', '2024-07-27'), 
+(22, 8, 'anna', 'Ciao a tutti!', '2024-07-28'), 
+(23, 8, 'user', 'Salve!', '2024-07-28'), 
+(24, 8, 'giuseppe', 'Buongiorno!', '2024-07-28');
+
 
 DELIMITER //
 
