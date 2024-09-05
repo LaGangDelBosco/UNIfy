@@ -353,24 +353,15 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
      * @param $website string sito web dell'utente
      * @return bool vero se i dati sono stati modificati, falso altrimenti
      */
-    public function modifica_dati_personali($username, $nome, $email, $bio, $gender, $birthdate, $location, $website, $profile_picture_path = null){
+    public function modifica_dati_personali($username, $nome, $email, $gender, $birthdate){
         $conn = $this->apriconn();
 
-        if($profile_picture_path != null) {
-            $query = "UPDATE user SET name = ?, email = ?, birthdate = ?, gender = ?, profile_picture_path = ?, updated_at = NOW() WHERE username = ?";
-            $parameters = array("ssssss", $nome, $email, $birthdate, $gender, $profile_picture_path, $username);
-        } else {
-            $query = "UPDATE user SET name = ?, email = ?, birthdate = ?, gender = ?, updated_at = NOW() WHERE username = ?";
-            $parameters = array("sssss", $nome, $email, $birthdate, $gender, $username);
-        }
-
-        $query2 = "UPDATE profile SET bio = ?, location = ?, website = ?, updated_at = NOW() WHERE username = ?";
-        $parameters2 = array("ssss", $bio, $location, $website, $username);
+        $query = "UPDATE user SET name = ?, email = ?, birthdate = ?, gender = ?, updated_at = NOW() WHERE username = ?";
+        $parameters = array("sssss", $nome, $email, $birthdate, $gender, $username);
 
         // prepara lo statement
         $stmt = $conn->prepare($query);
-        $stmt2 = $conn->prepare($query2);
-        if ($stmt === false || $stmt2 === false) {
+        if ($stmt === false) {
             $this->err_code = true;
             $this->err_text = "Errore nella preparazione della richiesta";
             return false;
@@ -378,14 +369,13 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
         // associa i parametri della query
         $stmt->bind_param(...$parameters);
-        $stmt2->bind_param(...$parameters2);
+ 
         // esegue la query
         $stmt->execute();
-        $stmt2->execute();
 
         // controlla se la modifica è avvenuta con successo
 
-        if ($stmt->affected_rows > 0 && $stmt2->affected_rows > 0) {
+        if ($stmt->affected_rows > 0) {
             $this->err_code = false;
         } else {
             $this->err_code = true;
@@ -394,7 +384,56 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
         // chiude lo statement
         $stmt->close();
-        $stmt2->close();
+
+        // ritorna il risultato
+        return !$this->err_code;
+    }
+
+
+    /**
+     * Funzione che gestisce la modifica del profilo dell'utente
+     * @param $username string username dell'utente
+     * @param $bio string bio dell'utente
+     * @param $location string luogo dell'utente
+     * @param $website string sito web dell'utente
+     * @param $profile_picture_path string path dell'immagine del profilo
+     * @return bool vero se il profilo è stato modificato, falso altrimenti
+     */
+    public function modifica_profilo($username, $bio, $luogo, $sito, $profile_picture = null){
+        $conn = $this->apriconn();
+
+        if($profile_picture != null) {
+            $query = "UPDATE profile SET bio = ?, location = ?, website = ?, profile_picture_path = ?, updated_at = NOW() WHERE username = ?";
+            $parameters = array("sssss", $bio, $luogo, $sito, $profile_picture, $username);
+        } else {
+            $query = "UPDATE profile SET bio = ?, location = ?, website = ?, updated_at = NOW() WHERE username = ?";
+            $parameters = array("ssss", $bio, $luogo, $sito, $username);
+        }
+
+        // prepara lo statement
+        $stmt = $conn->prepare($query);
+        if ($stmt === false) {
+            $this->err_code = true;
+            $this->err_text = "Errore nella preparazione della richiesta";
+            return false;
+        }
+
+        // associa i parametri della query
+        $stmt->bind_param(...$parameters);
+
+        // esegue la query
+        $stmt->execute();
+
+        // controlla se la modifica è avvenuta con successo
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante la modifica del profilo";
+        }
+
+        // chiude lo statement
+        $stmt->close();
 
         // ritorna il risultato
         return !$this->err_code;
@@ -446,7 +485,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
      */
     public function get_dati_utente_profilo($username){
         $conn = $this->apriconn();
-        $query = "SELECT profile_picture_path, name, email, birthdate FROM user WHERE username = ?";
+        $query = "SELECT u.name, u.email, u.birthdate, p.* FROM user u LEFT JOIN profile p ON u.username = p.username WHERE u.username = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $username);
         $stmt->execute();

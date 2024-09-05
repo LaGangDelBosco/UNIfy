@@ -184,33 +184,29 @@ function build_lista_post(){
     return $lista_post;
 }
 
-function build_mioprofilo($username){ // TODO: cambiare nome alla funzione
+function build_datipersonali($username){
     $db = new Servizio;
     $db->apriconn();
 
     $query = "SELECT * FROM user WHERE username = '$username'";
     $result_query = $db->query($query);
 
-
     $mioprofilo = "";
 
     if($result_query->num_rows > 0){
-        $query_profile = "SELECT * FROM profile WHERE username = '$username'";
-        $result_query_profile = $db->query($query_profile);
+        $query_img = "SELECT profile_picture_path FROM profile WHERE username = '$username'";
+        $result_query_img = $db->query($query_img);
 
         $row_query = $result_query->fetch_assoc();
-        if($result_query_profile->num_rows > 0)
-            $row_query_profile = $result_query_profile->fetch_assoc();
+        if($result_query_img->num_rows > 0)
+            $row_query_img = $result_query_img->fetch_assoc();
         $mioprofilo = "<ul class=\"profilo\">
-                        <li><img class='profile-picture' src = ".$row_query['profile_picture_path']." alt=\"\"/></li>  
+                        <li><img class='profile-picture' src = ".$row_query_img['profile_picture_path']." alt=\"\"/></li>  
                         <li><b>Nome: </b>".$row_query['name']."</li>
                         <li><b>Email: </b>".$row_query['email']."</li>
                         <li><b>Username: </b>".$row_query['username']."</li>
-                        <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
                         <li><b>Genere: </b>".$row_query['gender']."</li>
                         <li><b>Data di nascita: </b>".$row_query['birthdate']."</li>
-                        <li><b>Luogo: </b>".$row_query_profile['location']."</li>
-                        <li><b>Sito Web: </b>".$row_query_profile['website']."</li>
                         <li><b>Data di iscrizione: </b>".$row_query['created_at']."</li>
                         <li><b>Ultima modifica: </b>".$row_query['updated_at']."</li>
                     </ul>";
@@ -268,7 +264,7 @@ function build_lista_amici($username){
 
             $lista_amici .= "<div class='amico'>
                     <div class='amico-foto'>
-                        <img class='profile-picture' id='friend-picture' src='".$row_query_user['profile_picture_path']."' alt=''/>
+                        <img class='profile-picture' id='friend-picture' src='".$row_query_profile['profile_picture_path']."' alt=''/>
                     </div>
                     <div class='amico-info'>
                         <ul class='profilo'>
@@ -311,7 +307,7 @@ function build_modifica_dati_personali($username){
         if($result_query_profile->num_rows > 0)
             $row_query_profile = $result_query_profile->fetch_assoc();
 
-        $modifica_dati_personali = "<form class='form_box' method='post' action='dati-personali.php' name='modifica_dati_personali' enctype='multipart/form-data'>
+        $modifica_dati_personali = "<form class='form_box' method='post' action='dati-personali.php' name='modifica_dati_personali'>
                                         <div>
                                             <label for='name'>Nome</label><br>
                                             <input type='text' id='name' name='name' value='".$row_query['name']."' required /><br/>
@@ -319,8 +315,6 @@ function build_modifica_dati_personali($username){
                                             <input type='email' id='email' name='email' value='".$row_query['email']."' required /><br/>
                                             <label for='username'>Username</label><br/>
                                             <input type='text' id='username' name='username' value='".$row_query['username']."' readonly /><br/>
-                                            <label for='bio'>Biografia</label><br/>
-                                            <input type='text' id='bio' name='bio' value='".$row_query_profile['bio']."' required /><br/>
                                             <label for='gender'>Genere</label><br/>
                                             <select id='gender' name='gender' required>
                                                 <option value='M'".($row_query['gender']=='M'?' selected':'').">M</option>
@@ -329,12 +323,6 @@ function build_modifica_dati_personali($username){
                                             </select><br/>
                                             <label for='birthdate'>Data di nascita</label><br/>
                                             <input type='date' id='birthdate' name='birthdate' value='".$row_query['birthdate']."' required /><br/>
-                                            <label for='location'>Luogo</label><br>
-                                            <input type='text' id='location' name='location' value='".$row_query_profile['location']."' required /><br/>
-                                            <label for='website'>Sito Web</label><br>
-                                            <input type='text' id='website' name='website' value='".$row_query_profile['website']."' required /><br/>
-                                            <label for='profile_picture_path'>Cambia immagine profilo</label><br>
-                                            <input type='file' id='profile_picture_path' name='profile_picture_path' accept='image/*'/><br/>
                                             <fieldset>
                                                 <legend>Bottone Modifica Dati Personali</legend>
                                                 <button class=\"loginbtn\" type='submit' name='submit_modifica_dati_personali'>Modifica</button>
@@ -344,6 +332,39 @@ function build_modifica_dati_personali($username){
     }
 
     return $modifica_dati_personali;
+}
+
+function build_modifica_profilo($username){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM profile WHERE username = '$username'";
+    $result_query = $db->query($query);
+
+    $modifica_profilo = "";
+
+    if($result_query->num_rows > 0){
+        $row_query = $result_query->fetch_assoc();
+
+        $modifica_profilo = "<form class='form_box' method='post' action='mio-profilo.php' name='modifica_profilo' enctype='multipart/form-data'>
+                                <div>
+                                    <label for='bio'>Biografia</label><br>
+                                    <textarea id='bio' name='bio' required>".cambialospan($row_query['bio'])."</textarea><br/>
+                                    <label for='location'>Luogo</label><br/>
+                                    <input type='text' id='location' name='location' value='".$row_query['location']."' required /><br/>
+                                    <label for='website'>Sito Web</label><br/>
+                                    <input type='text' id='website' name='website' value='".$row_query['website']."' required /><br/>
+                                    <label for='profile_picture_path'>Foto Profilo</label><br/>
+                                    <input type='file' id='profile_picture_path' name='profile_picture_path' accept='image/*' /><br/>
+                                    <fieldset>
+                                        <legend>Bottone Modifica Profilo</legend>
+                                        <button class=\"loginbtn\" type='submit' name='submit_modifica_profilo'>Modifica</button>
+                                    </fieldset>
+                                </div>
+                            </form>";
+    }
+
+    return $modifica_profilo;
 }
 
 function build_mypost($username){
@@ -448,7 +469,7 @@ function build_lista_libri(){
         while($row_query = $result_query->fetch_assoc()){
             $lista_libri .= "<ul class=\"product-card\">
                                     <li class=\"product-image\">
-                                        <img src=".$row_query['cover_path']." alt=\"Libro in vendita\" />
+                                        <img src=".$row_query['cover_path']." alt=\"\" />
                                     </li>
                                     <li class=\"product-info\">
                                         <h3>".$row_query['title']. "</h3>

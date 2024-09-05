@@ -457,14 +457,16 @@ legend{
     display: flex;
     margin-left: 10%;
     margin-right: 10%;
+    padding-top: 2%;
+    padding-bottom: 2%;
 }
 
 #profile-data{
     display: inline-block;
     margin-left: auto;
     margin-right: auto;
-    width: 100%;
-    margin-right:-20%;
+    width: 50%;
+    margin-right:20%;
 }
 
 #search-bar{
@@ -785,6 +787,10 @@ hr{
     margin-bottom: 2%;
     font-size: 0.8em;
     text-align: center;
+}
+
+#emailHelp{
+    text-indent: -9999px;
 }
 
 /*

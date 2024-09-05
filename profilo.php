@@ -38,6 +38,9 @@ if($db->get_dati_utente_profilo($utente_profilo)){
     $mioprofilo_template->insert("email", $datiutente['email']);
     $mioprofilo_template->insert("birthdate", $datiutente['birthdate']);
     $mioprofilo_template->insert_multiple("username", $utente_profilo);
+    $mioprofilo_template->insert("biografia", $datiutente['bio']);
+    $mioprofilo_template->insert("luogo", $datiutente['location']);
+    $mioprofilo_template->insert_multiple("sito", $datiutente['website']);
 }
 else
     echo "Errore nel caricamento dei dati utente";

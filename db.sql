@@ -20,7 +20,6 @@ CREATE TABLE user (
     password VARCHAR(64) NOT NULL,
     birthdate DATE NOT NULL,
     gender VARCHAR(32) NOT NULL,
-    profile_picture_path VARCHAR(100),
     banned BOOLEAN DEFAULT FALSE,
     ban_reason TEXT DEFAULT NULL,
     ban_start TIMESTAMP DEFAULT NULL,
@@ -31,6 +30,7 @@ CREATE TABLE user (
 CREATE TABLE profile (
     profile_id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100),
+    profile_picture_path VARCHAR(100),
     bio TEXT,
     location VARCHAR(50),
     website VARCHAR(50),
@@ -149,33 +149,29 @@ CREATE TABLE room_message (
 );
 
 
-INSERT INTO user (username, name, email, password, birthdate, gender, profile_picture_path, created_at, updated_at) VALUES
-('admin', 'Admin Admin', 'admin@example.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '2000-01-01', 'male', './media/profile-pictures/default.jpg', '2024-07-21', '2024-07-21'), -- password: admin
-('user', 'User User', 'user@example.com', '04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', '2000-01-01', 'female', './media/profile-pictures/default.jpg', '2024-07-22', '2024-07-22'), -- password: user
-('supermario', 'Mario Rossi', 'mario.rossi@gmail.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '1990-01-01', 'male', './media/profile-pictures/default.jpg', '2024-07-31', '2024-07-31'), -- password: password123
-('luigi', 'Luigi Verdi', 'luigi.verdi@gmail.com', 'c6ba91b90d922e159893f46c387e5dc1b3dc5c101a5a4522f03b987177a24a91', '1995-05-05', 'male', './media/profile-pictures/default.jpg', '2024-07-26', '2024-07-26'), -- password: password456
-('giuseppe', 'Giuseppe Bianchi', 'giuseppe.bianchi@gmail.com', '5efc2b017da4f7736d192a74dde5891369e0685d4d38f2a455b6fcdab282df9c', '1985-06-25', 'male', './media/profile-pictures/default.jpg', '2024-08-01', '2024-08-01'), -- password: password789
-('anna', 'Anna Rossi', 'anna.rossi@gmail.com', 'a20aff106fe011d5dd696e3b7105200ff74331eeb8e865bb80ebd82b12665a07', '1992-03-15', 'female', './media/profile-pictures/default.jpg', '2024-07-29', '2024-07-29'), -- password: password321
-('marco', 'Marco Verdi', 'marco.verdi@gmail.com', '28e91b84bd4ac1d95d81b4510777d2b12f3dffa848bb6e219a42f98cdfa06d7d', '1993-06-20', 'male', './media/profile-pictures/default.jpg', '2024-07-30', '2024-07-30'), -- password: password654
-('laura', 'Laura Bianchi', 'laura.bianchi@gmail.com', 'f6537a5a2f097921d1d1ab410facd30c4356da7326783c2f9ed29f093852cfe2', '1994-09-25', 'female', './media/profile-pictures/default.jpg', '2024-07-31', '2024-07-31'), -- password: password987
-('francesco', 'Francesco Neri', 'francesco.neri@gmail.com', 'd601d7629b263221dd541a3131d865a9bcb087e3edc702867143a996803307ab', '1988-10-31', 'male', './media/profile-pictures/default.jpg', '2024-07-24', '2024-07-24'), -- password: password147
-('elena', 'Elena Gialli', 'elena.gialli@gmail.com', 'ff7fb48ec0bd80876c9c246d33d18efd0648bff6467fcc945db7f49692dab1e1', '1989-05-30', 'female', './media/profile-pictures/default.jpg', '2024-07-31', '2024-07-31'); -- password: password258
+INSERT INTO user (username, name, email, password, birthdate, gender, created_at, updated_at) VALUES
+('admin', 'Admin Admin', 'admin@example.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '2000-01-01', 'male', '2024-07-21', '2024-07-21'), -- password: admin
+('user', 'User User', 'user@example.com', '04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', '2000-01-01', 'female', '2024-07-22', '2024-07-22'),
+('supermario', 'Mario Rossi', 'mario.rossi@gmail.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '1990-01-01', 'male', '2024-07-31', '2024-07-31'),
+('luigi', 'Luigi Verdi', 'luigi.verdi@gmail.com', 'c6ba91b90d922e159893f46c387e5dc1b3dc5c101a5a4522f03b987177a24a91', '1995-05-05', 'male', '2024-07-26', '2024-07-26'),
+('giuseppe', 'Giuseppe Bianchi', 'giuseppe.bianchi@gmail.com', '5efc2b017da4f7736d192a74dde5891369e0685d4d38f2a455b6fcdab282df9c', '1985-06-25', 'male', '2024-08-01', '2024-08-01'),
+('anna', 'Anna Rossi', 'anna.rossi@gmail.com', 'a20aff106fe011d5dd696e3b7105200ff74331eeb8e865bb80ebd82b12665a07', '1992-03-15', 'female', '2024-07-29', '2024-07-29'),
+('marco', 'Marco Verdi', 'marco.verdi@gmail.com', '28e91b84bd4ac1d95d81b4510777d2b12f3dffa848bb6e219a42f98cdfa06d7d', '1993-06-20', 'male', '2024-07-30', '2024-07-30'),
+('laura', 'Laura Bianchi', 'laura.bianchi@gmail.com', 'f6537a5a2f097921d1d1ab410facd30c4356da7326783c2f9ed29f093852cfe2', '1994-09-25', 'female', '2024-07-31', '2024-07-31'),
+('francesco', 'Francesco Neri', 'francesco.neri@gmail.com', 'd601d7629b263221dd541a3131d865a9bcb087e3edc702867143a996803307ab', '1988-10-31', 'male', '2024-07-24', '2024-07-24'),
+('elena', 'Elena Gialli', 'elena.gialli@gmail.com', 'ff7fb48ec0bd80876c9c246d33d18efd0648bff6467fcc945db7f49692dab1e1', '1989-05-30', 'female', '2024-07-31', '2024-07-31');
 
-# TEST BANNED USER
-INSERT INTO user (username, name, email, password, birthdate, gender, profile_picture_path, banned, ban_reason, ban_start, created_at, updated_at) VALUES
-('banned', 'Banned User', 'banned@gmail.com', '071ccd9453661bfdf4b1d89093d4b7c28b898c8d40e7ccaf3a0f7a7ee7f043b0', '1990-01-01', 'male', './media/profile-pictures/default.jpg', TRUE, 'TEST_BAN', '2024-07-31', '2024-07-31', '2024-07-31'); -- password: password369
-
-INSERT INTO profile (profile_id, username, bio, location, website, created_at, updated_at) VALUES
-(1, 'admin', 'I am the admin', 'Milan, Italy', 'https://www.example.com', '2024-07-21', '2024-07-21'),
-(2, 'user', 'I am a user', 'Rome, Italy', 'https://www.example1.com', '2024-07-22', '2024-07-22'),
-(3, 'supermario', 'I am Mario', 'Milan, Italy', '', '2024-07-31', '2024-07-31'),
-(4, 'luigi', 'I am Luigi', 'Rome, Italy', 'https://www.example2.com', '2024-07-26', '2024-07-26'),
-(5, 'giuseppe', 'I am Giuseppe', 'Milan, Italy', '', '2024-08-01', '2024-08-01'),
-(6, 'anna', 'I am Anna', 'Rome, Italy', 'https://www.example3.com', '2024-07-29', '2024-07-29'),
-(7, 'marco', 'I am Marco', 'Milan, Italy', 'https://www.example4.com', '2024-07-30', '2024-07-30'),
-(8, 'laura', 'I am Laura', 'Rome, Italy', '', '2024-07-31', '2024-07-31'),
-(9, 'francesco', 'I am Francesco', 'Milan, Italy', 'https://www.example5.com', '2024-07-24', '2024-07-24'),
-(10, 'elena', 'I am Elena', 'Rome, Italy', '', '2024-07-31', '2024-07-31');
+INSERT INTO profile (profile_id, username, profile_picture_path, bio, location, website, created_at, updated_at) VALUES
+(1, 'admin', './media/profile-pictures/default.jpg', 'I am the admin', 'Milan, Italy', 'https://www.example.com', '2024-07-21', '2024-07-21'),
+(2, 'user', './media/profile-pictures/default.jpg', 'I am a user', 'Rome, Italy', 'https://www.example1.com', '2024-07-22', '2024-07-22'),
+(3, 'supermario', './media/profile-pictures/default.jpg', 'I am Mario', 'Milan, Italy', '', '2024-07-31', '2024-07-31'),
+(4, 'luigi', './media/profile-pictures/default.jpg', 'I am Luigi', 'Rome, Italy', 'https://www.example2.com', '2024-07-26', '2024-07-26'),
+(5, 'giuseppe', './media/profile-pictures/default.jpg', 'I am Giuseppe', 'Milan, Italy', '', '2024-08-01', '2024-08-01'),
+(6, 'anna', './media/profile-pictures/default.jpg', 'I am Anna', 'Rome, Italy', 'https://www.example3.com', '2024-07-29', '2024-07-29'),
+(7, 'marco', './media/profile-pictures/default.jpg', 'I am Marco', 'Milan, Italy', 'https://www.example4.com', '2024-07-30', '2024-07-30'),
+(8, 'laura', './media/profile-pictures/default.jpg', 'I am Laura', 'Rome, Italy', '', '2024-07-31', '2024-07-31'),
+(9, 'francesco', './media/profile-pictures/default.jpg', 'I am Francesco', 'Milan, Italy', 'https://www.example5.com', '2024-07-24', '2024-07-24'),
+(10, 'elena', './media/profile-pictures/default.jpg', 'I am Elena', 'Rome, Italy', '', '2024-07-31', '2024-07-31');
 
 INSERT INTO post (post_id, username, content, media_path, created_at, updated_at) VALUES
 (1, 'admin', 'Hello, World!', '', '2024-07-21', '2024-07-21'),
