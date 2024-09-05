@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS book;
 DROP TABLE IF EXISTS chat_message;
 DROP TABLE IF EXISTS room;
 DROP TABLE IF EXISTS room_message;
+DROP TABLE IF EXISTS notification;
 
 CREATE TABLE user (
     username VARCHAR(100) PRIMARY KEY,
@@ -23,6 +24,7 @@ CREATE TABLE user (
     banned BOOLEAN DEFAULT FALSE,
     ban_reason TEXT DEFAULT NULL,
     ban_start TIMESTAMP DEFAULT NULL,
+    notifications_amount INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -146,6 +148,17 @@ CREATE TABLE room_message (
     message TEXT NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (room_code) REFERENCES room(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE notification (
+    notification_id INT PRIMARY KEY AUTO_INCREMENT,
+    receiver_username VARCHAR(100),
+    sender_username VARCHAR(100),
+    type VARCHAR(32),
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (receiver_username) REFERENCES user(username),
+    FOREIGN KEY (sender_username) REFERENCES user(username)
 );
 
 
@@ -464,6 +477,50 @@ BEGIN
     END IF;
 END;
 
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER like_notification
+    AFTER INSERT ON likes
+    FOR EACH ROW
+BEGIN 
+    DECLARE receiver_username VARCHAR(100);
+    DECLARE content TEXT;
+    SELECT username INTO receiver_username FROM post WHERE post_id = NEW.post_id;
+    SET content = CONCAT('Ha messo mi piace al tuo <a href="./mio-profilo.php?user=', receiver_username, '#', NEW.post_id, '">post</a>');
+    INSERT INTO notification (receiver_username, sender_username, type, content) VALUES 
+    (receiver_username, NEW.username, 'like', content);
+    UPDATE user SET notifications_amount = notifications_amount + 1 WHERE username = receiver_username;
+END;
+//
+
+CREATE TRIGGER comment_notification
+    AFTER INSERT ON comment
+    FOR EACH ROW
+BEGIN 
+    DECLARE receiver_username VARCHAR(100);
+    DECLARE content TEXT;
+    SELECT username INTO receiver_username FROM post WHERE post_id = NEW.post_id;
+    SET content = CONCAT('Ha commentato il tuo <a href="./mio-profilo.php?user=', receiver_username, '#', NEW.post_id, '">post</a>');
+    INSERT INTO notification (receiver_username, sender_username, type, content) VALUES 
+    (receiver_username, NEW.username, 'comment', content);
+    UPDATE user SET notifications_amount = notifications_amount + 1 WHERE username = receiver_username;
+END;
+//
+
+CREATE TRIGGER friendship_notification
+    AFTER INSERT ON friendship
+    FOR EACH ROW
+BEGIN 
+    DECLARE content TEXT;
+    SET content = CONCAT(NEW.username_1, ' ti ha inviato una richiesta di amicizia');
+    INSERT INTO notification (receiver_username, sender_username, type, content) VALUES 
+    (NEW.username_2, NEW.username_1, 'friendship', content);
+    UPDATE user SET notifications_amount = notifications_amount + 1 WHERE username = NEW.username_2;
+END;
 //
 
 DELIMITER ;
