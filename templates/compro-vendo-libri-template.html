@@ -3,10 +3,10 @@
 <head>
 	<meta charset="utf-8" />
 	
-	<title> I miei dati Personali - UNIfy </title>
-	<meta name = "description" content = "Questa pagina mostra i dati personali del proprio profilo." />
-	<meta name = "keywords" content = "unify, social, dati, personali, modifica, password" />
-	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso" />
+	<title> Compro/Vendo Libri - UNIfy </title>
+	<meta name = "description" content = "Questa pagina è dedicata alla vendita dei libri universitari" />
+	<meta name ="keywords" content ="unify, università, studenti, social, reazioni, like, commenti, post, foto, video" /> <!--TODO: DA MODIFICARE-->
+	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso"/>
 	
 	
 	<link rel="stylesheet" href="./style.css" />
@@ -26,42 +26,46 @@
     <div id="container">
         <component>header</component>
 
-        <nav class="breadcrumb">      
-			<p>Ti trovi in: <a href="index.php"><span lang="en">Home</span></a> &gt;&gt; I miei dati personali</p>
+        <nav class="breadcrumb" aria-label="Breadcrumb">      
+			<p>Ti trovi in: <a href="index.php"><span lang="en">Home</span></a> &gt;&gt; Compro/Vendo Libri</p>
 		</nav>
 
         <main>
-			<h2 class="page_title">I miei dati personali</h2>
+			<h2 class="page_title">Compro/Vendo Libri</h2>
 
 			<!-- da qui partono i 3 blocchi di contenuto -->
 			<div class="content">
 				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
-				<nav id="menu" aria-label="Sezione di visualizzazione dati personali">
+				<nav id="menu" aria-label="Menù del sito">
 					<component>menu</component>
 				</nav>
 				
-				<nav id="post-box">
+				<nav id="post-box" aria-label="Sezione visualizzazione libri in vendita">
 					<component>messaggio</component>
-					<div id="text-box">
-						<component>datipersonali</component> <!--TODO: bottoni dentro ai form? e aria label-->
-						<button class="loginbtn" type="button" onclick="window.location.href='modifica-dati-personali.php'">Modifica dati</button>
-						<button class="loginbtn" type="button" onclick="window.location.href='modifica-password.php'">Modifica password</button>
-					</div>
+					<form action="vendi-libro.php" method="post">
+                        <button id="sell-book-btn" type="submit" aria-label="Bottone che permette di mettere in vendita un libro"	>Vendi un libro</button>
+                    </form>
 
+					<div class="filtri">
+						<component>filtri</component>
+					</div>
+                    
+                    <component>lista_libri</component>
 				</nav>
 					
 					
-				<nav id="extra-section">
+				<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
                     <div id="search-bar">
-						<label for="search">Cerca:</label>
+						<label for="search">Cerca qui:</label><br/>
                         <input type="text" id="search" placeholder="Cerca..." />
-                        <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+                        <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
                     </div>
                     <!-- potrebbe interessarti -->
                 </nav>
 			<!-- fine dei 3 blocchi di contenuto -->
 			</div>
 
+			
 			<component>goback</component>
 		</main>
 	</div>
