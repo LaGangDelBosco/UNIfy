@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS friendship;
 DROP TABLE IF EXISTS reaction;
 DROP TABLE IF EXISTS message;
+DROP TABLE IF EXISTS notification;
 
 CREATE TABLE user (
     username VARCHAR(100) PRIMARY KEY,
