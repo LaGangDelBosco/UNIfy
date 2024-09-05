@@ -31,9 +31,64 @@ if($db->get_dati_utente_profilo($username)){
     $mioprofilo_template->insert("email", $datiutente['email']);
     $mioprofilo_template->insert("birthdate", $datiutente['birthdate']);
     $mioprofilo_template->insert("username", $username);
+    if(isset($datiutente['bio']) || isset($datiutente['location']) || isset($datiutente['website'])){
+        $mioprofilo_template->insert("biografia", $datiutente['bio']);
+        $mioprofilo_template->insert("luogo", $datiutente['location']);
+        $mioprofilo_template->insert_multiple("sito", $datiutente['website']);
+    }else{
+        $mioprofilo_template->insert("biografia", "");
+        $mioprofilo_template->insert("luogo", "");
+        $mioprofilo_template->insert_multiple("sito", "");
+    }
 }
 else   
     echo "Errore nel caricamento dei dati utente";
+
+if(isset($_POST['submit_nascondi_post'])){
+    $id_post = $_POST['id_post'];
+    $current_page = $_POST['current_page'];
+    $db->nascondi_post($id_post);
+    header("Location: $current_page?messaggio=Post nascosto con successo");
+    exit();
+}
+
+if(isset($_POST['submit_modifica_profilo'])){
+    $bio = contrassegnaParoleInglesi($_POST['bio']);
+    $location = $_POST['location'];
+    $website = $_POST['website'];
+    if($_FILES['profile_picture_path']['size'] > 0){
+        $profile_picture_path = $_FILES['profile_picture_path']['tmp_name'];
+        $profile_picture_name = $_FILES['profile_picture_path']['name'];
+        $profile_picture_size = $_FILES['profile_picture_path']['size'];
+        $profile_picture_type = $_FILES['profile_picture_path']['type'];
+        $profile_picture_error = $_FILES['profile_picture_path']['error'];
+        $profile_picture = file_get_contents($profile_picture_path);
+        $profile_picture = "./media/profile-pictures/" . $username . "_" . time() . "_" . $profile_picture_name;
+        if(!move_uploaded_file($profile_picture_path, $profile_picture))
+            $profile_picture = null;
+    }
+    else
+        $profile_picture = null;
+
+    if($profile_picture != null) {
+        if($db->modifica_profilo($username, $bio, $location, $website, $profile_picture)) {
+            header("Location: ./mio-profilo.php?messaggio=Dati modificati con successo");
+            exit();
+        }
+        else {
+            header("Location: ./mio-profilo.php?messaggio=Errore nella modifica dei dati");
+            exit();
+        }
+    }
+    if($db->modifica_profilo($username, $bio, $location, $website)) {
+        header("Location: ./mio-profilo.php?messaggio=Dati modificati con successo");
+        exit();
+    }
+    else{
+        header("Location: ./mio-profilo.php?messaggio=Errore nella modifica dei dati");
+        exit();
+    }
+}
 
 $mioprofilo_template->insert("menu", build_menu());
 

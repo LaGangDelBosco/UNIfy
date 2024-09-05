@@ -38,6 +38,9 @@ if($db->get_dati_utente_profilo($utente_profilo)){
     $mioprofilo_template->insert("email", $datiutente['email']);
     $mioprofilo_template->insert("birthdate", $datiutente['birthdate']);
     $mioprofilo_template->insert_multiple("username", $utente_profilo);
+    $mioprofilo_template->insert("biografia", $datiutente['bio']);
+    $mioprofilo_template->insert("luogo", $datiutente['location']);
+    $mioprofilo_template->insert_multiple("sito", $datiutente['website']);
 }
 else
     echo "Errore nel caricamento dei dati utente";
@@ -57,6 +60,16 @@ if(!$amicizia_info){
     }else{
         $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di rimozione profilo dagli amici\">Rimuovi dagli amici</button>");
     }
+}
+
+if($_SESSION['Username'] == "admin"){
+    $mioprofilo_template->insert("ban_button", "<form method=\"post\" action=\"utenti-banditi.php\">
+                                            <input type=\"hidden\" name=\"username\" value=\"$utente_profilo\">
+                                            <button class=\"interact\" name=\"submit_ban\" id=\"ban_button\" type=\"submit\" aria-label=\"Bottone di ban utente\">Bandisci utente</button>
+                                            </form>");
+} else
+{
+    $mioprofilo_template->insert("ban_button", "");
 }
 
 if(isset($_POST['submit_friendship'])){

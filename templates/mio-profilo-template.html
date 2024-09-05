@@ -53,6 +53,12 @@
 							<p><strong>Username:</strong> <component>username</component></p>
 							<p><strong>Data di nascita:</strong> <component>birthdate</component></p>
 							<p><strong>Email:</strong> <component>email</component></p>
+							<p><strong>Biografia:</strong> <component>biografia</component></p>
+							<p><strong>Luogo:</strong> <component>luogo</component></p>
+							<p><strong>Sito Web:</strong> <a href="<component>sito</component>"><component>sito</component></a></p>
+							
+								<button class="loginbtn" type="submit" onclick="window.location.href='modifica-profilo.php'" >Modifica Profilo</button>
+							
 						</div>
 					</div>
 
@@ -67,11 +73,11 @@
 				</nav>
 					
 					
-				<nav id="extra-section" aria-label="Sezine di ricerca e interessi">
+				<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
                     <div id="search-bar">
-						<label for="search">Cerca:</label>
-                        <input type="text" id="search" placeholder="Cerca qui..." />
-                        <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+						<label for="search">Cerca qui:</label><br/>
+                        <input type="text" id="search" placeholder="Cerca..." />
+                        <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
                     </div>
                     <!-- potrebbe interessarti -->
                 </nav>

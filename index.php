@@ -24,6 +24,8 @@ if(isset($_POST['submit-public-post'])){
     $text = $_POST['text'];
     $media = $_FILES['media'];
 
+    $text = contrassegnaParoleInglesi($text);
+
     $text = convert_youtube_links_to_iframe($text);
 
     if($media['error'] == 0 && $db->check_media($media['type'], $media['size']) == "successo"){
@@ -46,14 +48,25 @@ if(isset($_POST['submit-public-post'])){
     }
 }
 
+if(isset($_POST['submit_nascondi_post'])){
+    $id_post = $_POST['id_post'];
+    $current_page = $_POST['current_page'];
+    $db->nascondi_post($id_post);
+    header("Location: $current_page?messaggio=Post nascosto con successo");
+    exit();
+}
+
+
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
-    if($messaggio == "Il nome del file è troppo lungo")
+    if($messaggio == "Il nome del file è troppo lungo" || $messaggio == "Errore nell'eliminazione del post")
         $index_template->insert("messaggio", "<div id='messaggioerrore'>" . $messaggio . "</div>");
     else
         $index_template->insert("messaggio", "<div id='messaggio'>" . $messaggio . "</div>");
 }else
     $index_template->insert("messaggio", "");
+
+
 
 $index_template->insert("lista_post", build_lista_post());
 
