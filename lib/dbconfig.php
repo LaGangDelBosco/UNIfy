@@ -146,11 +146,11 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         // trasforma la password in sha256
         $hashed_password = hash('sha256', $password);
 
-        $profile_picture_path = "media/profile_pictures/default.jpg";
+        $profile_picture_path = "./media/profile-pictures/default.jpg";
 
         // prepara la query
-        $query = "INSERT INTO user (username, name, email, password, birthdate, gender, profile_picture_path) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $parameters = array("sssssss", $username, $nome_cognome, $email, $hashed_password, $data_nascita, $gender, $profile_picture_path);
+        $query = "INSERT INTO user (username, name, email, password, birthdate, gender) VALUES (?, ?, ?, ?, ?, ?)";
+        $parameters = array("ssssss", $username, $nome_cognome, $email, $hashed_password, $data_nascita, $gender);
         // prepara lo statement
         $stmt = $this->apriconn()->prepare($query);
         if ($stmt === false) {
@@ -166,7 +166,33 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
         // controlla se la registrazione è avvenuta con successo
         if ($stmt->affected_rows > 0) {
-            $this->err_code = false;
+            // prepara la query per inserire i dati nella tabella profile
+            $query_profile = "INSERT INTO profile (username, profile_picture_path, bio, location, website, created_at, updated_at) VALUES (?, ?, '', '', '', NOW(), NOW())";
+            $parameters_profile = array("ss", $username, $profile_picture_path);
+
+            // prepara lo statement
+            $stmt_profile = $this->apriconn()->prepare($query_profile);
+            if ($stmt_profile === false) {
+                $this->err_code = true;
+                $this->err_text = "Errore nella preparazione della richiesta per il profilo";
+                return false;
+            }
+
+            // associa i parametri della query
+            $stmt_profile->bind_param(...$parameters_profile);
+            // esegue la query
+            $stmt_profile->execute();
+
+            // controlla se l'inserimento del profilo è avvenuto con successo
+            if ($stmt_profile->affected_rows > 0) {
+                $this->err_code = false;
+            } else {
+                $this->err_code = true;
+                $this->err_text = "Errore durante l'inserimento del profilo";
+            }
+
+            // chiude lo statement del profilo
+            $stmt_profile->close();
         } else {
             $this->err_code = true;
             $this->err_text = "Errore durante la registrazione";

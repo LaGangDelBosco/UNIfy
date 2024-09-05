@@ -37,7 +37,10 @@ $login_template->insert("footer", build_footer());
 
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
-    $login_template-> insert("messaggio", '<div id="messaggioerrore">' . $messaggio . '</div>');
+    if($messaggio == "Nome utente o password errata")
+        $login_template-> insert("messaggio", '<div id="messaggioerrore">' . $messaggio . '</div>');
+    else
+        $login_template-> insert("messaggio", '<div id="messaggio">' . $messaggio . '</div>');
 }
 else $login_template-> insert("messaggio", "");
 

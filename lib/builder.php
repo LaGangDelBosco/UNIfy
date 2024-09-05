@@ -286,6 +286,8 @@ function build_lista_amici($username){
     
         }
     }
+    else
+        $lista_amici = "<p id=\"messaggio\">Non hai amici</p>";
     return $lista_amici;
 }
 

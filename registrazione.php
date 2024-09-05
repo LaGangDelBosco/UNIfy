@@ -20,7 +20,7 @@ if(isset($_POST['username']) && isset($_POST['nome_cognome']) && isset($_POST['e
     else{
         if($db->registrazione($username, $nome_cognome, $email, $password, $data_nascita, $gender)) {
             $error = "Registrazione avvenuta con successo";
-            header("Location: index.php?messaggio=Registrazione avvenuta con successo! Effettua il login per accedere al tuo account.");
+            header("Location: login.php?messaggio=Registrazione avvenuta con successo! Effettua il login per accedere al tuo account.");
         } 
         else {
             $error = "Errore durante la registrazione";

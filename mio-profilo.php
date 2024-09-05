@@ -31,9 +31,15 @@ if($db->get_dati_utente_profilo($username)){
     $mioprofilo_template->insert("email", $datiutente['email']);
     $mioprofilo_template->insert("birthdate", $datiutente['birthdate']);
     $mioprofilo_template->insert("username", $username);
-    $mioprofilo_template->insert("biografia", $datiutente['bio']);
-    $mioprofilo_template->insert("luogo", $datiutente['location']);
-    $mioprofilo_template->insert_multiple("sito", $datiutente['website']);
+    if(isset($datiutente['bio']) || isset($datiutente['location']) || isset($datiutente['website'])){
+        $mioprofilo_template->insert("biografia", $datiutente['bio']);
+        $mioprofilo_template->insert("luogo", $datiutente['location']);
+        $mioprofilo_template->insert_multiple("sito", $datiutente['website']);
+    }else{
+        $mioprofilo_template->insert("biografia", "");
+        $mioprofilo_template->insert("luogo", "");
+        $mioprofilo_template->insert_multiple("sito", "");
+    }
 }
 else   
     echo "Errore nel caricamento dei dati utente";
