@@ -367,7 +367,7 @@ INSERT INTO message (message_id, sender_id, receiver_id, content, created_at, up
 
 INSERT INTO book (book_id, username, title, author, genre, year, description, cover_path, created_at, updated_at, price) VALUES
 (1, 'admin', 'Introduzione agli Algoritmi', 'Thomas H. Cormen', 'Informatica', 2009, 'Un libro completo sugli algoritmi.', '/covers/intro_to_algorithms.jpg', '2024-07-21', '2024-07-21', 50.00),
-(2, 'luigi', 'Intelligenza Artificiale: Un Approccio Moderno', 'Stuart Russell', 'Informatica', 2010, 'Un libro sull\'intelligenza artificiale.', '/covers/ai_modern_approach.jpg', '2024-07-22', '2024-07-22', 45.00),
+(2, 'luigi', 'Intelligenza Artificiale: Un Approccio Moderno', 'Stuart Russell', 'Informatica', 2010, "Un libro sull'intelligenza artificiale.", '/covers/ai_modern_approach.jpg', '2024-07-22', '2024-07-22', 45.00),
 (3, 'admin', 'Concetti di Sistemi di Database', 'Abraham Silberschatz', 'Informatica', 2011, 'Un libro sui sistemi di database.', '/covers/db_system_concepts.jpg', '2024-07-23', '2024-07-23', 55.00),
 (4, 'user', 'Concetti di Sistemi Operativi', 'Abraham Silberschatz', 'Informatica', 2012, 'Un libro sui sistemi operativi.', '/covers/os_concepts.jpg', '2024-07-24', '2024-07-24', 60.00),
 (5, 'user', 'Reti di Calcolatori', 'Andrew S. Tanenbaum', 'Informatica', 2013, 'Un libro sulle reti di calcolatori.', '/covers/computer_networks.jpg', '2024-07-25', '2024-07-25', 40.00),
@@ -380,7 +380,7 @@ INSERT INTO book (book_id, username, title, author, genre, year, description, co
 (12, 'giuseppe', 'La Divina Commedia', 'Dante Alighieri', 'Umanistico', 1320, 'Un poema epico scritto da Dante Alighieri.', '/covers/divina_commedia.jpg', '2024-08-02', '2024-08-02', 95.00),
 (13, 'admin', 'Guerra e Pace', 'Lev Tolstoj', 'Umanistico', 1869, 'Un romanzo storico che narra le vicende di diverse famiglie russe durante le guerre napoleoniche.', '/covers/guerra_e_pace.jpg', '2024-08-03', '2024-08-03', 100.00),
 (14, 'giuseppe', 'Il Principe', 'Niccolò Machiavelli', 'Umanistico', 1532, 'Un trattato politico scritto da Niccolò Machiavelli.', '/covers/il_principe.jpg', '2024-08-04', '2024-08-04', 105.00),
-(15, 'giuseppe', 'L\'Interpretazione dei Sogni', 'Sigmund Freud', 'Umanistico', 1899, 'Un libro che esplora la teoria dei sogni di Sigmund Freud.', '/covers/interpretazione_sogni.jpg', '2024-08-05', '2024-08-05', 110.00),
+(15, 'giuseppe', "L'Interpretazione dei Sogni", 'Sigmund Freud', 'Umanistico', 1899, 'Un libro che esplora la teoria dei sogni di Sigmund Freud.', '/covers/interpretazione_sogni.jpg', '2024-08-05', '2024-08-05', 110.00),
 (16, 'admin', 'Manuale di Psichiatria', 'Giovanni Battista Cassano', 'Medico', 2010, 'Un manuale completo di psichiatria.', '/covers/manuale_psichiatria.jpg', '2024-08-06', '2024-08-06', 115.00),
 (17, 'anna', 'Anatomia Umana', 'Frank H. Netter', 'Medico', 2014, 'Un atlante di anatomia umana.', '/covers/anatomia_umana.jpg', '2024-08-07', '2024-08-07', 120.00),
 (18, 'admin', 'Principi di Medicina Interna', 'Harrison', 'Medico', 2018, 'Un libro di riferimento per la medicina interna.', '/covers/principi_medicina_interna.jpg', '2024-08-08', '2024-08-08', 125.00),
@@ -388,7 +388,7 @@ INSERT INTO book (book_id, username, title, author, genre, year, description, co
 (20, 'admin', 'Patologia Generale', 'Robbins e Cotran', 'Medico', 2015, 'Un libro di testo sulla patologia generale.', '/covers/patologia_generale.jpg', '2024-08-10', '2024-08-10', 135.00),
 (21, 'user', 'Farmacologia', 'Rang e Dale', 'Medico', 2019, 'Un libro di testo sulla farmacologia.', '/covers/farmacologia.jpg', '2024-08-11', '2024-08-11', 140.00),
 (22, 'giuseppe', 'Microbiologia Medica', 'Murray', 'Medico', 2020, 'Un libro di testo sulla microbiologia medica.', '/covers/microbiologia_medica.jpg', '2024-08-12', '2024-08-12', 145.00),
-(23, 'admin', 'Immunologia', 'Abbas', 'Medico', 2017, 'Un libro di testo sull\'immunologia.', '/covers/immunologia.jpg', '2024-08-13', '2024-08-13', 150.00),
+(23, 'admin', 'Immunologia', 'Abbas', 'Medico', 2017, "Un libro di testo sull'immunologia.", '/covers/immunologia.jpg', '2024-08-13', '2024-08-13', 150.00),
 (24, 'user', 'Chirurgia Generale', 'Sabiston', 'Medico', 2018, 'Un libro di testo sulla chirurgia generale.', '/covers/chirurgia_generale.jpg', '2024-08-14', '2024-08-14', 155.00),
 (25, 'admin', 'Diagnostica per Immagini', 'Brant e Helms', 'Medico', 2021, 'Un libro di testo sulla diagnostica per immagini.', '/covers/diagnostica_per_immagini.jpg', '2024-08-15', '2024-08-15', 160.00);
 
@@ -442,7 +442,7 @@ INSERT INTO room_message(id, room_code, username, message, timestamp) VALUES
 (3, 1, 'luigi', 'Buongiorno!', '2024-07-21'), 
 (4, 2, 'user', 'Qualcuno può aiutarmi con questo problema?', '2024-07-22'), 
 (5, 2, 'admin', 'Certamente, dimmi qual è il problema.', '2024-07-22'), 
-(6, 2, 'user', 'Ho bisogno di calcolare l\' integrale di questa funzione...', '2024-07-22'), 
+(6, 2, 'user', "Ho bisogno di calcolare l'integrale di questa funzione...", '2024-07-22'), 
 (7, 3, 'admin', 'Benvenuti al corso di Fisica!', '2024-07-23'), 
 (8, 3, 'user', 'Grazie!', '2024-07-23'), 
 (9, 3, 'laura', 'Sono molto interessata a questo corso.', '2024-07-23'), 
