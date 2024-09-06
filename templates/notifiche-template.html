@@ -8,9 +8,9 @@
 	<meta name ="keywords" content ="unify, notifiche, social, reazioni, like, commenti, post, foto, video" />
 	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso"/>
 	
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="./style.css" />
-	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px)" />
 	<link rel="stylesheet" href="./print.css" media="print"/>
 
 	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
@@ -21,6 +21,7 @@
 	<script src="./js/menu.js"></script>
 	<script src="./js/menu_mobile.js"></script>
 	<script src="./js/like-comment.js"></script>
+	<script src="./js/pagine_mobile.js"></script>
 </head>
 
 <body>	
@@ -34,34 +35,43 @@
         <main>
 			<h2 class="page_title">Notifiche</h2>
 
-			<!-- da qui partono i 3 blocchi di contenuto -->
-			<div class="content">
-				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
-				<nav id="menu" aria-label="Menù del sito">
-					<component>menu</component>
-				</nav>
-				
-				<nav id="post-box" aria-label="Sezione visualizzazione notifiche">
-					<div id="lista_notifiche">
+			<div class="desktop-content hideall">
+				<!-- da qui partono i 3 blocchi di contenuto -->
+				<div class="content">
+					<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+					<nav id="menu" aria-label="Menù del sito">
+						<component>menu</component>
+					</nav>
+					
+					<nav id="post-box" aria-label="Sezione visualizzazione notifiche">
+						<component>messaggio</component>
+						<div id="lista_notifiche">
+							<component>lista_notifiche</component>
+						</div>
+					</nav>
+						
+						
+					<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
+						<div id="search-bar">
+							<label for="search">Cerca qui:</label><br/>
+							<input type="text" id="search" placeholder="Cerca..." />
+							<button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+						</div>
+						<!-- potrebbe interessarti -->
+					</nav>
+				<!-- fine dei 3 blocchi di contenuto -->
+				</div>
+			</div>
+
+			<div class="mobile-content">
+				<component>menu</component>
+				<nav id="post-box_mobile" aria-label="Sezione visualizzazione notifiche">
+					<component>messaggio</component>
+					<div id="lista_notifiche_mobile">
 						<component>lista_notifiche</component>
 					</div>
 				</nav>
-					
-					
-				<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
-                    <div id="search-bar">
-						<label for="search">Cerca qui:</label><br/>
-                        <input type="text" id="search" placeholder="Cerca..." />
-                        <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
-                    </div>
-                    <!-- potrebbe interessarti -->
-                </nav>
-			<!-- fine dei 3 blocchi di contenuto -->
 			</div>
-
-			<br>
-			<hr/><h2>Contatti</h2>
-			<h3 class="social">Seguici sui social: <a href="https://it-it.facebook.com/"> <img src="./media/facebook.svg" alt="Icona di Facebook" /></a> <a href="https://www.instagram.com/"> <img src="./media/instagram.svg" alt="Icona di Instagram" /></a></h3>
 
 			<component>goback</component>
 		</main>

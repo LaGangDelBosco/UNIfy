@@ -31,6 +31,10 @@ header h1{
     height: 4em;
 }
 
+.page_title{
+    border-bottom: none;
+}
+
 /*GESTIONE DEL LOGO*/
 
 
@@ -48,11 +52,13 @@ header {
     background-size: contain;
     background-position: center;
     font-size: 10em;
-    height: 25vw; 
-    width: 30vw;  
+    height: 55vw; 
+    width: 60vw;  
     position: static;
     margin-left: auto;
     margin-right: auto;
+    margin-top: -8%;
+    margin-bottom: -8%;
 }
 
 .menu {
@@ -89,7 +95,7 @@ main h2{
 
 .menu{
     display: none; /* Nascondi il menu inizialmente */
-    top: 13%; 
+    top: 14.5%; 
     left: 0%;
     width: 90%;
     height:auto;
@@ -99,19 +105,29 @@ main h2{
     transition: 0.3s;
     margin-top: -10%;
     margin-left: 2%;
-    max-width: 60%;
+    max-width: 70%;
 }
 
 .menu{
     position:absolute;
 }
 
-.menu.menu-open{
-    display: block; /* Mostra il menu quando è aperto */
-    height: 20%;
-    width: 45%;
-    list-style-type: none;
+.menu a, .currentmenu{
+    padding: 1em;
+    font-size: 1.3em;
 }
+
+.currentmenu{
+    margin-left: 0.7em;
+}
+
+
+/* .menu.menu-open{
+    display: block; /* Mostra il menu quando è aperto 
+    height: 30%;
+    width: 65%;
+    list-style-type: none;
+} */
 
 /* GESTIONE LOGIN BOX E POST BOX */
 
@@ -225,4 +241,27 @@ input[type="file"]::-webkit-file-upload-button {
     margin-right: auto;
     margin-top: 0%;
     margin-bottom: 0%;
+}
+
+#commento_fieldset{
+    display: flex;
+    align-items: center;
+}
+
+#commento_fieldset .comment-interact{
+    margin-left: 2%;
+}
+
+.elimina_inline{
+    height: 5em;
+}
+
+.elimina_inline .interact{
+    padding: 4%;
+}
+
+#chatContainer_mobile{
+    width:20em;
+    bottom: 3%;
+    height: 27em;
 }

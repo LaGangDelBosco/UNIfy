@@ -696,6 +696,7 @@ function build_lista_notifiche($username){
 
         while($row_query = $result_query->fetch_assoc()){
             $notifiche .= "<ul class=\"singola_notifica\">
+                            <hr/>
                             <li><a href=\"profilo.php?user=".$row_query['sender_username']."\">".$row_query['sender_username']."</a></li>
                             <li>".$row_query['created_at']."</li>";
             $notifiche .= "<li>".$row_query['content']."</li>
@@ -763,23 +764,26 @@ function build_mypost_mobile($username){
              $mypost .= "<li class=\"post-actions\">
                                 <fieldset>
                                     <legend>Interazioni post del ". $row_query['created_at'] ." </legend>
-                                    <button class=\"like-interact\" data-post-id=\"". $post_id ."\">Mi piace</button>
-                                    <span class=\"numero_like\">$like_count</span>
-                                    <label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
-                                    <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                    <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>";
+                                    <ul>
+                                        <li><button class=\"like-interact\" data-post-id=\"". $post_id ."\">Mi piace</button>
+                                            <span class=\"numero_like\">$like_count</span>
+                                        </li>
+                                        <li id=\"commento_fieldset\"><label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
+                                            <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
+                                            <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>
+                                        </li>";
 
 
             if($_SESSION['Username'] == $username) {
-                $mypost .= "            <form method='post' action='mio-profilo.php' name='elimina_post'>
+                $mypost .= "            <li><form method='post' action='mio-profilo.php' name='elimina_post'>
                                         <div class = \"elimina_inline\"> 
                                             <input type='hidden' name='post_id' value='" . $row_query['post_id'] . "' />
-                                            <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
+                                            <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina post</button>
                                         </div>
-                                    </form>";
+                                    </form></li>";
             }
 
-            $mypost .= "        </fieldset>
+            $mypost .= "        </ul></fieldset>
                             </li>";
 
             $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
@@ -1723,11 +1727,17 @@ function build_post_nascosti_mobile(){
             $post_nascosti .= "<li class=\"post-actions\">
                                 <fieldset>
                                     <legend>Interazioni post del " . $row_query['created_at'] . " </legend>
-                                    <button class=\"like-interact\" data-post-id=\"" . $post_id . "\">Mi piace</button>
-                                    <span class=\"numero_like\">$like_count</span>
-                                    <label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
-                                    <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                    <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>
+                                    <ul>
+                                        <li>
+                                            <button class=\"like-interact\" data-post-id=\"" . $post_id . "\">Mi piace</button>
+                                            <span class=\"numero_like\">$like_count</span>
+                                        </li>
+                                        <li id=\"commento_fieldset\">
+                                            <label class=\"label_commento\" for=\"comment_mobile_$post_id\"> Scrivi un commento:</label><br/>
+                                            <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
+                                             <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>
+                                        </li>
+                                    </ul>
                                 </fieldset>
                             </li>";
 
