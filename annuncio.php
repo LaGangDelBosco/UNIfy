@@ -28,9 +28,14 @@ if(isset($_GET['id'])){
 
 if(isset($_POST['submit_elimina_annuncio'])){
     $id_annuncio = $_POST['id_annuncio'];
-    $db->delete_annuncio($id_annuncio);
-    header("Location: compro-vendo-libri.php?messaggio=Annuncio eliminato con successo");
-    exit();
+    if($db->delete_annuncio($id_annuncio)){
+        header("Location: compro-vendo-libri.php?messaggio=Annuncio eliminato con successo");
+        exit();
+    }
+    else{
+        header("Location: compro-vendo-libri.php?messaggio=Errore nell'eliminazione dell'annuncio");
+        exit();
+    }
 }
 
 

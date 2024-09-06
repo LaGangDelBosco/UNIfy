@@ -1605,7 +1605,8 @@ function build_lista_utenti_banditi(){
                                         </li>
                                     </ul><hr/>";
         }
-    }
+    }else
+        $lista_utenti_banditi .= "<p class=\"msg_centrato\">Non ci sono utenti banditi</p>";
 
     return $lista_utenti_banditi;
 }
@@ -1678,7 +1679,8 @@ function build_post_nascosti(){
             }
             $post_nascosti .= "</ul>";
         }
-    }
+    }else
+        $post_nascosti .= "<p class=\"msg_centrato\">Non ci sono post nascosti</p>";
 
     return $post_nascosti;
 }
@@ -1757,7 +1759,8 @@ function build_post_nascosti_mobile(){
             }
             $post_nascosti .= "</ul>";
         }
-    }
+    }else
+        $post_nascosti .= "<p class=\"msg_centrato\">Non ci sono post nascosti</p>";
 
     return $post_nascosti;
 }

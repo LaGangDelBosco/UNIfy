@@ -20,8 +20,10 @@ if(isset($_POST['submit_elimina_post'])){
         header("Location: mio-profilo.php?messaggio=Post eliminato con successo");
         exit();
     }
-    else
+    else{
         header("Location: mio-profilo.php?messaggio=Errore nell'eliminazione del post");
+        exit();
+    }
 }
 
 if(isset($_POST['submit_mostra_post'])){

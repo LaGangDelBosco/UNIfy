@@ -20,8 +20,10 @@ if(isset($_POST['submit_elimina_post'])){
         header("Location: post-commentati.php?messaggio=Post eliminato con successo");
         exit();
     }
-    else
+    else{
         header("Location: post-commentati.php?messaggio=Errore nell'eliminazione del post");
+        exit();
+    }
 }
 
 $mioprofilo_template->insert_multiple("menu", build_menu());

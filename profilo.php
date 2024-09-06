@@ -21,14 +21,16 @@ if($utente_profilo == $username){
     header("Location: mio-profilo.php");
 }
 
-if(isset($_POST['submit_elimina_post'])){
+if(isset($_POST['submit_elimina_post'])){       //TODO: ha sendo? nel profilo di un utente non elimino nessun post. semmai l'admin lo nasconde
     $id_post = $_POST['post_id'];
     if($db->elimina_post($id_post)){
-        header("Location: mio-profilo.php");    //da aggiungere messaggio get
+        header("Location: profilo.php?user=$utente_profilo&messaggio=Post eliminato con successo");    //da aggiungere messaggio get
         exit();
     }
-    else
-        echo "Errore nell'eliminazione del post";
+    else{
+        header("Location: profilo.php?user=$utente_profilo&messaggio=Errore nell'eliminazione del post");
+        exit();
+    }
 }
 
 if($db->get_dati_utente_profilo($utente_profilo)){
@@ -74,28 +76,31 @@ if($_SESSION['Username'] == "admin"){
 
 if(isset($_POST['submit_friendship'])){
     if($db->invia_richiesta_amicizia($username, $utente_profilo)){
-        header("Location: profilo.php?user=$utente_profilo");
+        header("Location: profilo.php?user=$utente_profilo&messaggio=Richiesta di amicizia inviata con successo");
         exit();
     }else{
-        echo "Errore nell'invio della richiesta di amicizia";
+        header("Location: profilo.php?user=$utente_profilo&messaggio=Errore nell'invio della richiesta di amicizia");
+        exit();
     }
 }
 
 if(isset($_POST['delete_friendship'])){
     if($db->elimina_amicizia($username, $utente_profilo)){
-        header("Location: profilo.php?user=$utente_profilo");
+        header("Location: profilo.php?user=$utente_profilo&messaggio=Amicizia rimossa con successo");
         exit();
     }else{
-        echo "Errore nella cancellazione dell'amicizia";
+        header("Location: profilo.php?user=$utente_profilo&messaggio=Errore nella rimozione dell'amicizia");
+        exit();
     }
 }
 
 if(isset($_POST['accept_friendship'])){
     if($db->accetta_amicizia($username, $utente_profilo)){
-        header("Location: profilo.php?user=$utente_profilo");
+        header("Location: profilo.php?user=$utente_profilo&messaggio=Amicizia accettata con successo");
         exit();
     }else{
-        echo "Errore nell'accettazione dell'amicizia";
+        header("Location: profilo.php?user=$utente_profilo&messaggio=Errore nell'accettazione dell'amicizia");
+        exit();
     }
 }
 
