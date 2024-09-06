@@ -25,17 +25,17 @@ if(isset($_POST['submit_crea_aula'])){
 
 $creaaula_template = $template_engine->load_template("crea-aula-template.html");
 
-$creaaula_template->insert("menu", build_menu());
+$creaaula_template->insert_multiple("menu", build_menu());
 
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore durante la creazione dell'aula"){
-        $creaaula_template->insert("messaggio", "<div class='messaggioerrore'>".$messaggio."</div>");
+        $creaaula_template->insert_multiple("messaggio", "<div class='messaggioerrore'>".$messaggio."</div>");
     }else{
-        $creaaula_template->insert("messaggio", "<div class='messaggio'>".$messaggio."</div>");
+        $creaaula_template->insert_multiple("messaggio", "<div class='messaggio'>".$messaggio."</div>");
     }
 }else
-    $creaaula_template->insert("messaggio", "");
+    $creaaula_template->insert_multiple("messaggio", "");
     
 $creaaula_template->insert("header", build_header());
 $creaaula_template->insert("goback", build_goback());

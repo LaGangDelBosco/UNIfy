@@ -21,6 +21,7 @@
     <script src="./js/menu.js"></script>
     <script src="./js/menu_mobile.js"></script>
     <script src="./js/like-comment.js"></script>
+    <script src="./js/pagine_mobile.js"></script>
 </head>
 
 <body>
@@ -34,29 +35,46 @@
     <main>
         <h2 class="page_title">Post a cui hai commentato</h2>
 
-        <div class="content">
-            <nav id="menu" aria-label="Menù del sito">
-                <component>menu</component>
-            </nav>
+        <div class="desktop-content hideall">
+            
+            <div class="content">
+                <nav id="menu" aria-label="Menù del sito">
+                    <component>menu</component>
+                </nav>
 
-            <nav id="post-box" aria-label="Sezione visualizzazione mio profilo e miei post">
+                <nav id="post-box" aria-label="Sezione visualizzazione mio profilo e miei post">
+                    <component>messaggio</component>
+                    <div id="my-posts">
+                        <component>post</component>
+                    </div>
+                    <script>
+                        like_post();
+                    </script>
+
+                </nav>
+
+
+                <nav id="extra-section" aria-label="Sezione di ricerca e interessi">
+                    <div id="search-bar">
+                        <label for="search">Cerca:</label>
+                        <input type="text" id="search" placeholder="Cerca qui..." />
+                        <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="mobile-content">
+            <component>menu</component>
+            <nav id="post-box_mobile" aria-label="Sezione visualizzazione mio profilo e miei post">
                 <component>messaggio</component>
-                <div id="my-posts">
-                    <component>post</component>
+                <div id="my-posts_mobile">
+                    <component>post_mobile</component>
                 </div>
                 <script>
                     like_post();
                 </script>
 
-            </nav>
-
-
-            <nav id="extra-section" aria-label="Sezione di ricerca e interessi">
-                <div id="search-bar">
-                    <label for="search">Cerca:</label>
-                    <input type="text" id="search" placeholder="Cerca qui..." />
-                    <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
-                </div>
             </nav>
         </div>
 

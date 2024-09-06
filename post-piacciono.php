@@ -24,18 +24,19 @@ if(isset($_POST['submit_elimina_post'])){
         header("Location: post-piacciono.php?messaggio=Errore nell'eliminazione del post");
 }
 
-$mioprofilo_template->insert("menu", build_menu());
+$mioprofilo_template->insert_multiple("menu", build_menu());
 
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore nell'eliminazione del post")
-        $mioprofilo_template->insert("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
+        $mioprofilo_template->insert_multiple("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
     else
-        $mioprofilo_template->insert("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
+        $mioprofilo_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
 }else
-    $mioprofilo_template->insert("messaggio", "");
+    $mioprofilo_template->insert_multiple("messaggio", "");
 
 $mioprofilo_template->insert("post", build_liked_posts($username));
+$mioprofilo_template->insert("post_mobile", build_liked_posts_mobile($username));
 
 $mioprofilo_template->insert("header", build_header());
 $mioprofilo_template->insert("goback", build_goback());

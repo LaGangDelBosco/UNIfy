@@ -22,30 +22,31 @@ if(isset($_POST['submit_elimina_aula'])){
 
 $aule_studio_virtuali_template = $template_engine->load_template("aule-studio-virtuali-template.html");
 
-$aule_studio_virtuali_template->insert("menu", build_menu());
+$aule_studio_virtuali_template->insert_multiple("menu", build_menu());
 
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore durante l'eliminazione dell'aula"){
-        $aule_studio_virtuali_template->insert("messaggio", "<div class='messaggioerrore'>".$messaggio."</div>");
+        $aule_studio_virtuali_template->insert_multiple("messaggio", "<div class='messaggioerrore'>".$messaggio."</div>");
     }else{
-        $aule_studio_virtuali_template->insert("messaggio", "<div class='messaggio'>".$messaggio."</div>");
+        $aule_studio_virtuali_template->insert_multiple("messaggio", "<div class='messaggio'>".$messaggio."</div>");
     }
 }else
-    $aule_studio_virtuali_template->insert("messaggio", "");
+    $aule_studio_virtuali_template->insert_multiple("messaggio", "");
 
 $aule_studio_virtuali_template->insert("filtri", build_filtri_aule());
+$aule_studio_virtuali_template->insert("filtri_mobile", build_filtri_aule_mobile());
 
 $genre = isset($_GET['genre']) ? $_GET['genre'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
 if($genre === '' && $search === ''){
-    $aule_studio_virtuali_template->insert("lista_aule", build_lista_aule());
+    $aule_studio_virtuali_template->insert_multiple("lista_aule", build_lista_aule());
 }else{
     if($search !== ''){
-        $aule_studio_virtuali_template->insert("lista_aule", build_lista_aule_search($search));
+        $aule_studio_virtuali_template->insert_multiple("lista_aule", build_lista_aule_search($search));
     }else{
-        $aule_studio_virtuali_template->insert("lista_aule", build_lista_aule_filter($genre));
+        $aule_studio_virtuali_template->insert_multiple("lista_aule", build_lista_aule_filter($genre));
     }
 }
 

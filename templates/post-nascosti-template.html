@@ -21,6 +21,7 @@
   <script src="./js/menu.js"></script>
   <script src="./js/menu_mobile.js"></script>
   <script src="./js/like-comment.js"></script>
+  <script src="./js/pagine_mobile.js"></script>
 </head>
 
 <body>
@@ -32,38 +33,64 @@
   </nav>
 
   <main>
+    <div class="mobile-content">
+      <div id="search-bar_mobile">
+        <label for="search_mobile">Cerca:</label>
+        <input type="text" id="search_mobile" placeholder="Cerca qui..." />
+        <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+      </div>
+    </div>
     <h2 class="page_title">Post nascosti</h2>
 
-    <!-- da qui partono i 3 blocchi di contenuto -->
-    <div class="content">
-      <!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
-      <nav id="menu" aria-label="Menù del sito">
-        <component>menu</component>
-      </nav>
+    <div class="desktop-content hideall">
+      <!-- da qui partono i 3 blocchi di contenuto -->
+      <div class="content">
+        <!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+        <nav id="menu" aria-label="Menù del sito">
+          <component>menu</component>
+        </nav>
 
-      <nav id="post-box" aria-label="Sezione visualizzazione mio profilo e miei post">
+        <nav id="post-box" aria-label="Sezione visualizzazione mio profilo e miei post">
+          <component>messaggio</component>
+          <h3>Post nascosti</h3>
+          <div id="my-posts">
+            <component>post_nascosti</component>
+          </div>
+          <script>
+            like_post();
+          </script>
+
+        </nav>
+
+
+        <nav id="extra-section" aria-label="Sezione di ricerca e interessi">
+          <div id="search-bar">
+            <label for="search">Cerca:</label>
+            <input type="text" id="search" placeholder="Cerca qui..." />
+            <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+          </div>
+          <!-- potrebbe interessarti -->
+        </nav>
+        <!-- fine dei 3 blocchi di contenuto -->
+      </div>
+    </div>
+
+    <div class="mobile-content">
+      <component>menu</component>
+      <nav id="post-box_mobile" aria-label="Sezione visualizzazione mio profilo e miei post">
         <component>messaggio</component>
         <h3>Post nascosti</h3>
-        <div id="my-posts">
-          <component>post_nascosti</component>
+        <div id="my-posts_mobile">
+          <component>post_nascosti_mobile</component>
         </div>
         <script>
           like_post();
         </script>
 
       </nav>
-
-
-      <nav id="extra-section" aria-label="Sezine di ricerca e interessi">
-        <div id="search-bar">
-          <label for="search">Cerca:</label>
-          <input type="text" id="search" placeholder="Cerca qui..." />
-          <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
-        </div>
-        <!-- potrebbe interessarti -->
-      </nav>
-      <!-- fine dei 3 blocchi di contenuto -->
     </div>
+
+
 
     <component>goback</component>
   </main>

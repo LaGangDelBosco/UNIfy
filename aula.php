@@ -20,10 +20,12 @@ if(isset($_GET['room_code'])){
 
 $aule_studio_virtuali_template = $template_engine->load_template("aula-template.html");
 
-$aule_studio_virtuali_template->insert("menu", build_menu());
+$aule_studio_virtuali_template->insert_multiple("menu", build_menu());
 
 $aule_studio_virtuali_template->insert_multiple("nome_aula", $nome_aula);
 $aule_studio_virtuali_template->insert_multiple("nome_aula_title", toglispan($nome_aula));
+
+$aule_studio_virtuali_template->insert_multiple("code", $id_aula);
 
 $aule_studio_virtuali_template->insert("header", build_header());
 $aule_studio_virtuali_template->insert("goback", build_goback());

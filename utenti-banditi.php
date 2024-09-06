@@ -19,11 +19,11 @@ $username = $_SESSION['Username'];
 if(isset($_POST['submit_rimuovi_ban'])){
     $username = $_POST['username'];
     if($db->remove_user_ban($username)){
-        header("Location: utenti-banditi.php?messaggio=Utente sbannato con successo");
+        header("Location: utenti-banditi.php?messaggio=Utente ripristinato con successo");
         exit();
     }
     else
-        header("Location: utenti-banditi.php?messaggio=Errore nello sbannare l'utente");
+        header("Location: utenti-banditi.php?messaggio=Errore nel ripristinare l'utente");
 }
 
 if(isset($_POST['submit_ban'])){
@@ -36,18 +36,18 @@ if(isset($_POST['submit_ban'])){
 $utenti_banditi_template = $template_engine->load_template("utenti-banditi-template.html");
 
 #$index_template->insert("build_keywords", build_keywords());
-$utenti_banditi_template->insert("menu", build_menu());
+$utenti_banditi_template->insert_multiple("menu", build_menu());
 
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
-    if($messaggio == "Errore nello sbannare l'utente")
-        $utenti_banditi_template->insert("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
+    if($messaggio == "Errore nel ripristinare l'utente")
+        $utenti_banditi_template->insert_multiple("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
     else
-        $utenti_banditi_template->insert("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
+        $utenti_banditi_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
 }else
-    $utenti_banditi_template->insert("messaggio", "");
+    $utenti_banditi_template->insert_multiple("messaggio", "");
 
-$utenti_banditi_template->insert("lista_utenti_banditi", build_lista_utenti_banditi());
+$utenti_banditi_template->insert_multiple("lista_utenti_banditi", build_lista_utenti_banditi());
 
 $utenti_banditi_template->insert("header", build_header());
 $utenti_banditi_template->insert("goback", build_goback());

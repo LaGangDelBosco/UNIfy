@@ -33,18 +33,18 @@ if(isset($_SESSION['Username']))
     $username = $_SESSION['Username'];
 
 #$index_template->insert("build_keywords", build_keywords());
-$datipersonali_template->insert("menu", build_menu());
+$datipersonali_template->insert_multiple("menu", build_menu());
 
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore nella modifica dei dati")
-        $datipersonali_template->insert("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
+        $datipersonali_template->insert_multiple("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
     else
-        $datipersonali_template->insert("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
+        $datipersonali_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
 }else
-    $datipersonali_template->insert("messaggio", "");
+    $datipersonali_template->insert_multiple("messaggio", "");
 
-$datipersonali_template->insert("datipersonali", build_datipersonali($username));
+$datipersonali_template->insert_multiple("datipersonali", build_datipersonali($username));
 
 $datipersonali_template->insert("header", build_header());
 $datipersonali_template->insert("goback", build_goback());

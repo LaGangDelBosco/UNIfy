@@ -20,6 +20,7 @@
 
 	<script src="./js/menu.js"></script>
 	<script src="./js/menu_mobile.js"></script>
+	<script src="./js/pagine_mobile.js"></script>
 </head>
 
 <body>	
@@ -33,34 +34,50 @@
         <main>
 			<h2 class="page_title">I miei dati personali</h2>
 
-			<!-- da qui partono i 3 blocchi di contenuto -->
-			<div class="content">
-				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
-				<nav id="menu" aria-label="Sezione di visualizzazione dati personali">
-					<component>menu</component>
-				</nav>
-				
-				<nav id="post-box">
+			<div class="desktop-content hideall">
+				<!-- da qui partono i 3 blocchi di contenuto -->
+				<div class="content">
+					<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+					<nav id="menu" aria-label="Sezione di visualizzazione dati personali">
+						<component>menu</component>
+					</nav>
+					
+					<nav id="post-box">
+						<component>messaggio</component>
+						<div id="text-box">
+							<component>datipersonali</component> <!--TODO: bottoni dentro ai form? e aria label-->
+							<button class="loginbtn" type="button" onclick="window.location.href='modifica-dati-personali.php'">Modifica dati</button>
+							<button class="loginbtn" type="button" onclick="window.location.href='modifica-password.php'">Modifica password</button>
+						</div>
+
+					</nav>
+						
+						
+					<nav id="extra-section">
+						<div id="search-bar">
+							<label for="search">Cerca:</label>
+							<input type="text" id="search" placeholder="Cerca..." />
+							<button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+						</div>
+						<!-- potrebbe interessarti -->
+					</nav>
+				<!-- fine dei 3 blocchi di contenuto -->
+				</div>
+			</div>
+
+			<div class="mobile-content">
+				<component>menu</component>
+				<nav id="post-box_mobile">
 					<component>messaggio</component>
-					<div id="text-box">
+					<div id="text-box_mobile">
 						<component>datipersonali</component> <!--TODO: bottoni dentro ai form? e aria label-->
 						<button class="loginbtn" type="button" onclick="window.location.href='modifica-dati-personali.php'">Modifica dati</button>
 						<button class="loginbtn" type="button" onclick="window.location.href='modifica-password.php'">Modifica password</button>
 					</div>
 
 				</nav>
-					
-					
-				<nav id="extra-section">
-                    <div id="search-bar">
-						<label for="search">Cerca:</label>
-                        <input type="text" id="search" placeholder="Cerca..." />
-                        <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
-                    </div>
-                    <!-- potrebbe interessarti -->
-                </nav>
-			<!-- fine dei 3 blocchi di contenuto -->
 			</div>
+				
 
 			<component>goback</component>
 		</main>

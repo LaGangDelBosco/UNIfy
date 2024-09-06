@@ -288,59 +288,6 @@ INSERT INTO friendship (friendship_id, username_1, username_2, status, created_a
 (19, 'francesco', 'admin', 'accepted', '2024-07-24', '2024-07-24'),
 (20, 'elena', 'user', 'sent', '2024-07-31', '2024-07-31');
 
-INSERT INTO reaction (reaction_id, post_id, username, type, created_at, updated_at) VALUES
-(1, 1, 'user', 'like', '2024-07-21', '2024-07-21'),
-(2, 2, 'admin', 'like', '2024-07-22', '2024-07-22'),
-(3, 3, 'luigi', 'like', '2024-07-31', '2024-07-31'),
-(4, 4, 'supermario', 'like', '2024-07-26', '2024-07-26'),
-(5, 5, 'anna', 'like', '2024-08-01', '2024-08-01'),
-(6, 6, 'giuseppe', 'like', '2024-07-29', '2024-07-29'),
-(7, 7, 'laura', 'like', '2024-07-30', '2024-07-30'),
-(8, 8, 'marco', 'like', '2024-07-31', '2024-07-31'),
-(9, 9, 'elena', 'like', '2024-07-24', '2024-07-24'),
-(10, 10, 'francesco', 'like', '2024-07-31', '2024-07-31'),
-(11, 1, 'user', 'like', '2024-07-21', '2024-07-21'),
-(12, 2, 'admin', 'like', '2024-07-22', '2024-07-22'),
-(13, 3, 'luigi', 'like', '2024-07-31', '2024-07-31'),
-(14, 4, 'supermario', 'like', '2024-07-26', '2024-07-26'),
-(15, 5, 'anna', 'like', '2024-08-01', '2024-08-01'),
-(16, 6, 'giuseppe', 'like', '2024-07-29', '2024-07-29'),
-(17, 7, 'laura', 'like', '2024-07-30', '2024-07-30'),
-(18, 8, 'marco', 'like', '2024-07-31', '2024-07-31'),
-(19, 9, 'elena', 'like', '2024-07-24', '2024-07-24'),
-(20, 10, 'francesco', 'like', '2024-07-31', '2024-07-31'),
-(21, 1, 'user', 'like', '2024-07-21', '2024-07-21'),
-(22, 2, 'admin', 'like', '2024-07-22', '2024-07-22'),
-(23, 3, 'luigi', 'like', '2024-07-31', '2024-07-31'),
-(24, 4, 'supermario', 'like', '2024-07-26', '2024-07-26'),
-(25, 5, 'anna', 'like', '2024-08-01', '2024-08-01'),
-(26, 6, 'giuseppe', 'like', '2024-07-29', '2024-07-29'),
-(27, 7, 'laura', 'like', '2024-07-30', '2024-07-30'),
-(28, 8, 'marco', 'like', '2024-07-31', '2024-07-31'),
-(29, 9, 'elena', 'like', '2024-07-24', '2024-07-24'),
-(30, 10, 'francesco', 'like', '2024-07-31', '2024-07-31'),
-(31, 1, 'user', 'like', '2024-07-21', '2024-07-21'),
-(32, 2, 'admin', 'like', '2024-07-22', '2024-07-22'),
-(33, 3, 'luigi', 'like', '2024-07-31', '2024-07-31'),
-(34, 4, 'supermario', 'like', '2024-07-26', '2024-07-26');
-
-INSERT INTO message (message_id, sender_id, receiver_id, content, created_at, updated_at) VALUES
-(1, 'admin', 'user', 'Hi, user!', '2024-07-21', '2024-07-21'),
-(2, 'user', 'admin', 'Hello, admin!', '2024-07-22', '2024-07-22'),
-(3, 'supermario', 'luigi', 'Hi, Luigi!', '2024-07-31', '2024-07-31'),
-(4, 'luigi', 'supermario', 'Hello, Mario!', '2024-07-26', '2024-07-26'),
-(5, 'giuseppe', 'anna', 'Hi, Anna!', '2024-08-01', '2024-08-01'),
-(6, 'anna', 'giuseppe', 'Hello, Giuseppe!', '2024-07-29', '2024-07-29'),
-(7, 'marco', 'laura', 'Hi, Laura!', '2024-07-30', '2024-07-30'),
-(8, 'laura', 'marco', 'Hello, Marco!', '2024-07-31', '2024-07-31'),
-(9, 'francesco', 'elena', 'Hi, Elena!', '2024-07-24', '2024-07-24'),
-(10, 'elena', 'admin', 'Hello, Francesco!', '2024-07-31', '2024-07-31'),
-(11, 'admin', 'user', 'Hi, user! 2', '2024-07-21', '2024-07-21'),
-(12, 'user', 'admin', 'Hello, admin! 2', '2024-07-22', '2024-07-22'),
-(13, 'supermario', 'luigi', 'Hi, Luigi! 2', '2024-07-31', '2024-07-31'),
-(14, 'luigi', 'supermario', 'Hello, Mario! 2', '2024-07-26', '2024-07-26'),
-(15, 'giuseppe', 'anna', 'Hi, Anna! 2', '2024-08-01', '2024-08-01');
-
 INSERT INTO book (book_id, username, title, author, genre, year, description, cover_path, created_at, updated_at, price) VALUES
 (1, 'admin', 'Introduzione agli Algoritmi', 'Thomas H. Cormen', 'Informatica', 2009, 'Un libro completo sugli algoritmi.', '/covers/intro_to_algorithms.jpg', '2024-07-21', '2024-07-21', 50.00),
 (2, 'luigi', 'Intelligenza Artificiale: Un Approccio Moderno', 'Stuart Russell', 'Informatica', 2010, "Un libro sull'intelligenza artificiale.", '/covers/ai_modern_approach.jpg', '2024-07-22', '2024-07-22', 45.00),
@@ -499,18 +446,18 @@ BEGIN
 END;
 //
 
-CREATE TRIGGER chat_message_notification
-    AFTER INSERT ON chat_message
-    FOR EACH ROW
-BEGIN
-    DECLARE book_name VARCHAR(100);
-    SELECT title INTO book_name FROM book WHERE book_id = NEW.id_annuncio;
-    DECLARE content TEXT;
-    SET content = CONCAT(NEW.sender_username, " ti ha inviato un messaggio per l'annuncio ", book_name);
-    INSERT INTO notification (receiver_username, sender_username, type, content) VALUES 
-    (NEW.receiver_username, NEW.sender_username, 'chat_message', content);
-    UPDATE user SET notifications_amount = notifications_amount + 1 WHERE username = receiver_username;
-END;
+-- CREATE TRIGGER chat_message_notification
+--     AFTER INSERT ON chat_message
+--     FOR EACH ROW
+-- BEGIN
+--     DECLARE book_name VARCHAR(100);
+--     SELECT title INTO book_name FROM book WHERE book_id = NEW.id_annuncio;
+--     DECLARE content TEXT;
+--     SET content = CONCAT(NEW.sender_username, " ti ha inviato un messaggio per l'annuncio ", book_name);
+--     INSERT INTO notification (receiver_username, sender_username, type, content) VALUES 
+--     (NEW.receiver_username, NEW.sender_username, 'chat_message', content);
+--     UPDATE user SET notifications_amount = notifications_amount + 1 WHERE username = receiver_username;
+-- END;
 //
 -- TODO capire a chi far arrivare le notifiche
 -- CREATE TRIGGER room_message_notification

@@ -26,7 +26,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const commentButtons = document.querySelectorAll('.comment-interact');
     commentButtons.forEach(commentButton => {
         const post_id = commentButton.getAttribute('id').split('_').pop();
-        const commentTextarea = document.getElementById(`comment_${post_id}`);
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        let commentTextarea = document.getElementById(`comment_${post_id}`);
+        if(isMobile || window.innerWidth < 768){
+            commentTextarea = document.getElementById(`comment_mobile_${post_id}`);
+        }       
 
         commentTextarea.addEventListener('input', function() {
             if (commentTextarea.value.trim() === '') {
@@ -58,7 +62,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     try {
                         const data = JSON.parse(text); // Parse the JSON
                         if (data.success) {
-                            const commentList = document.getElementById(`comment_list_${post_id}`);
+                            let commentList = document.getElementById(`comment_list_${post_id}`);
+                            if(isMobile || window.innerWidth < 768){
+                                commentList = document.getElementById(`comment_list_${post_id}_mobile`);
+                            }
                             if (commentList) { // Check if commentList exists
                                 const newComment = document.createElement('ul');
                                 newComment.innerHTML = `<li><a href="profilo.php?user=${data.username}">${data.username}</a></li><li>${data.created_at}</li><li>${comment}</li>`;

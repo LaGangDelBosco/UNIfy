@@ -31,7 +31,7 @@ if(isset($_POST['submit_modifica_password'])){
 
 $modificapassword_template = $template_engine->load_template("modifica-password-template.html");
 
-$modificapassword_template->insert("menu", build_menu());
+$modificapassword_template->insert_multiple("menu", build_menu());
 
 $modificapassword_template->insert("header", build_header());
 $modificapassword_template->insert("goback", build_goback());
@@ -40,11 +40,11 @@ $modificapassword_template->insert("footer", build_footer());
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Password modificata con successo")
-        $modificapassword_template-> insert("messaggio", ('<div class="messaggio">' . $messaggio . '</div>'));
+        $modificapassword_template-> insert_multiple("messaggio", ('<div class="messaggio">' . $messaggio . '</div>'));
     else
-        $modificapassword_template-> insert("messaggio", ('<div class="messaggioerrore">' . $messaggio . '</div>'));
+        $modificapassword_template-> insert_multiple("messaggio", ('<div class="messaggioerrore">' . $messaggio . '</div>'));
 }
-else $modificapassword_template-> insert("messaggio", (""));
+else $modificapassword_template-> insert_multiple("messaggio", (""));
 
 echo $modificapassword_template->build();
 ?>

@@ -48,7 +48,7 @@ if(isset($_POST['submit_nascondi_post'])){
     $id_post = $_POST['id_post'];
     $current_page = $_POST['current_page'];
     $db->nascondi_post($id_post);
-    header("Location: $current_page?messaggio=Post nascosto con successo");
+    header("Location: $current_page&messaggio=Post nascosto con successo");
     exit();
 }
 

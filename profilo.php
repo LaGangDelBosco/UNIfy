@@ -33,13 +33,13 @@ if(isset($_POST['submit_elimina_post'])){
 
 if($db->get_dati_utente_profilo($utente_profilo)){
     $datiutente = $db->get_dati_utente_profilo($utente_profilo);
-    $mioprofilo_template->insert("immagine", $datiutente['profile_picture_path']);
-    $mioprofilo_template->insert("nome", $datiutente['name']);
-    $mioprofilo_template->insert("email", $datiutente['email']);
-    $mioprofilo_template->insert("birthdate", $datiutente['birthdate']);
+    $mioprofilo_template->insert_multiple("immagine", $datiutente['profile_picture_path']);
+    $mioprofilo_template->insert_multiple("nome", $datiutente['name']);
+    $mioprofilo_template->insert_multiple("email", $datiutente['email']);
+    $mioprofilo_template->insert_multiple("birthdate", $datiutente['birthdate']);
     $mioprofilo_template->insert_multiple("username", $utente_profilo);
-    $mioprofilo_template->insert("biografia", $datiutente['bio']);
-    $mioprofilo_template->insert("luogo", $datiutente['location']);
+    $mioprofilo_template->insert_multiple("biografia", $datiutente['bio']);
+    $mioprofilo_template->insert_multiple("luogo", $datiutente['location']);
     $mioprofilo_template->insert_multiple("sito", $datiutente['website']);
 }
 else
@@ -48,28 +48,28 @@ else
 $amicizia_info = $db->check_amicizia($username, $utente_profilo);
 
 if(!$amicizia_info){
-    $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"submit_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di invio richiesta di amicizia\">Invia richiesta di amicizia</button>");
+    $mioprofilo_template->insert_multiple("friendship_button", "<button class=\"interact\" name=\"submit_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di invio richiesta di amicizia\">Invia richiesta di amicizia</button>");
 }else{
     if($amicizia_info['status'] == 'pending'){
         if($amicizia_info['username_1'] == $username){
-            $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di annullamento richiesta di amicizia\">Annulla richiesta di amicizia</button>");
+            $mioprofilo_template->insert_multiple("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di annullamento richiesta di amicizia\">Annulla richiesta di amicizia</button>");
         }else{
-            $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"accept_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di accettazione richiesta di amicizia\">Accetta richiesta di amicizia</button>
+            $mioprofilo_template->insert_multiple("friendship_button", "<button class=\"interact\" name=\"accept_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di accettazione richiesta di amicizia\">Accetta richiesta di amicizia</button>
                                                                 <button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di rifiuto richiesta di amicizia\">Rifiuta richiesta di amicizia</button>");
         }
     }else{
-        $mioprofilo_template->insert("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di rimozione profilo dagli amici\">Rimuovi dagli amici</button>");
+        $mioprofilo_template->insert_multiple("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di rimozione profilo dagli amici\">Rimuovi dagli amici</button>");
     }
 }
 
 if($_SESSION['Username'] == "admin"){
-    $mioprofilo_template->insert("ban_button", "<form method=\"post\" action=\"utenti-banditi.php\">
+    $mioprofilo_template->insert_multiple("ban_button", "<form method=\"post\" action=\"utenti-banditi.php\">
                                             <input type=\"hidden\" name=\"username\" value=\"$utente_profilo\">
                                             <button class=\"interact\" name=\"submit_ban\" id=\"ban_button\" type=\"submit\" aria-label=\"Bottone di ban utente\">Bandisci utente</button>
                                             </form>");
 } else
 {
-    $mioprofilo_template->insert("ban_button", "");
+    $mioprofilo_template->insert_multiple("ban_button", "");
 }
 
 if(isset($_POST['submit_friendship'])){
@@ -99,9 +99,19 @@ if(isset($_POST['accept_friendship'])){
     }
 }
 
-$mioprofilo_template->insert("menu", build_menu());
+$mioprofilo_template->insert_multiple("menu", build_menu());
+
+if(isset($_GET['messaggio'])){
+    $messaggio = htmlspecialchars($_GET['messaggio']);
+    if($messaggio == "Errore nell'eliminazione del post")
+        $mioprofilo_template->insert_multiple("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
+    else
+        $mioprofilo_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
+}else
+    $mioprofilo_template->insert_multiple("messaggio", "");
 
 $mioprofilo_template->insert("post", build_mypost($utente_profilo));
+$mioprofilo_template->insert("post_mobile", build_mypost_mobile($utente_profilo));
 
 $mioprofilo_template->insert("header", build_header());
 $mioprofilo_template->insert("goback", build_goback());

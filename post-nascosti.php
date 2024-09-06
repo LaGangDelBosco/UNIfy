@@ -30,18 +30,19 @@ if(isset($_POST['submit_mostra_post'])){
     header("Location: post-nascosti.php?messaggio=Post ripristinato con successo. Ora è visibile a tutti.");
 }
 
-$postnascosti_template->insert("menu", build_menu());
+$postnascosti_template->insert_multiple("menu", build_menu());
 
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore nell'eliminazione del post")
-        $postnascosti_template->insert("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
+        $postnascosti_template->insert_multiple("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
     else
-        $postnascosti_template->insert("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
+        $postnascosti_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
 }else
-    $postnascosti_template->insert("messaggio", "");
+    $postnascosti_template->insert_multiple("messaggio", "");
 
 $postnascosti_template->insert("post_nascosti", build_post_nascosti($username));
+$postnascosti_template->insert("post_nascosti_mobile", build_post_nascosti_mobile($username));
 
 $postnascosti_template->insert("header", build_header());
 $postnascosti_template->insert("goback", build_goback());

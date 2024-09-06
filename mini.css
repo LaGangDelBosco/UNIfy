@@ -210,8 +210,19 @@ input[type="file"]::-webkit-file-upload-button {
     margin-bottom: 2%;
 }
 
+#chatMessage_mobile, #chatMessageRoom_mobile{
+    padding: 10px;
+}
+
 /*GESTIONE BARRA DI RICERCA: DA RIVEDERE*/
 
 #extra-section{
     display: none;
+}
+
+#search-bar_mobile{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0%;
+    margin-bottom: 0%;
 }

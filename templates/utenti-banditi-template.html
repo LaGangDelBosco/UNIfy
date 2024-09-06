@@ -20,6 +20,7 @@
 
     <script src="./js/menu.js"></script>
     <script src="./js/menu_mobile.js"></script>
+    <script src="./js/pagine_mobile.js"></script>
 </head>
 
 <body>
@@ -33,31 +34,44 @@
     <main>
         <h2 class="page_title">I miei Amici</h2>
 
-        <!-- da qui partono i 3 blocchi di contenuto -->
-        <div class="content">
-            <!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
-            <nav id="menu" aria-label="Menù del sito">
-                <component>menu</component>
-            </nav>
+        <div class="desktop-content hideall">            
+            <!-- da qui partono i 3 blocchi di contenuto -->
+            <div class="content">
+                <!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+                <nav id="menu" aria-label="Menù del sito">
+                    <component>menu</component>
+                </nav>
 
-            <nav id="post-box" aria-label="Lista di amici">
+                <nav id="post-box" aria-label="Lista di amici">
+                    <component>messaggio</component>
+                    <div id="post">
+                        <component>lista_utenti_banditi</component>
+                    </div>
+
+                </nav>
+
+
+                <nav id="extra-section" aria-label="Sezione di ricerca e interessi">
+                    <div id="search-bar">
+                        <label for="search">Cerca:</label>
+                        <input type="text" id="search" placeholder="Cerca..." />
+                        <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+                    </div>
+                    <!-- potrebbe interessarti -->
+                </nav>
+                <!-- fine dei 3 blocchi di contenuto -->
+            </div>
+        </div>
+
+        <div class="mobile-content">
+            <component>menu</component>
+            <nav id="post-box_mobile" aria-label="Lista di amici">
                 <component>messaggio</component>
-                <div id="post">
+                <div id="post_mobile">
                     <component>lista_utenti_banditi</component>
                 </div>
 
             </nav>
-
-
-            <nav id="extra-section" aria-label="Sezione di ricerca e interessi">
-                <div id="search-bar">
-                    <label for="search">Cerca:</label>
-                    <input type="text" id="search" placeholder="Cerca..." />
-                    <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
-                </div>
-                <!-- potrebbe interessarti -->
-            </nav>
-            <!-- fine dei 3 blocchi di contenuto -->
         </div>
 
         <component>goback</component>

@@ -516,7 +516,7 @@ legend{
     margin-right:20%;
 }
 
-#search-bar{
+#search-bar, #search-bar_mobile{
     margin-top: 2%;
     margin-bottom: 2%;
     text-align: center;
@@ -681,13 +681,13 @@ hr{
     background-color:#fff;
 }
 
-#chatContainerRoom{
+#chatContainer, #chatContainerRoom_mobile, #chatContainerRoom{
     border-left: 1px solid #0048ff;
     border-bottom: 1px solid #0048ff;
     border-top: 1px solid #0048ff;
 }
 
-#chatHeader, #chatHeader_mobile, #chatHeaderRoom{
+#chatHeader, #chatHeader_mobile, #chatHeaderRoom, #chatHeaderRoom_mobile{
     background-color:#007bff; 
     color:#fff; 
     padding:10px; 
@@ -707,13 +707,13 @@ hr{
     overflow-y:scroll;
 }
 
-#chatMessagesRoom{
+#chatMessagesRoom, #chatMessagesRoom_mobile{
     padding:10px; 
     height: 450px;
     overflow-y:scroll;
 }
 
-#chatMessages .sent, #chatMessages_mobile .sent, #chatMessagesRoom .sent{
+#chatMessages .sent, #chatMessages_mobile .sent, #chatMessagesRoom .sent, #chatMessagesRoom_mobile .sent{
     background-color: #0048ff;
     color: #fff;
     padding: 5px;
@@ -724,14 +724,14 @@ hr{
     margin-bottom: 0.2em;
 }
 
-#chatMessagesRoom .sent, #chatMessagesRoom .received{
+#chatMessagesRoom .sent, #chatMessagesRoom .received, #chatMessagesRoom_mobile .sent, #chatMessagesRoom_mobile .received{
     max-width: 50%;
     width: auto;
     word-wrap: break-word;
     display: block;
 }
 
-#chatMessages .received, #chatMessages_mobile .received , #chatMessagesRoom .received{
+#chatMessages .received, #chatMessages_mobile .received , #chatMessagesRoom .received, #chatMessagesRoom_mobile .received{
     background-color: #b8b6b6;
     padding: 5px;
     border-radius: 5px;
@@ -741,11 +741,11 @@ hr{
     margin-bottom: 0.2em;
 }
 
-#chatInput, #chatInput_mobile, #chatInputRoom{
+#chatInput, #chatInput_mobile, #chatInputRoom, #chatInputRoom_mobile{
     padding: 10px;
 }
 
-#chatMessage, #chatMessage_mobile #chatMessageRoom{
+#chatMessage, #chatMessage_mobile, #chatMessageRoom, #chatMessageRoom_mobile{
     width:80%;
     padding: 5px;
     border: 1px solid #ccc;
