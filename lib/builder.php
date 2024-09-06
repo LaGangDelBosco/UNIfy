@@ -2009,3 +2009,58 @@ function toglispan($testo){
     $testo = str_replace("</span>", "", $testo);
     return $testo;
 }
+
+function build_error_message($error_code){
+    switch ($error_code){
+        case '400': // Bad request
+            $error = "<p>Siamo spiacenti, ma la richiesta non può essere elaborata.</p>
+                            <p>Questo potrebbe essere dovuto a un errore nell'indirizzo web che hai inserito o a un problema con la tua connessione internet.</p>
+                                <p>Per favore, controlla l'indirizzo web e riprova.</p>
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <br>";
+            break;
+        case '401': // Unauthorized
+            $error = "<p>Siamo spiacenti, ma non hai i permessi necessari per visualizzare questa pagina.
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <p>Se sei un utente registrato, ti preghiamo di effettuare il <a href=\"login.php\">login</a>,</p>
+                            <p>oppure, se non sei ancora registrato, ti invitiamo a <a href=\"registrazione.php\">registrarti</a>.</p>
+                            <br>
+                            <p>Altrimenti,</p>";
+            break;
+        case '403': // Forbidden
+            $error = "<p>Siamo spiacenti, ma non hai i permessi necessari per visualizzare questa pagina.
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <p>Se sei un amministratore, ti preghiamo di effettuare il <a href=\"login.php\">login</a>.</p>
+                            <br>
+                            <p>Altrimenti,</p>";
+            break;
+        case '404': // Not Found
+            $error = "<p>Siamo spiacenti, ma la pagina che stai cercando non è stata trovata.
+                            Questo potrebbe essere dovuto a un errore nell'indirizzo web che hai inserito o a un problema con la tua connessione internet. 
+                                Per favore, controlla l'indirizzo web e riprova.</p>
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <br>";
+            break;
+        case '418': // I'm a teapot (easter egg)
+            $error = "<p>Siamo spiacenti, ma il server non è in grado di preparare il caffè con una teiera.
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <br>";
+            break;
+        case '500': // Internal Server Error
+            $error = "<p>Siamo spiacenti, ma si è verificato un errore interno al server.
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <br>";
+            break;
+        case '503': // Service Unavailable
+            $error = "<p>Siamo spiacenti, ma il servizio non è al momento disponibile.
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <br>";
+            break;
+        default:
+            $error = "<p>Siamo spiacenti, ma si è verificato un errore sconosciuto.
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <br>";
+            break;
+    }
+    return $error;
+}
