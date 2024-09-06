@@ -8,9 +8,9 @@
 	<meta name ="keywords" content ="unify, università, studenti, social, reazioni, like, commenti, post, foto, video" /> <!--TODO: DA MODIFICARE-->
 	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso"/>
 	
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="./style.css" />
-	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px)" />
 	<link rel="stylesheet" href="./print.css" media="print"/>
 
 	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
@@ -43,15 +43,14 @@
 				<nav id="post-box" aria-label="Sezione compilazione dati per mettere in vendita un libro">
                     <component>messaggio</component>
 
-					<div class="filtri">
-						<component>filtri</component>
-					</div>
-					
 					<form action="crea-aula.php" method="post">
                         <button id="sell-book-btn" type="submit" aria-label="Bottone che permette di creare un'aula virtuale">Crea un aula</button>
                     </form>
 
-                    
+					<div class="filtri">
+						<component>filtri</component>
+					</div>
+					
                     <component>lista_aule</component>
 
 				</nav>

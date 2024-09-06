@@ -41,9 +41,9 @@ $utenti_banditi_template->insert("menu", build_menu());
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore nello sbannare l'utente")
-        $utenti_banditi_template->insert("messaggio", "<div id='messaggioerrore'>" . $messaggio . "</div>");
+        $utenti_banditi_template->insert("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
     else
-        $utenti_banditi_template->insert("messaggio", "<div id='messaggio'>" . $messaggio . "</div>");
+        $utenti_banditi_template->insert("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
 }else
     $utenti_banditi_template->insert("messaggio", "");
 

@@ -27,9 +27,9 @@ $aule_studio_virtuali_template->insert("menu", build_menu());
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore durante l'eliminazione dell'aula"){
-        $aule_studio_virtuali_template->insert("messaggio", "<div id='messaggioerrore'>".$messaggio."</div>");
+        $aule_studio_virtuali_template->insert("messaggio", "<div class='messaggioerrore'>".$messaggio."</div>");
     }else{
-        $aule_studio_virtuali_template->insert("messaggio", "<div id='messaggio'>".$messaggio."</div>");
+        $aule_studio_virtuali_template->insert("messaggio", "<div class='messaggio'>".$messaggio."</div>");
     }
 }else
     $aule_studio_virtuali_template->insert("messaggio", "");

@@ -38,9 +38,9 @@ $datipersonali_template->insert("menu", build_menu());
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore nella modifica dei dati")
-        $datipersonali_template->insert("messaggio", "<div id='messaggioerrore'>" . $messaggio . "</div>");
+        $datipersonali_template->insert("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
     else
-        $datipersonali_template->insert("messaggio", "<div id='messaggio'>" . $messaggio . "</div>");
+        $datipersonali_template->insert("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
 }else
     $datipersonali_template->insert("messaggio", "");
 

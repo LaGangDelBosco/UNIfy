@@ -18,12 +18,17 @@ header h1{
     width: 70%;
     white-space: pre-wrap;
     margin-left: 30%;
-    margin-top: -15%;
+    margin-top: -20%;
     text-align:justify;
 }
 
+.log{
+    width:7%;
+    height:auto;
+}
+
 #b_header {
-    height: 3em;
+    height: 4em;
 }
 
 /*GESTIONE DEL LOGO*/
@@ -59,8 +64,8 @@ main h1{
 }
 
 main h2{
-    padding-top:1.5em;
-    padding-bottom:2em;
+    padding-top:0.5em;
+    padding-bottom:1em;
     margin: 0 20px;
 }
 
@@ -69,15 +74,15 @@ main h2{
 .menu-toggle {
     display: block; /* Mostra il pulsante dell'hamburger */
     cursor: pointer;
-    height:100px;
-    width:100px;
+    height:90px;
+    width:90px;
     margin-right: 50px;
 }
 
 .hamburger-icon {
     background-image: url("./media/hamburger.svg");
-    width: 40%;
-    height: 40%;
+    width: 70%;
+    height: 70%;
     cursor: pointer;
     background-size: cover;
 }
@@ -110,27 +115,35 @@ main h2{
 
 /* GESTIONE LOGIN BOX E POST BOX */
 
-#post-box {
-   margin-left: -20%; 
-   margin-right: auto;
+#post-box_mobile {
+   margin-left: 2%; 
+   margin-right: 2%;
+   max-width: 100%;
+   overflow-x: hidden;
 }
 
-#text-box {
+#text-box_mobile {
     margin-left: 0%;
     margin-right: auto;
+    max-width: 90%;
 }
 
-#text {
+#text_mobile {
     max-width: 80%;
 }
 
-#public-post {
+#public-post_mobile {
     margin-top: 5%;
+}
+
+.form_box {
+    max-width: 80%;
 }
 
 .form_box input {
     max-width: 90%;
     margin-bottom: 2em;
+    height: 2em;
 }
 
 .loginbtn { 
@@ -150,6 +163,7 @@ main h2{
     padding: 1em 1.50em;  
 }
 
+
 /* GESTIONE PAGINA IL MIO PROFILO */
 
 #profile-info {
@@ -166,6 +180,35 @@ main h2{
     margin-top: 5%;
 }
 
+/* GESTIONE CORPO DELLE PAGINE */
+
+#text{
+    margin-left: 2%;
+    margin-right: 2%;
+    max-width: 100%;
+    height:120%;
+}
+
+input [type="file"] {
+    width:120%;
+    height: 120%;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    width: 40%;
+    font-size: 1.3em;
+    height: 2.5em;
+}
+
+/* GESTIONE PAGINA LIBRI E AULE */
+.product-list{
+    display: block;
+}
+
+.product-card{
+    width: 100%;
+    margin-bottom: 2%;
+}
 
 /*GESTIONE BARRA DI RICERCA: DA RIVEDERE*/
 

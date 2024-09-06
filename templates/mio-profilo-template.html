@@ -8,9 +8,9 @@
 	<meta name = "keywords" content = "unify, social, profilo, post, informazioni, personale" />
 	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso" />
 	
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="./style.css" />
-	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px)" />
 	<link rel="stylesheet" href="./print.css" media="print"/>
 
 	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
@@ -34,21 +34,68 @@
         <main>
 			<h2 class="page_title">Il mio Profilo</h2>
 
-			<!-- da qui partono i 3 blocchi di contenuto -->
-			<div class="content">
-				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
-				<nav id="menu" aria-label="Menù del sito">
-					<component>menu</component>
-				</nav>
-				
-				<nav id="post-box" aria-label="Sezione visualizzazione mio profilo e miei post">
+			<div class="desktop-content hideall">
+				<!-- da qui partono i 3 blocchi di contenuto -->
+				<div class="content">
+					<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+					<nav id="menu" aria-label="Menù del sito">
+						<component>menu</component>
+					</nav>
+					
+					<nav id="post-box" aria-label="Sezione visualizzazione mio profilo e miei post">
+						<component>messaggio</component>
+						<h3>Informazioni personali</h3>
+						<div id="profile-info">
+							<div id="profile-pic">
+								<img class="profile-picture" src= "<component>immagine</component>" alt="" /> <!--alt vuoto per accessibilità: o descrive il contenuto dell'immagine (il viso della persona), o lo mettiamo vuoto-->
+							</div>
+							<div id="profile-data">
+								<p><strong>Nome:</strong> <component>nome</component></p>
+								<p><strong>Username:</strong> <component>username</component></p>
+								<p><strong>Data di nascita:</strong> <component>birthdate</component></p>
+								<p><strong>Email:</strong> <component>email</component></p>
+								<p><strong>Biografia:</strong> <component>biografia</component></p>
+								<p><strong>Luogo:</strong> <component>luogo</component></p>
+								<p><strong>Sito Web:</strong> <a href="<component>sito</component>"><component>sito</component></a></p>
+								
+									<button class="loginbtn" type="submit" onclick="window.location.href='modifica-profilo.php'" >Modifica Profilo</button>
+								
+							</div>
+						</div>
+
+						<h3>I miei post</h3>
+						<div id="my-posts">
+							<component>post</component>
+						</div>
+						<script>
+							like_post();
+						</script>
+						
+					</nav>
+						
+						
+					<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
+						<div id="search-bar">
+							<label for="search">Cerca qui:</label><br/>
+							<input type="text" id="search" placeholder="Cerca..." />
+							<button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+						</div>
+						<!-- potrebbe interessarti -->
+					</nav>
+				<!-- fine dei 3 blocchi di contenuto -->
+				</div>
+			</div>
+
+			<div class="mobile-content">
+				<component>menu</component>
+				<nav id="post-box_mobile" aria-label="Sezione visualizzazione mio profilo e miei post">
 					<component>messaggio</component>
 					<h3>Informazioni personali</h3>
-					<div id="profile-info">
-						<div id="profile-pic">
+					<div id="profile-info_mobile">
+						<div id="profile-pic_mobile">
 							<img class="profile-picture" src= "<component>immagine</component>" alt="" /> <!--alt vuoto per accessibilità: o descrive il contenuto dell'immagine (il viso della persona), o lo mettiamo vuoto-->
 						</div>
-						<div id="profile-data">
+						<div id="profile-data_mobile">
 							<p><strong>Nome:</strong> <component>nome</component></p>
 							<p><strong>Username:</strong> <component>username</component></p>
 							<p><strong>Data di nascita:</strong> <component>birthdate</component></p>
@@ -63,26 +110,13 @@
 					</div>
 
 					<h3>I miei post</h3>
-					<div id="my-posts">
-						<component>post</component>
+					<div id="my-posts_mobile">
+						<component>post_mobile</component>
 					</div>
 					<script>
 						like_post();
 					</script>
-					
 				</nav>
-					
-					
-				<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
-                    <div id="search-bar">
-						<label for="search">Cerca qui:</label><br/>
-                        <input type="text" id="search" placeholder="Cerca..." />
-                        <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
-                    </div>
-                    <!-- potrebbe interessarti -->
-                </nav>
-			<!-- fine dei 3 blocchi di contenuto -->
-			</div>
 
 			<component>goback</component>
 		</main>

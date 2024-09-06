@@ -1,7 +1,7 @@
 console.log('File chat-vendita-libri.js caricato');
 
 document.addEventListener('DOMContentLoaded', function() {
-    var chatMessageInput = document.getElementById('chatMessage');
+    var chatMessageInput = getElementByIdWithScreenCheck('chatMessage');
     if (chatMessageInput) {
         chatMessageInput.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function openChat(id_annuncio, receiver_username) {
-    var chatContainer = document.getElementById('chatContainer');
+    var chatContainer = getElementByIdWithScreenCheck('chatContainer');
     chatContainer.classList.add('visible');
     chatContainer.dataset.idAnnuncio = id_annuncio;
     chatContainer.dataset.receiverUsername = receiver_username;
@@ -25,7 +25,7 @@ function openChat(id_annuncio, receiver_username) {
 
 // Aggiorna i messaggi della chat ogni 4 secondi
 setInterval(function() {
-    var chatContainer = document.getElementById('chatContainer');
+    var chatContainer = getElementByIdWithScreenCheck('chatContainer');
     if (chatContainer.classList.contains('visible')) {
         var id_annuncio = chatContainer.dataset.idAnnuncio;
         var receiver_username = chatContainer.dataset.receiverUsername;
@@ -34,7 +34,7 @@ setInterval(function() {
 }, 4000);
 
 function closeChat() {
-    var chatContainer = document.getElementById('chatContainer');
+    var chatContainer = getElementByIdWithScreenCheck('chatContainer');
     chatContainer.classList.remove('visible');
 }
 
@@ -44,7 +44,7 @@ function loadChatMessages(id_annuncio, receiver_username) {
     xhr.open('GET', 'load-chat.php?id_annuncio=' + id_annuncio + '&receiver_username=' + receiver_username, true);
     xhr.onload = function() {
         if (xhr.status === 200) {
-            document.getElementById('chatMessages').innerHTML = xhr.responseText;
+            getElementByIdWithScreenCheck('chatMessages').innerHTML = xhr.responseText;
         } else {
             console.error('Errore nel caricamento dei messaggi:', xhr.status, xhr.statusText);
         }
@@ -56,17 +56,17 @@ function loadChatMessages(id_annuncio, receiver_username) {
 }
 
 function scrollToBottom() {
-    var chatContainer = document.getElementById('chatMessages');
+    var chatContainer = getElementByIdWithScreenCheck('chatMessages');
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
 
 function sendMessage() {
-    var message = document.getElementById('chatMessage').value;
+    var message = getElementByIdWithScreenCheck('chatMessage').value;
     if (message.trim() === '') return;
 
-    var id_annuncio = document.getElementById('chatContainer').dataset.idAnnuncio;
-    var receiver_username = document.getElementById('chatContainer').dataset.receiverUsername;
+    var id_annuncio = getElementByIdWithScreenCheck('chatContainer').dataset.idAnnuncio;
+    var receiver_username = getElementByIdWithScreenCheck('chatContainer').dataset.receiverUsername;
 
     // Invia il messaggio tramite AJAX
     var xhr = new XMLHttpRequest();
@@ -74,7 +74,7 @@ function sendMessage() {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200) {
-            document.getElementById('chatMessage').value = '';
+            getElementByIdWithScreenCheck('chatMessage').value = '';
             loadChatMessages(id_annuncio, receiver_username); // Ricarica i messaggi della chat
             setTimeout(scrollToBottom, 100); // Scorrimento automatico verso il basso
         } else {
@@ -87,3 +87,9 @@ function sendMessage() {
     xhr.send('message=' + encodeURIComponent(message) + '&id_annuncio=' + id_annuncio + '&receiver_username=' + receiver_username);
 }
 
+
+function getElementByIdWithScreenCheck(baseId) {
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    var id = (isMobile || window.innerWidth<600) ? baseId + '_mobile' : baseId;
+    return document.getElementById(id);
+}

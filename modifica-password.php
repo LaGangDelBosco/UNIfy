@@ -40,9 +40,9 @@ $modificapassword_template->insert("footer", build_footer());
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Password modificata con successo")
-        $modificapassword_template-> insert("messaggio", ('<div id="messaggio">' . $messaggio . '</div>'));
+        $modificapassword_template-> insert("messaggio", ('<div class="messaggio">' . $messaggio . '</div>'));
     else
-        $modificapassword_template-> insert("messaggio", ('<div id="messaggioerrore">' . $messaggio . '</div>'));
+        $modificapassword_template-> insert("messaggio", ('<div class="messaggioerrore">' . $messaggio . '</div>'));
 }
 else $modificapassword_template-> insert("messaggio", (""));
 

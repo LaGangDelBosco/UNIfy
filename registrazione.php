@@ -41,10 +41,10 @@ $registrazione_template->insert("footer", build_footer());
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore durante la registrazione") {
-        $registrazione_template-> insert("messaggio", ('<div id="messaggioerrore">' . $messaggio . '</div>'));
+        $registrazione_template-> insert("messaggio", ('<div class="messaggioerrore">' . $messaggio . '</div>'));
     }
     else
-        $registrazione_template-> insert("messaggio", ('<div id="messaggio">' . $messaggio . '</div>'));
+        $registrazione_template-> insert("messaggio", ('<div class="messaggio">' . $messaggio . '</div>'));
 }
 else $registrazione_template-> insert("messaggio", (""));
 

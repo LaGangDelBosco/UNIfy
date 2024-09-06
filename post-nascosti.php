@@ -35,9 +35,9 @@ $postnascosti_template->insert("menu", build_menu());
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore nell'eliminazione del post")
-        $postnascosti_template->insert("messaggio", "<div id='messaggioerrore'>" . $messaggio . "</div>");
+        $postnascosti_template->insert("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
     else
-        $postnascosti_template->insert("messaggio", "<div id='messaggio'>" . $messaggio . "</div>");
+        $postnascosti_template->insert("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
 }else
     $postnascosti_template->insert("messaggio", "");
 

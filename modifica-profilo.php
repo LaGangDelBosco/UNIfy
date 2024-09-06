@@ -15,9 +15,10 @@ if(isset($_SESSION['Username']))
     $username = $_SESSION['Username'];
 
 #$index_template->insert("build_keywords", build_keywords());
-$modificadatipersonali_template->insert("menu", build_menu());
+$modificadatipersonali_template->insert_multiple("menu", build_menu());
 
 $modificadatipersonali_template->insert("modifica_profilo", build_modifica_profilo($username));
+$modificadatipersonali_template->insert("modifica_profilo_mobile", build_modifica_profilo_mobile($username));
 
 $modificadatipersonali_template->insert("header", build_header());
 $modificadatipersonali_template->insert("goback", build_goback());

@@ -184,6 +184,83 @@ function build_lista_post(){
     return $lista_post;
 }
 
+function build_lista_post_mobile(){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM post WHERE hidden = 0 ORDER BY created_at DESC";
+    $result_query = $db->query($query);
+
+    $lista_post = "";
+
+    if($result_query->num_rows > 0){
+        while($row_query = $result_query->fetch_assoc()){
+            $like_count = $db->get_like_count($row_query['post_id']);
+            $post_id = $row_query['post_id'];
+            $lista_post .= "<ul class=\"singolo_post\">";
+
+
+            $lista_post .=     "<li><a href=\"profilo.php?user=".$row_query['username']."\">".$row_query['username']."</a></li>";
+
+            if($_SESSION['Username'] == 'admin'){
+                $current_page = $_SERVER['REQUEST_URI'];
+                $lista_post .= "<li>
+                                    <form method='post' action='index.php' name='nascondi_post'>
+                                        <div>
+                                            <input type='hidden' name='id_post' value='".$post_id."' />
+                                            <input type='hidden' name='current_page' value='".$current_page."' />
+                                            <button class=\"interact\" type='submit' name='submit_nascondi_post'>Nascondi</button>
+                                        </div>
+                                    </form>
+                                </li>";
+            }
+
+            $lista_post .=     "<li>".$row_query['created_at']."</li>
+                                <li class=\"player\">".$row_query['content']."</li>";
+
+            if($db->get_media_path($post_id) != "NULL") {
+                // controlla se il media è un'immagine o un video
+                $media_path = $db->get_media_path($post_id);
+                $media_type = $db->get_media_type($post_id);
+                if ($media_type == "image") {
+                    $lista_post .= "<li class=\"media\"><img src=" . $media_path . " alt=\"\"/></li>";
+                } else if ($media_type == "video") {
+                    $lista_post .= "<li class=\"media\"><video controls><source src=" . $media_path . " type=\"video/mp4\"></video></li>";
+                }
+            }
+
+            $lista_post .=     "
+                                <li>
+                                    <button class=\"like-interact\" data-post-id=\"". $post_id ."\">Mi piace</button>
+                                    <span>$like_count</span>
+                                </li>
+                                <li>
+                                        <label class=\"label_commento\" id=\"label_comment_mobile_$post_id\" for=\"comment_mobile_$post_id\">Scrivi un commento:</label>
+                                        <textarea class=\"textarea_commento_index\" id='comment_mobile_$post_id' placeholder=\"Commenta\"></textarea>
+                                        <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>
+                                </li>";
+
+            $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
+            $result_query_comment = $db->query($query);
+
+            if($result_query_comment->num_rows > 0){
+                $lista_post .= "<li id='comment_list_". $post_id ."_mobile'><ul>";
+                while($row_query_comment = $result_query_comment->fetch_assoc()){
+                    $lista_post .= "<li><a href=\"profilo.php?user=".$row_query_comment['username']."\">".$row_query_comment['username']."</a></li>
+                                    <li>".$row_query_comment['created_at']."</li>
+                                    <li class=\"content_comm\">".$row_query_comment['content']."</li>";
+                }
+                $lista_post .= "</ul></li>";
+            } else {
+                $lista_post .= "<li id='comment_list_". $post_id ."_mobile'></li>";
+            }
+
+            $lista_post .= "</ul>";
+        }
+    }
+    return $lista_post;
+}
+
 function build_datipersonali($username){
     $db = new Servizio;
     $db->apriconn();
@@ -291,6 +368,64 @@ function build_lista_amici($username){
     return $lista_amici;
 }
 
+function build_lista_amici_mobile($username){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM friendship WHERE username_1 = '$username' OR username_2 = '$username' AND status = 'accepted'";
+    $result_query = $db->query($query);
+
+    $lista_amici = "";
+
+    if($result_query->num_rows > 0){
+        while($row_query = $result_query->fetch_assoc()){
+            if($row_query['username_1'] == $username)
+                $amico = $row_query['username_2'];
+            else
+                $amico = $row_query['username_1'];
+
+            $query_profile = "SELECT * FROM profile WHERE username = '$amico'";
+            $result_query_profile = $db->query($query_profile);
+
+            $query_user = "SELECT * FROM user WHERE username = '$amico'";
+            $result_query_user = $db->query($query_user);
+
+            if($result_query_user->num_rows > 0)
+                $row_query_user = $result_query_user->fetch_assoc();
+
+            if($result_query_profile->num_rows > 0)
+                $row_query_profile = $result_query_profile->fetch_assoc();
+
+
+            $lista_amici .= "<div class='amico'>
+                    <div class='amico-foto'>
+                        <img class='profile-picture' id='friend-picture_mobile' src='".$row_query_profile['profile_picture_path']."' alt=''/>
+                    </div>
+                    <div class='amico-info'>
+                        <ul class='profilo'>
+                            <li><b>Nome: </b>".$row_query_user['name']."</li>
+                            <li><b>Username: </b>".$amico."</li>
+                            <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
+                        </ul>
+                    </div>
+                    <div class='amico-azione'>
+                        <fieldset>
+                            <legend>Rimuovi amicizia a ".$amico."</legend>
+                            <form method='post' action='amici.php' name='rimuovi_amicizia'>
+                                <input type='hidden' name='amico' value='".$amico."' />
+                                <button class='loginbtn' type='submit' name='submit_rimuovi_amicizia'>Rimuovi Amicizia</button>
+                            </form>
+                        </fieldset>
+                    </div>
+                </div><hr/>";
+    
+        }
+    }
+    else
+        $lista_amici = "<p id=\"messaggio\">Non hai amici</p>";
+    return $lista_amici;
+}
+
 function build_modifica_dati_personali($username){
     $db = new Servizio;
     $db->apriconn();
@@ -336,6 +471,8 @@ function build_modifica_dati_personali($username){
     return $modifica_dati_personali;
 }
 
+
+
 function build_modifica_profilo($username){
     $db = new Servizio;
     $db->apriconn();
@@ -358,6 +495,39 @@ function build_modifica_profilo($username){
                                     <input type='text' id='website' name='website' value='".$row_query['website']."' required /><br/>
                                     <label for='profile_picture_path'>Foto Profilo</label><br/>
                                     <input type='file' id='profile_picture_path' name='profile_picture_path' accept='image/*' /><br/>
+                                    <fieldset>
+                                        <legend>Bottone Modifica Profilo</legend>
+                                        <button class=\"loginbtn\" type='submit' name='submit_modifica_profilo'>Modifica</button>
+                                    </fieldset>
+                                </div>
+                            </form>";
+    }
+
+    return $modifica_profilo;
+}
+
+function build_modifica_profilo_mobile($username){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM profile WHERE username = '$username'";
+    $result_query = $db->query($query);
+
+    $modifica_profilo = "";
+
+    if($result_query->num_rows > 0){
+        $row_query = $result_query->fetch_assoc();
+
+        $modifica_profilo = "<form class='form_box' method='post' action='mio-profilo.php' name='modifica_profilo' enctype='multipart/form-data'>
+                                <div>
+                                    <label for='bio_mobile'>Biografia</label><br>
+                                    <textarea id='bio_mobile' name='bio' required>".cambialospan($row_query['bio'])."</textarea><br/>
+                                    <label for='location_mobile'>Luogo</label><br/>
+                                    <input type='text' id='location_mobile' name='location' value='".$row_query['location']."' required /><br/>
+                                    <label for='website_mobile'>Sito Web</label><br/>
+                                    <input type='text' id='website_mobile' name='website' value='".$row_query['website']."' required /><br/>
+                                    <label for='profile_picture_path_mobile'>Foto Profilo</label><br/>
+                                    <input type='file' id='profile_picture_path_mobile' name='profile_picture_path' accept='image/*' /><br/>
                                     <fieldset>
                                         <legend>Bottone Modifica Profilo</legend>
                                         <button class=\"loginbtn\" type='submit' name='submit_modifica_profilo'>Modifica</button>
@@ -448,6 +618,94 @@ function build_mypost($username){
                 $mypost .= "</ul></li>";
             } else {
                 $mypost .= "<li id='comment_list_". $post_id ."'></li>";
+            }
+
+            $mypost .= "</ul>";
+        }
+    }
+
+    return $mypost;
+}
+
+function build_mypost_mobile($username){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT * FROM post WHERE username = '$username' AND hidden = 0 ORDER BY created_at DESC";
+    $result_query = $db->query($query);
+
+    $mypost = "";
+
+    if($result_query->num_rows > 0){
+        while($row_query = $result_query->fetch_assoc()){
+            $post_id = $row_query['post_id'];
+            $like_count = $db->get_like_count($post_id);
+
+            $mypost .= "<ul class=\"singolo_post\">
+                            <li><a href=\"\">".$row_query['username']."</a></li>";
+
+            if($_SESSION['Username'] == 'admin'){
+                $current_page = $_SERVER['REQUEST_URI'];
+                $mypost .= "<li>
+                                <form method='post' action='mio-profilo.php' name='nascondi_post'>
+                                    <div>
+                                        <input type='hidden' name='id_post' value='".$post_id."' />
+                                        <input type='hidden' name='current_page' value='".$current_page."' />
+                                        <button class=\"interact\" type='submit' name='submit_nascondi_post'>Nascondi</button>
+                                    </div>
+                                </form>
+                            </li>";
+            }
+
+            $mypost .= "<li>".$row_query['created_at']."</li>
+                            <li class=\"player\">".$row_query['content']."</li>";
+
+            if($db->get_media_path($post_id) != "NULL") {
+                // controlla se il media è un'immagine o un video
+                $media_path = $db->get_media_path($post_id);
+                $media_type = $db->get_media_type($post_id);
+                if ($media_type == "image") {
+                    $mypost .= "<li class=\"media\"><img src=" . $media_path . " alt=\"\"/></li>";
+                } else if ($media_type == "video") {
+                    $mypost .= "<li class=\"media\"><video controls><source src=" . $media_path . " type=\"video/mp4\"></video></li>";
+                }
+            }
+
+             $mypost .= "<li class=\"post-actions\">
+                                <fieldset>
+                                    <legend>Interazioni post del ". $row_query['created_at'] ." </legend>
+                                    <button class=\"like-interact\" data-post-id=\"". $post_id ."\">Mi piace</button>
+                                    <span class=\"numero_like\">$like_count</span>
+                                    <label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
+                                    <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
+                                    <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>";
+
+
+            if($_SESSION['Username'] == $username) {
+                $mypost .= "            <form method='post' action='mio-profilo.php' name='elimina_post'>
+                                        <div class = \"elimina_inline\"> 
+                                            <input type='hidden' name='post_id' value='" . $row_query['post_id'] . "' />
+                                            <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
+                                        </div>
+                                    </form>";
+            }
+
+            $mypost .= "        </fieldset>
+                            </li>";
+
+            $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
+            $result_query_comment = $db->query($query);
+
+            if($result_query_comment->num_rows > 0){
+                $mypost .= "<li id='comment_list_". $post_id ."_mobile'><ul>";
+                while($row_query_comment = $result_query_comment->fetch_assoc()){
+                    $mypost .= "<li><a href=\"profilo.php?user=".$row_query_comment['username']."\">".$row_query_comment['username']."</a></li>
+                                    <li>".$row_query_comment['created_at']."</li>
+                                    <li class=\"content_comm\">".$row_query_comment['content']."</li>";
+                }
+                $mypost .= "</ul></li>";
+            } else {
+                $mypost .= "<li id='comment_list_". $post_id ."_mobile'></li>";
             }
 
             $mypost .= "</ul>";
@@ -583,6 +841,41 @@ function build_tabella_interessati($id_annuncio){
     return $tabella_interessati;
 }
 
+function build_tabella_interessati_mobile($id_annuncio){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT DISTINCT sender_username FROM chat_message WHERE id_annuncio = $id_annuncio AND sender_username != '".$_SESSION['Username']."'";
+    $result_query = $db->query($query);
+
+    $tabella_interessati = "<h3> Interessati </h3>";
+
+    if($result_query->num_rows > 0){
+        $tabella_interessati .= "<table class=\"interessati\" aria-describedby=\"descrizione_tab_interessati_mobile\">
+        <p id=\"descrizione_tab_interessati_mobile\">Questa tabella mostra gli utenti interessati all'annuncio. La prima colonna mostra il nome utente dell'interessato, la seconda colonna contiene un pulsante per aprire la chat con l'utente interessato.</p>
+        <thead>
+            <tr>
+                <th scope=\"col\">Username</th>
+                <th scope=\"col\">Azioni</th>
+            </tr>
+        </thead>
+        <tbody>";
+        while ($contact = $result_query->fetch_assoc()) {
+        $tabella_interessati .= "<tr>
+                            <td>".$contact['sender_username']."</td>
+                            <td>
+                                <button class=\"loginbtn\" onclick='openChat(".$id_annuncio.", \"".$contact['sender_username']."\")' aria-label=\"Bottone per aprire la chat con l'utente ".$contact['sender_username']."\">Apri chat</button>
+                            </td>
+                        </tr>";
+        }
+        $tabella_interessati .= "</tbody></table>";
+    }
+    else
+        $tabella_interessati .= "<p class=\"msg_centrato\">Non ci sono interessati</p>";
+
+    return $tabella_interessati;
+}
+
 function build_filtri_libri(){
     $db = new Servizio;
     $db->apriconn();
@@ -670,6 +963,100 @@ function build_filtri_libri(){
                                     <div>
                                         <label for='search'>Cerca: </label>
                                         <input type='text' id='search' name='search' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
+                                        <button class='interact' type='submit' aria-label='Bottone di ricerca per input'>Cerca</button>
+                                    </div> 
+                                </form>";
+
+    return $filtri_libri;
+}
+
+function build_filtri_libri_mobile(){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query = "SELECT DISTINCT genre FROM book ORDER BY genre ASC";
+    $result_query = $db->query($query);
+
+    $query2 = "SELECT DISTINCT author FROM book ORDER BY author ASC";
+    $result_query2 = $db->query($query2);
+
+    $query3 = "SELECT DISTINCT year FROM book ORDER BY year DESC";
+    $result_query3 = $db->query($query3);
+
+    $genres = [];
+    $authors = [];
+    $years = [];
+
+    if($result_query->num_rows > 0){
+        while($row_query = $result_query->fetch_assoc()){
+            if (!in_array($row_query['genre'], $genres)) {
+                $genres[] = $row_query['genre'];
+            }
+        }
+    }
+
+    if($result_query2->num_rows > 0){
+        while($row_query = $result_query2->fetch_assoc()){
+            if (!in_array($row_query['author'], $authors)) {
+                $authors[] = $row_query['author'];
+            }
+        }
+    }
+
+    if($result_query3->num_rows > 0){
+        while($row_query = $result_query3->fetch_assoc()){
+            if (!in_array($row_query['year'], $years)) {
+                $years[] = $row_query['year'];
+            }
+        }
+    }
+
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+    $selected_genre = isset($_GET['genre']) ? $_GET['genre'] : '';
+    $selected_author = isset($_GET['author']) ? $_GET['author'] : '';
+    $selected_year = isset($_GET['year']) ? $_GET['year'] : '';
+
+    $filtri_libri = "<form method='get' class='form_filtri' action='compro-vendo-libri.php' name='filtri_libri'>
+                        <div>
+                            <label for='genre_mobile'>Genere: </label>
+                            <select id='genre_mobile' name='genre'>
+                                <option value=''>Tutti</option>";
+    foreach ($genres as $genre) {
+        $selected = $genre == $selected_genre ? "selected" : "";
+        $filtri_libri .= "<option value='".$genre."' ".$selected.">".$genre."</option>";
+    }
+    $filtri_libri .= "</select>
+                    </div>
+                    <div>
+                        <label for='author_mobile'>Autore: </label>
+                        <select id='author_mobile' name='author'>
+                            <option value=''>Tutti</option>";
+    foreach ($authors as $author) {
+        $selected = $author == $selected_author ? "selected" : "";
+        $filtri_libri .= "<option value='".$author."' ".$selected.">".$author."</option>";
+    }
+    $filtri_libri .= "</select>
+                    </div>
+                    <div>
+                        <label for='year_mobile'>Anno di pubblicazione: </label>
+                        <select id='year_mobile' name='year'>
+                            <option value=''>Tutti</option>";
+    foreach ($years as $year) {
+        $selected = $year == $selected_year ? "selected" : "";
+        $filtri_libri .= "<option value='".$year."' ".$selected.">".$year."</option>";
+    }
+    $filtri_libri .= "</select>
+                    </div>
+                    <div>
+                        <button class='interact' type='submit' aria-label='Bottone di ricerca per filtri'>Filtra</button>
+                    </div>
+                    
+                </form>";
+
+                $filtri_libri .= "<form method='get' class='form_search' action='compro-vendo-libri.php' name='search_libri'>
+                                    <div>
+                                        <label for='search_mobile'>Cerca: </label>
+                                        <input type='text' id='search_mobile' name='search' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
                                         <button class='interact' type='submit' aria-label='Bottone di ricerca per input'>Cerca</button>
                                     </div> 
                                 </form>";

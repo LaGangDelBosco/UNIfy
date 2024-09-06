@@ -12,7 +12,7 @@ if(!isset($_SESSION['Username'])){
 $index_template = $template_engine->load_template("index-template.html");
 
 #$index_template->insert("build_keywords", build_keywords());
-$index_template->insert("menu", build_menu());
+$index_template->insert_multiple("menu", build_menu());
 
 function convert_youtube_links_to_iframe($text) {
     $pattern = '/(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/i';
@@ -60,15 +60,16 @@ if(isset($_POST['submit_nascondi_post'])){
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Il nome del file è troppo lungo" || $messaggio == "Errore nell'eliminazione del post")
-        $index_template->insert("messaggio", "<div id='messaggioerrore'>" . $messaggio . "</div>");
+        $index_template->insert_multiple("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
     else
-        $index_template->insert("messaggio", "<div id='messaggio'>" . $messaggio . "</div>");
+        $index_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
 }else
-    $index_template->insert("messaggio", "");
+    $index_template->insert_multiple("messaggio", "");
 
 
 
-$index_template->insert("lista_post", build_lista_post());
+$index_template->insert_multiple("lista_post", build_lista_post());
+$index_template->insert("lista_post_mobile", build_lista_post_mobile());
 
 $index_template->insert("header", build_header());
 $index_template->insert("goback", build_goback());

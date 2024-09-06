@@ -26,18 +26,18 @@ if(isset($_POST['submit_elimina_post'])){
 
 if($db->get_dati_utente_profilo($username)){
     $datiutente = $db->get_dati_utente_profilo($username);
-    $mioprofilo_template->insert("immagine", $datiutente['profile_picture_path']);
-    $mioprofilo_template->insert("nome", $datiutente['name']);
-    $mioprofilo_template->insert("email", $datiutente['email']);
-    $mioprofilo_template->insert("birthdate", $datiutente['birthdate']);
-    $mioprofilo_template->insert("username", $username);
+    $mioprofilo_template->insert_multiple("immagine", $datiutente['profile_picture_path']);
+    $mioprofilo_template->insert_multiple("nome", $datiutente['name']);
+    $mioprofilo_template->insert_multiple("email", $datiutente['email']);
+    $mioprofilo_template->insert_multiple("birthdate", $datiutente['birthdate']);
+    $mioprofilo_template->insert_multiple("username", $username);
     if(isset($datiutente['bio']) || isset($datiutente['location']) || isset($datiutente['website'])){
-        $mioprofilo_template->insert("biografia", $datiutente['bio']);
-        $mioprofilo_template->insert("luogo", $datiutente['location']);
+        $mioprofilo_template->insert_multiple("biografia", $datiutente['bio']);
+        $mioprofilo_template->insert_multiple("luogo", $datiutente['location']);
         $mioprofilo_template->insert_multiple("sito", $datiutente['website']);
     }else{
-        $mioprofilo_template->insert("biografia", "");
-        $mioprofilo_template->insert("luogo", "");
+        $mioprofilo_template->insert_multiple("biografia", "");
+        $mioprofilo_template->insert_multiple("luogo", "");
         $mioprofilo_template->insert_multiple("sito", "");
     }
 }
@@ -90,18 +90,19 @@ if(isset($_POST['submit_modifica_profilo'])){
     }
 }
 
-$mioprofilo_template->insert("menu", build_menu());
+$mioprofilo_template->insert_multiple("menu", build_menu());
 
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore nell'eliminazione del post")
-        $mioprofilo_template->insert("messaggio", "<div id='messaggioerrore'>" . $messaggio . "</div>");
+        $mioprofilo_template->insert_multiple("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
     else
-        $mioprofilo_template->insert("messaggio", "<div id='messaggio'>" . $messaggio . "</div>");
+        $mioprofilo_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
 }else
-    $mioprofilo_template->insert("messaggio", "");
+    $mioprofilo_template->insert_multiple("messaggio", "");
 
 $mioprofilo_template->insert("post", build_mypost($username));
+$mioprofilo_template->insert("post_mobile", build_mypost_mobile($username));
 
 $mioprofilo_template->insert("header", build_header());
 $mioprofilo_template->insert("goback", build_goback());

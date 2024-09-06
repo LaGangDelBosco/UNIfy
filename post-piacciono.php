@@ -29,9 +29,9 @@ $mioprofilo_template->insert("menu", build_menu());
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore nell'eliminazione del post")
-        $mioprofilo_template->insert("messaggio", "<div id='messaggioerrore'>" . $messaggio . "</div>");
+        $mioprofilo_template->insert("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
     else
-        $mioprofilo_template->insert("messaggio", "<div id='messaggio'>" . $messaggio . "</div>");
+        $mioprofilo_template->insert("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
 }else
     $mioprofilo_template->insert("messaggio", "");
 

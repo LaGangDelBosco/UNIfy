@@ -8,9 +8,9 @@
 	<meta name ="keywords" content ="unify, università, studenti, social, reazioni, like, commenti, post, foto, video" /> <!--TODO: DA MODIFICARE-->
 	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso"/>
 	
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="./style.css" />
-	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px)" />
 	<link rel="stylesheet" href="./print.css" media="print"/>
 
 	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
@@ -22,6 +22,7 @@
 	<script src="./js/menu.js"></script>
 	<script src="./js/menu_mobile.js"></script>
 	<script src="./js/chat-vendita-libri.js"></script>
+	<script src="./js/pagine_mobile.js"></script>
 </head>
 
 <body>	
@@ -35,47 +36,72 @@
         <main>
 			<h2 class="page_title"><component>nome_libro</component></h2>
 
-			<!-- da qui partono i 3 blocchi di contenuto -->
-			<div class="content">
-				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
-				<nav id="menu" aria-label="Menù del sito">
-					<component>menu</component>
-				</nav>
-				
-				<nav id="post-box" aria-label="Sezione visualizzazione libri in vendita">
-                    
-                    <component>annuncio</component>
+			<div class="desktop-content hideall">	
+				<!-- da qui partono i 3 blocchi di contenuto -->
+				<div class="content">
+					<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+					<nav id="menu" aria-label="Menù del sito">
+						<component>menu</component>
+					</nav>
+					
+					<nav id="post-box" aria-label="Sezione visualizzazione libri in vendita">
+						
+						<component>annuncio</component>
 
-                    <component>buttons</component>
+						<component>buttons</component>
 
-					<component>tabella_interessati</component>
+						<component>tabella_interessati</component>
 
+						<!-- Contenitore della chat -->
+						<div id="chatContainer">
+							<div id="chatHeader">
+								Chat con <component>destinatario</component>
+								<button class="close_chat" onclick="closeChat()" title="Chiudi chat" aria-label="Bottone di chiusura della chat">&times;</button>
+							</div>
+							<div id="chatMessages">
+								<!-- Messaggi della chat -->
+							</div>
+							<div id="chatInput">
+								<input type="text" id="chatMessage" placeholder="Scrivi un messaggio...">
+								<button id="sendButton" onclick="sendMessage()" title="Invia" aria-label="Bottone di invio del messaggio" ><i class="fas fa-paper-plane"></i></button>
+							</div>
+						</div>
+					</nav>
+						
+						
+					<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
+						<div id="search-bar">
+							<label for="search">Cerca qui:</label><br/>
+							<input type="text" id="search" placeholder="Cerca..." />
+							<button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+						</div>
+						<!-- potrebbe interessarti -->
+					</nav>
+				<!-- fine dei 3 blocchi di contenuto -->
+				</div>
+			</div>
+
+			<div class="mobile-content">
+				<component>menu</component>
+				<nav id="post-box_mobile" aria-label="Sezione visualizzazione libri in vendita">
+					<component>annuncio</component>
+					<component>buttons</component>
+					<component>tabella_interessati_mobile</component>
 					<!-- Contenitore della chat -->
-					<div id="chatContainer">
-						<div id="chatHeader">
+					<div id="chatContainer_mobile">
+						<div id="chatHeader_mobile">
 							Chat con <component>destinatario</component>
 							<button class="close_chat" onclick="closeChat()" title="Chiudi chat" aria-label="Bottone di chiusura della chat">&times;</button>
 						</div>
-						<div id="chatMessages">
+						<div id="chatMessages_mobile">
 							<!-- Messaggi della chat -->
 						</div>
-						<div id="chatInput">
-							<input type="text" id="chatMessage" placeholder="Scrivi un messaggio...">
-							<button id="sendButton" onclick="sendMessage()" title="Invia" aria-label="Bottone di invio del messaggio" ><i class="fas fa-paper-plane"></i></button>
+						<div id="chatInput_mobile">
+							<input type="text" id="chatMessage_mobile" placeholder="Scrivi un messaggio...">
+							<button id="sendButton_mobile" onclick="sendMessage()" title="Invia" aria-label="Bottone di invio del messaggio" ><i class="fas fa-paper-plane"></i></button>
 						</div>
 					</div>
 				</nav>
-					
-					
-				<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
-                    <div id="search-bar">
-						<label for="search">Cerca qui:</label><br/>
-                        <input type="text" id="search" placeholder="Cerca..." />
-                        <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
-                    </div>
-                    <!-- potrebbe interessarti -->
-                </nav>
-			<!-- fine dei 3 blocchi di contenuto -->
 			</div>
 
 			

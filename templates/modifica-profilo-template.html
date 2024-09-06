@@ -8,9 +8,9 @@
 	<meta name = "keywords" content = "unify, modifica, dati, personali, social" />
 	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso" />
 	
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="./style.css" />
-	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px)" />
 	<link rel="stylesheet" href="./print.css" media="print"/>
 
 	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
@@ -33,31 +33,44 @@
         <main>
 			<h2 class="page_title">Modifica il tuo profilo</h2>
 
-			<!-- da qui partono i 3 blocchi di contenuto -->
-			<div class="content">
-				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
-				<nav id="menu" aria-label="Menù del sito">
-					<component>menu</component>
-				</nav>
-				
-				<nav id="post-box" aria-label="Sezione di modifica del profilo">
-					<div id="text-box">
-                        <p class="info-tag-center">Per contrassegnare le parole in inglese nella Biografia, utilizza i tag [en]...[/en] nelle casella di testo corrispondente.</p>
-						<component>modifica_profilo</component>
+			<div class="desktop-content hideall">
+				<!-- da qui partono i 3 blocchi di contenuto -->
+				<div class="content">
+					<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+					<nav id="menu" aria-label="Menù del sito">
+						<component>menu</component>
+					</nav>
+					
+					<nav id="post-box" aria-label="Sezione di modifica del profilo">
+						<div id="text-box">
+							<p class="info-tag-center">Per contrassegnare le parole in inglese nella Biografia, utilizza i tag [en]...[/en] nelle casella di testo corrispondente.</p>
+							<component>modifica_profilo</component>
+						</div>
+
+					</nav>
+						
+						
+					<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
+						<div id="search-bar">
+							<label for="search">Cerca:</label>
+							<input type="text" id="search" placeholder="Cerca..." />
+							<button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+						</div>
+						<!-- potrebbe interessarti -->
+					</nav>
+				<!-- fine dei 3 blocchi di contenuto -->
+				</div>
+			</div>
+
+			<div class="mobile-content">
+				<component>menu</component>
+				<nav id="post-box_mobile" aria-label="Sezione di modifica del profilo">
+					<div id="text-box_mobile">
+						<p class="info-tag-center">Per contrassegnare le parole in inglese nella Biografia, utilizza i tag [en]...[/en] nelle casella di testo corrispondente.</p>
+						<component>modifica_profilo_mobile</component>
 					</div>
 
 				</nav>
-					
-					
-				<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
-                    <div id="search-bar">
-						<label for="search">Cerca:</label>
-                        <input type="text" id="search" placeholder="Cerca..." />
-                        <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
-                    </div>
-                    <!-- potrebbe interessarti -->
-                </nav>
-			<!-- fine dei 3 blocchi di contenuto -->
 			</div>
 
 			<component>goback</component>

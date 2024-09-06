@@ -91,6 +91,9 @@ h3{
     border: 2px solid var(--breadcolor);
 }
 
+.hideall{
+    display: none;
+}
 
 
 /*
@@ -233,7 +236,7 @@ header img {
 
 
 /*---- MESSAGGI GET ------*/
-#messaggio{
+.messaggio{
     text-align: center;
     padding: 10px;
     margin-top: 2%;
@@ -242,7 +245,7 @@ header img {
     font-weight: bold;
 }
 
-#messaggioerrore{
+.messaggioerrore{
     text-align: center;
     padding: 10px;
     margin-top: 2%;
@@ -310,7 +313,20 @@ header img {
     margin-top: 0%;
 }
 
+#public-post_mobile{
+    margin-top: 0%;
+}
+
 #post-box{
+    max-width: 80%;
+    flex:2;
+    height:800px;
+    overflow: auto;
+    margin-right: -10%;
+    margin-left:-10%;
+}
+
+#post-box_mobile{
     max-width: 80%;
     flex:2;
     height:800px;
@@ -326,6 +342,10 @@ header img {
 }
 
 #text-box{
+    margin-left: 15%;
+}
+
+#text-box_mobile{
     margin-left: 15%;
 }
 
@@ -412,6 +432,12 @@ header img {
     margin-right: -20%;
 }
 
+#profile-pic_mobile{
+    width: 100%;
+    height: auto;
+    margin-right: -20%;
+}
+
 .profile-picture{
     width: 40%;
     height: auto;
@@ -419,6 +445,11 @@ header img {
 }
 
 #friend-picture{
+    width: 100%;
+    border-radius:50%;
+}
+
+#friend-picture_mobile{
     width: 100%;
     border-radius:50%;
 }
@@ -461,7 +492,23 @@ legend{
     padding-bottom: 2%;
 }
 
+#profile-info_mobile{
+    display: flex;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
 #profile-data{
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-right:20%;
+}
+
+#profile-data_mobile{
     display: inline-block;
     margin-left: auto;
     margin-right: auto;
@@ -475,7 +522,7 @@ legend{
     text-align: center;
 }
 
-#search, #text{
+#search, #search_mobile, #text, #text_mobile{
     padding: 10px; 
     margin: 10px 0;
     border-radius: 5px;
@@ -579,7 +626,7 @@ hr{
     height: auto;
 }
 
-#sell-book-btn {
+.sell-book-btn {
     position: fixed;
     bottom: 20px;
     left: 50%;
@@ -594,16 +641,36 @@ hr{
     z-index: 1000; /* Assicurati che il pulsante sia sopra altri elementi */
 }
 
-#sell-book-btn:hover {
+.sell-book-btn:hover {
     background-color: #0056b3;
 }
 
-#sell-book-btn:focus {
+.sell-book-btn:focus {
     outline: 2px solid #ff9100; /* ad esempio, giallo oro */
     outline-offset: 4px;
 }
 
-#chatContainer{
+/* Mostra il contenitore della chat per desktop */
+/* @media (min-width: 768px) {
+    .chatContainer_desktop {
+        display: block;
+    }
+    .chatContainer_mobile {
+        display: none;
+    }
+}
+
+/* Mostra il contenitore della chat per mobile 
+@media (max-width: 767px) {
+    .chatContainer_desktop {
+        display: none;
+    }
+    .chatContainer_mobile {
+        display: block;
+    }
+} */
+
+#chatContainer, #chatContainer_mobile{
     display:none; 
     position:fixed; 
     bottom:0; 
@@ -620,7 +687,7 @@ hr{
     border-top: 1px solid #0048ff;
 }
 
-#chatHeader, #chatHeaderRoom{
+#chatHeader, #chatHeader_mobile, #chatHeaderRoom{
     background-color:#007bff; 
     color:#fff; 
     padding:10px; 
@@ -634,7 +701,7 @@ hr{
     cursor:pointer;
 }
 
-#chatMessages{
+#chatMessages, #chatMessages_mobile{
     padding:10px; 
     height:300px; 
     overflow-y:scroll;
@@ -646,7 +713,7 @@ hr{
     overflow-y:scroll;
 }
 
-#chatMessages .sent, #chatMessagesRoom .sent{
+#chatMessages .sent, #chatMessages_mobile .sent, #chatMessagesRoom .sent{
     background-color: #0048ff;
     color: #fff;
     padding: 5px;
@@ -664,7 +731,7 @@ hr{
     display: block;
 }
 
-#chatMessages .received, #chatMessagesRoom .received{
+#chatMessages .received, #chatMessages_mobile .received , #chatMessagesRoom .received{
     background-color: #b8b6b6;
     padding: 5px;
     border-radius: 5px;
@@ -674,18 +741,18 @@ hr{
     margin-bottom: 0.2em;
 }
 
-#chatInput, #chatInputRoom{
+#chatInput, #chatInput_mobile, #chatInputRoom{
     padding: 10px;
 }
 
-#chatMessage, #chatMessageRoom{
+#chatMessage, #chatMessage_mobile #chatMessageRoom{
     width:80%;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-#sendButton {
+#sendButton, #sendButton_mobile {
     background: none;
     border: none;
     color: #007bff;
@@ -694,11 +761,11 @@ hr{
     margin-left: 10px;
 }
 
-#sendButton:hover {
+#sendButton:hover, #sendButton_mobile:hover {
     color: #0056b3;
 }
 
-#chatContainer.visible{
+#chatContainer.visible, #chatContainer_mobile.visible{
     display: block;
 }
 
@@ -727,7 +794,7 @@ hr{
     padding: 8px;
 }
 
-.filtri #search:hover{
+.filtri #search:hover, .filtri #search_mobile:hover{
     border: 1px solid #000000;
 }
 

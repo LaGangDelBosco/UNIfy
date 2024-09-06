@@ -8,9 +8,9 @@
 	<meta name ="keywords" content ="unify, università, studenti, social, reazioni, like, commenti, post, foto, video" />
 	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso"/>
 	
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="./style.css" />
-	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px)" />
 	<link rel="stylesheet" href="./print.css" media="print"/>
 
 	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
@@ -20,6 +20,7 @@
 
 	<script src="./js/menu.js"></script>
 	<script src="./js/menu_mobile.js"></script>
+	<script src="./js/pagine_mobile.js"></script>
 	<script src="./js/like-comment.js"></script>
 </head>
 
@@ -31,48 +32,76 @@
 			<p>Ti trovi in: <span lang="en">Home</span></p>
 		</nav>
 
-        <main>
+        <main id="main">
 			<h2 class="page_title">Benvenuti su UNIfy</h2>
 
-			<!-- da qui partono i 3 blocchi di contenuto -->
-			<div class="content">
-				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
-				<nav id="menu" aria-label="Menù del sito">
-					<component>menu</component>
-				</nav>
-				
-				<nav id="post-box" aria-label="Sezione visualizzazione post">
+			<div class="desktop-content hideall">
+				<!-- da qui partono i 3 blocchi di contenuto -->
+				<div class="content">
+					<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+					<nav id="menu" aria-label="Menù del sito">
+						<component>menu</component>
+					</nav>
+					
+					<nav id="post-box" aria-label="Sezione visualizzazione post">
+						<component>messaggio</component>
+						<div id="text-box">
+							<form method="post" action="index.php" enctype="multipart/form-data">
+								<p><label for="text">Scrivi un post:</label><br/>
+									<p class="info-tag">Per contrassegnare le parole in inglese, utilizza i tag [en]...[/en] nella casella di testo.</p>
+									<textarea id="text" name="text" rows="4" cols="50" placeholder="Scrivi qualcosa..."></textarea><br/>
+								o <label for="media">Carica un'immagine o un video:</label>
+								<input type="file" id="media" name="media" accept="image/*, video/*" /></p>
+								<button class="loginbtn" id="public-post" type="submit" name="submit-public-post" aria-label="Bottone di pubblicazione del post">Pubblica</button>
+							</form>
+						</div>
+						
+						<div id="post">
+							<component>lista_post</component>
+						</div>
+						<script>
+							like_post();
+						</script>
+
+					</nav>
+						
+						
+					<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
+						<div id="search-bar">
+							<label for="search">Cerca qui:</label><br/>
+							<input type="text" id="search" placeholder="Cerca..." />
+							<button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+						</div>
+						<!-- potrebbe interessarti -->
+					</nav>
+				<!-- fine dei 3 blocchi di contenuto -->
+				</div>
+			</div>
+
+			<div class="mobile-content">
+				<component>menu</component>
+				<nav id="post-box_mobile" aria-label="Sezione visualizzazione post">
 					<component>messaggio</component>
-					<div id="text-box">
+					<div id="text-box_mobile">
 						<form method="post" action="index.php" enctype="multipart/form-data">
-							<p><label for="text">Scrivi un post:</label><br/>
+							<p><label for="text_mobile">Scrivi un post:</label><br/>
 								<p class="info-tag">Per contrassegnare le parole in inglese, utilizza i tag [en]...[/en] nella casella di testo.</p>
-								<textarea id="text" name="text" rows="4" cols="50" placeholder="Scrivi qualcosa..."></textarea><br/>
-							o <label for="media">Carica un'immagine o un video:</label>
-							<input type="file" id="media" name="media" accept="image/*, video/*" /></p>
-							<button class="loginbtn" id="public-post" type="submit" name="submit-public-post" aria-label="Bottone di pubblicazione del post">Pubblica</button>
+								<textarea id="text_mobile" name="text" rows="4" cols="50" placeholder="Scrivi qualcosa..."></textarea><br/>
+							o <label for="media_mobile">Carica un'immagine o un video:</label>
+							<input type="file" id="media_mobile" name="media" accept="image/*, video/*" /></p>
+							<button class="loginbtn" id="public-post_mobile" type="submit" name="submit-public-post" aria-label="Bottone di pubblicazione del post">Pubblica</button>
 						</form>
 					</div>
 					
-					<div id="post">
-						<component>lista_post</component>
+					<div id="post_mobile">
+						<component>lista_post_mobile</component>
 					</div>
 					<script>
 						like_post();
 					</script>
 
 				</nav>
-					
-					
-				<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
-                    <div id="search-bar">
-						<label for="search">Cerca qui:</label><br/>
-                        <input type="text" id="search" placeholder="Cerca..." />
-                        <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
-                    </div>
-                    <!-- potrebbe interessarti -->
-                </nav>
-			<!-- fine dei 3 blocchi di contenuto -->
+
 			</div>
 
 			<br>

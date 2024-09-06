@@ -30,9 +30,9 @@ $creaaula_template->insert("menu", build_menu());
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore durante la creazione dell'aula"){
-        $creaaula_template->insert("messaggio", "<div id='messaggioerrore'>".$messaggio."</div>");
+        $creaaula_template->insert("messaggio", "<div class='messaggioerrore'>".$messaggio."</div>");
     }else{
-        $creaaula_template->insert("messaggio", "<div id='messaggio'>".$messaggio."</div>");
+        $creaaula_template->insert("messaggio", "<div class='messaggio'>".$messaggio."</div>");
     }
 }else
     $creaaula_template->insert("messaggio", "");

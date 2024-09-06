@@ -55,13 +55,13 @@ if(isset($_POST['submit_vendi_libro'])){
 
 $vendilibro_template = $template_engine->load_template("vendi-libro-template.html");
 
-$vendilibro_template->insert("menu", build_menu());
+$vendilibro_template->insert_multiple("menu", build_menu());
 
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
-    $vendilibro_template->insert("messaggio", "<div id='messaggioerrore'>".$messaggio."</div>");
+    $vendilibro_template->insert_multiple("messaggio", "<div class='messaggioerrore'>".$messaggio."</div>");
 }else{
-    $vendilibro_template->insert("messaggio", "");
+    $vendilibro_template->insert_multiple("messaggio", "");
 }
 
 $vendilibro_template->insert("header", build_header());

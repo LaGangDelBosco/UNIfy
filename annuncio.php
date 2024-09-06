@@ -36,22 +36,24 @@ if(isset($_POST['submit_elimina_annuncio'])){
 
 $annuncio_template = $template_engine->load_template("annuncio-template.html");
 
-$annuncio_template->insert("menu", build_menu());
+$annuncio_template->insert_multiple("menu", build_menu());
 
 if($annuncio!=null){
     $annuncio_template->insert_multiple("nome_libro", $annuncio['title']);
     $annuncio_template->insert("nome_libro_title", toglispan($annuncio['title']));
-    $annuncio_template->insert("annuncio", build_annuncio($annuncio));
+    $annuncio_template->insert_multiple("annuncio", build_annuncio($annuncio));
 }
 
 if($tipo_annuncio == "myid"){
-    $annuncio_template->insert("buttons", build_buttons_mybook($id_annuncio));
-    $annuncio_template->insert("tabella_interessati", build_tabella_interessati($id_annuncio));
-    $annuncio_template->insert("destinatario", $annuncio['username']);
+    $annuncio_template->insert_multiple("buttons", build_buttons_mybook($id_annuncio));
+    $annuncio_template->insert_multiple("tabella_interessati", build_tabella_interessati($id_annuncio));
+    $annuncio_template->insert_multiple("tabella_interessati_mobile", build_tabella_interessati_mobile($id_annuncio));
+    $annuncio_template->insert_multiple("destinatario", $annuncio['username']);
 }elseif($tipo_annuncio == "id"){
-    $annuncio_template->insert("buttons", build_buttons_otherbook($id_annuncio, $annuncio['username']));
-    $annuncio_template->insert("tabella_interessati", "");
-    $annuncio_template->insert("destinatario", $annuncio['username']);
+    $annuncio_template->insert_multiple("buttons", build_buttons_otherbook($id_annuncio, $annuncio['username']));
+    $annuncio_template->insert_multiple("tabella_interessati", "");
+    $annuncio_template->insert_multiple("tabella_interessati_mobile", "");
+    $annuncio_template->insert_multiple("destinatario", $annuncio['username']);
 }
 
 
