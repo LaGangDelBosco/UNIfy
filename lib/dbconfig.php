@@ -950,4 +950,97 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $conn->close();
         return !$this->err_code;
     }
+
+    public function elimina_notifica($id_notifica){
+        $conn = $this->apriconn();
+
+        $query_username = "SELECT receiver_username FROM notification WHERE notification_id = ?";
+        $stmt_username = $conn->prepare($query_username);
+        $stmt_username->bind_param("i", $id_notifica);
+        $stmt_username->execute();
+        $result_username = $stmt_username->get_result();
+        $data_username = $result_username->fetch_assoc();
+        $stmt_username->close();
+        $username = $data_username['receiver_username']; 
+
+        $query = "DELETE FROM notification WHERE notification_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_notifica);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+            $this->decrementa_numero_notifiche($username);
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'eliminazione della notifica";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
+
+    public function decrementa_numero_notifiche($username){
+        $conn = $this->apriconn();
+        $query = "UPDATE user SET notifications_amount = notifications_amount - 1 WHERE username = ? AND notifications_amount > 0";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'aggiornamento del numero di notifiche";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
+
+    public function get_numero_notifiche($username){
+        $conn = $this->apriconn();
+        $query = "SELECT notifications_amount FROM user WHERE username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data['notifications_amount'];
+    }
+
+    public function elimina_tutte_notifiche($username){
+        $conn = $this->apriconn();
+        $query = "DELETE FROM notification WHERE receiver_username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+            $this->azzera_numero_notifiche($username);
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'eliminazione delle notifiche";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
+
+    public function azzera_numero_notifiche($username){
+        $conn = $this->apriconn();
+        $query = "UPDATE user SET notifications_amount = 0 WHERE username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'aggiornamento del numero di notifiche";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
+    }
 }
