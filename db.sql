@@ -5,8 +5,6 @@ DROP TABLE IF EXISTS profile;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS friendship;
-DROP TABLE IF EXISTS reaction;
-DROP TABLE IF EXISTS message;
 DROP TABLE IF EXISTS likes;
 DROP TABLE IF EXISTS book;
 DROP TABLE IF EXISTS chat_message;
@@ -72,28 +70,6 @@ CREATE TABLE friendship (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (username_1) REFERENCES user(username),
     FOREIGN KEY (username_2) REFERENCES user(username)
-);
-
-CREATE TABLE reaction (
-    reaction_id INT PRIMARY KEY AUTO_INCREMENT,
-    post_id INT,
-    username VARCHAR(100),
-    type VARCHAR(32),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (post_id) REFERENCES post(post_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (username) REFERENCES user(username)
-);
-
-CREATE TABLE message (
-    message_id INT PRIMARY KEY AUTO_INCREMENT,
-    sender_id VARCHAR(100),
-    receiver_id VARCHAR(100),
-    content TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (sender_id) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (receiver_id) REFERENCES user(username)
 );
 
 CREATE TABLE likes (
@@ -522,5 +498,32 @@ BEGIN
     UPDATE user SET notifications_amount = notifications_amount + 1 WHERE username = NEW.username_2;
 END;
 //
+
+CREATE TRIGGER chat_message_notification
+    AFTER INSERT ON chat_message
+    FOR EACH ROW
+BEGIN
+    DECLARE book_name VARCHAR(100);
+    SELECT title INTO book_name FROM book WHERE book_id = NEW.id_annuncio;
+    DECLARE content TEXT;
+    SET content = CONCAT(NEW.sender_username, " ti ha inviato un messaggio per l'annuncio ", book_name);
+    INSERT INTO notification (receiver_username, sender_username, type, content) VALUES 
+    (NEW.receiver_username, NEW.sender_username, 'chat_message', content);
+    UPDATE user SET notifications_amount = notifications_amount + 1 WHERE username = receiver_username;
+END;
+//
+-- TODO capire a chi far arrivare le notifiche
+-- CREATE TRIGGER room_message_notification
+--     AFTER INSERT ON room_message
+--     FOR EACH ROW
+-- BEGIN
+--     DECLARE room_name VARCHAR(100);
+--     SELECT name INTO room_name FROM room WHERE id = NEW.room_code;
+--     DECLARE content TEXT;
+--     SET content = CONCAT(NEW.username, ' ha inviato un messaggio nella chat di ', NEW.room_code);
+--     INSERT INTO notification (receiver_username, sender_username, type, content) VALUES 
+--     (NEW.room_code, NEW.username, 'room_message', content);
+--     UPDATE user SET notifications_amount = notifications_amount + 1 WHERE username = NEW.room_code;
+-- END;
 
 DELIMITER ;
