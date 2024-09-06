@@ -1380,19 +1380,22 @@ function build_liked_posts_mobile($username)
             $liked_posts .= "<li class=\"post-actions\">
                                 <fieldset>
                                     <legend>Interazioni post del $row_query[created_at]</legend>
-                                    <button class=\"like-interact\" data-post-id=\"$post_id\">Mi piace</button>
-                                    <span class=\"numero_like\">$like_count</span>
-                                    <label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
-                                    <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                    <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>";
-
+                                    <ul>
+                                        <li><button class=\"like-interact\" data-post-id=\"$post_id\">Mi piace</button>
+                                            <span class=\"numero_like\">$like_count</span>
+                                        </li>
+                                        <li id=\"commento_fieldset\"><label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
+                                            <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
+                                            <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>
+                                        </li>";
+                                    
             if($_SESSION['Username'] == $post_username) {
-                $liked_posts .= "            <form method='post' action='post-piacciono.php' name='elimina_post'>
+                $liked_posts .= "            <li><form method='post' action='post-piacciono.php' name='elimina_post'>
                                         <div class = \"elimina_inline\"> 
                                             <input type='hidden' name='post_id' value='" . $row_query['post_id'] . "' />
                                             <button id=\"del_post_mobile\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
                                         </div>
-                                    </form>
+                                    </form></li></ul>
                                     </fieldset>
                                     </li>";
             }else{
@@ -1530,19 +1533,22 @@ function build_commented_posts_mobile($username){
             $commented_posts .= "<li class=\"post-actions\">
                                 <fieldset>
                                     <legend>Interazioni post del $row_query[created_at]</legend>
-                                    <button class=\"like-interact\" data-post-id=\"$post_id\">Mi piace</button>
-                                    <span class=\"numero_like\">$like_count</span>
-                                    <label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
-                                    <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                    <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>";
-
+                                    <ul>
+                                        <li><button class=\"like-interact\" data-post-id=\"$post_id\">Mi piace</button>
+                                            <span class=\"numero_like\">$like_count</span>
+                                        </li>
+                                        <li id=\"commento_fieldset\"><label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
+                                            <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
+                                            <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>
+                                        </li>";
+                                    
             if ($_SESSION['Username'] == $post_username) {
-                $commented_posts .= "            <form method='post' action='post-commentati.php' name='elimina_post'>
+                $commented_posts .= "   <li><form method='post' action='post-commentati.php' name='elimina_post'>
                                         <div class = \"elimina_inline\"> 
                                             <input type='hidden' name='post_id' value='" . $row_query['post_id'] . "' />
                                             <button id=\"del_post_mobile\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
                                         </div>
-                                    </form>
+                                    </form></li></ul>
                                     </fieldset>
                                     </li>";
             }else{

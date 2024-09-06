@@ -258,6 +258,7 @@ header img {
 #login_form{
     margin-top: 7%;
     margin-bottom: 7%;
+    width: 20%;
 }
 
 #registrazione_form{
@@ -274,7 +275,7 @@ header img {
     margin-top:4%;
 }
 
-.loginbtn:hover{
+.loginbtn:hover, .loginbtn:focus{
     background-color: #fff;
     color: #000000;
     cursor: pointer;
@@ -409,6 +410,11 @@ header img {
     border-right:none;
     border-bottom: 3px solid #8e8d8d;
     background-color: rgba(255,255,255,0.6);
+    width: 100%;
+}
+
+.form_box textarea{
+    width:100%;
 }
 
 .form_box input:hover{

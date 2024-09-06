@@ -121,6 +121,10 @@ main h2{
     margin-left: 0.7em;
 }
 
+#header_login .hamburger-icon, #header_login .menu-toggle{
+    display: none;
+}
+
 
 /* .menu.menu-open{
     display: block; /* Mostra il menu quando è aperto 
@@ -177,6 +181,15 @@ main h2{
 
 .interact {
     padding: 1em 1.50em;  
+}
+
+#login_form{
+    width: 90%;
+}
+
+#profile_picture_path_mobile, #book_picture_path_mobile{
+    height: 100%;
+    width: auto;
 }
 
 

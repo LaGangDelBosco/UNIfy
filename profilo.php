@@ -104,6 +104,8 @@ if(isset($_POST['accept_friendship'])){
     }
 }
 
+$mioprofilo_template->insert("keywords", $utente_profilo .", ". $datiutente['name']);
+
 $mioprofilo_template->insert_multiple("menu", build_menu());
 
 if(isset($_GET['messaggio'])){

@@ -92,6 +92,8 @@ if(isset($_POST['submit_modifica_profilo'])){
     }
 }
 
+$mioprofilo_template->insert("keywords", $username .", " . $datiutente['name']);
+
 $mioprofilo_template->insert_multiple("menu", build_menu());
 
 if(isset($_GET['messaggio'])){
