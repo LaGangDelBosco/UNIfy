@@ -9,6 +9,11 @@ if(!isset($_SESSION['Username'])){
     exit();
 }
 
+if($_SESSION['Username'] != "admin") {
+    header('Location: error.php?error=403&forced=1');
+    exit;
+}
+
 $postnascosti_template = $template_engine->load_template("post-nascosti-template.html");
 
 if(isset($_SESSION['Username']))

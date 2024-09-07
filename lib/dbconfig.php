@@ -1043,4 +1043,17 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $conn->close();
         return !$this->err_code;
     }
+
+    public function check_username($username) : bool {
+        $conn = $this->apriconn();
+        $query = "SELECT * FROM user WHERE username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return !empty($data);
+    }
 }

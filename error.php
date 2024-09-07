@@ -16,8 +16,10 @@ if(isset($_GET['error'])) {
     $id = $_GET['error'];
     if($_SESSION['forced'] == 1) {
         $_SESSION['error_code'] = $id;
-    } else {
+    } else if($_SESSION['forced'] == 0) {
         $_SESSION['error_code'] = http_response_code();
+    } else {
+        $_SESSION['error_code'] = 400;
     }
     unset($_SESSION['forced']);
 }
