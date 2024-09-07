@@ -32,7 +32,15 @@
         <p>Ti trovi in: <a href="index.php"><span lang="en">Home</span></a> &gt;&gt; Post che ti piacciono</p>
     </nav>
 
-    <main>
+    <main id="main">
+        <div class="mobile-content">
+            <div id="search-bar_mobile">
+              <label for="search_mobile">Cerca:</label>
+              <input type="text" id="search_mobile" placeholder="Cerca qui..." />
+              <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+            </div>
+        </div>
+
         <h2 class="page_title">Post a cui hai commentato</h2>
 
         <div class="desktop-content hideall">
@@ -47,10 +55,6 @@
                     <div id="my-posts">
                         <component>post</component>
                     </div>
-                    <script>
-                        like_post();
-                    </script>
-
                 </nav>
 
 
@@ -58,7 +62,7 @@
                     <div id="search-bar">
                         <label for="search">Cerca:</label>
                         <input type="text" id="search" placeholder="Cerca qui..." />
-                        <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+                        <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
                     </div>
                 </nav>
             </div>
@@ -71,13 +75,13 @@
                 <div id="my-posts_mobile">
                     <component>post_mobile</component>
                 </div>
-                <script>
-                    like_post();
-                </script>
-
             </nav>
         </div>
 
+        <script>
+            like_post();
+        </script>
+        
         <component>goback</component>
     </main>
 </div>

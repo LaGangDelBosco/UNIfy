@@ -20,8 +20,10 @@ if(isset($_POST['submit_elimina_post'])){
         header("Location: mio-profilo.php?messaggio=Post eliminato con successo");
         exit();
     }
-    else
+    else{
         header("Location: mio-profilo.php?messaggio=Errore nell'eliminazione del post");
+        exit();
+    }
 }
 
 if($db->get_dati_utente_profilo($username)){
@@ -89,6 +91,8 @@ if(isset($_POST['submit_modifica_profilo'])){
         exit();
     }
 }
+
+$mioprofilo_template->insert("keywords", $username .", " . $datiutente['name']);
 
 $mioprofilo_template->insert_multiple("menu", build_menu());
 

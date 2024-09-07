@@ -30,7 +30,7 @@ if(isset($_POST['submit_ban'])){
     $username = $_POST['username'];
     $reason = "TEST"; // FIXME da sistemare
     $db->ban_user($username, $reason);
-    header("Location: profilo.php?user=$username");
+    header("Location: profilo.php?user=$username&messaggio=Utente bannato con successo");
 }
 
 $utenti_banditi_template = $template_engine->load_template("utenti-banditi-template.html");

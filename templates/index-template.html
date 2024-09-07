@@ -33,6 +33,14 @@
 		</nav>
 
         <main id="main">
+			<div class="mobile-content">
+				<div id="search-bar_mobile">
+				  <label for="search_mobile">Cerca:</label>
+				  <input type="text" id="search_mobile" placeholder="Cerca qui..." />
+				  <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+				</div>
+			</div>
+
 			<h2 class="page_title">Benvenuti su UNIfy</h2>
 
 			<div class="desktop-content hideall">
@@ -55,7 +63,7 @@
 								<button class="loginbtn" id="public-post" type="submit" name="submit-public-post" aria-label="Bottone di pubblicazione del post">Pubblica</button>
 							</form>
 						</div>
-						
+						<hr/>
 						<div id="post">
 							<component>lista_post</component>
 						</div>
@@ -91,13 +99,11 @@
 						</form>
 					</div>
 					
+					<hr/>
 					<div id="post_mobile">
 						<component>lista_post_mobile</component>
 					</div>
-					
-
 				</nav>
-
 			</div>
 			<script>
 				like_post();

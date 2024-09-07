@@ -34,9 +34,14 @@ if(isset($_GET['id'])){
 
 if(isset($_POST['submit_elimina_annuncio'])){
     $id_annuncio = $_POST['id_annuncio'];
-    $db->delete_annuncio($id_annuncio);
-    header("Location: compro-vendo-libri.php?messaggio=Annuncio eliminato con successo");
-    exit();
+    if($db->delete_annuncio($id_annuncio)){
+        header("Location: compro-vendo-libri.php?messaggio=Annuncio eliminato con successo");
+        exit();
+    }
+    else{
+        header("Location: compro-vendo-libri.php?messaggio=Errore nell'eliminazione dell'annuncio");
+        exit();
+    }
 }
 
 
@@ -48,6 +53,7 @@ if($annuncio!=null){
     $annuncio_template->insert_multiple("nome_libro", $annuncio['title']);
     $annuncio_template->insert("nome_libro_title", toglispan($annuncio['title']));
     $annuncio_template->insert_multiple("annuncio", build_annuncio($annuncio));
+    $annuncio_template->insert("keywords", $annuncio['title'] . ", " . $annuncio['author']. ", " . $annuncio['genre']. ", " . $annuncio['year']);
 }
 
 if($tipo_annuncio == "myid"){

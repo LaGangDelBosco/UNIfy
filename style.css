@@ -258,6 +258,7 @@ header img {
 #login_form{
     margin-top: 7%;
     margin-bottom: 7%;
+    width: 20%;
 }
 
 #registrazione_form{
@@ -274,7 +275,7 @@ header img {
     margin-top:4%;
 }
 
-.loginbtn:hover{
+.loginbtn:hover, .loginbtn:focus{
     background-color: #fff;
     color: #000000;
     cursor: pointer;
@@ -409,6 +410,11 @@ header img {
     border-right:none;
     border-bottom: 3px solid #8e8d8d;
     background-color: rgba(255,255,255,0.6);
+    width: 100%;
+}
+
+.form_box textarea{
+    width:100%;
 }
 
 .form_box input:hover{
@@ -650,26 +656,6 @@ hr{
     outline-offset: 4px;
 }
 
-/* Mostra il contenitore della chat per desktop */
-/* @media (min-width: 768px) {
-    .chatContainer_desktop {
-        display: block;
-    }
-    .chatContainer_mobile {
-        display: none;
-    }
-}
-
-/* Mostra il contenitore della chat per mobile 
-@media (max-width: 767px) {
-    .chatContainer_desktop {
-        display: none;
-    }
-    .chatContainer_mobile {
-        display: block;
-    }
-} */
-
 #chatContainer, #chatContainer_mobile{
     display:none; 
     position:fixed; 
@@ -830,7 +816,7 @@ hr{
     border-top: 1px solid #000000;
 }
 
-#descrizione_tab_interessati{
+#descrizione_tab_interessati, #descrizione_tab_interessati_mobile{
     text-indent: -9999px;
 }
 
@@ -858,6 +844,22 @@ hr{
 
 #emailHelp{
     text-indent: -9999px;
+}
+
+.singola_notifica{
+    background-color: #f1f1f1;
+    padding: 1%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border-radius: 5px;
+    list-style-type: none;
+}
+
+#lista_notifiche{
+    margin-left:auto;
+    margin-right:auto;
+    width: 90%;
+
 }
 
 /*
