@@ -1798,9 +1798,8 @@ function build_lista_aule(){
                                     </div>
                                 </form>";
             }
-            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\"&room_name=urlencode(\"".toglispan($row_query['name'])."\")' name='vedi_aula'>
+            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\")' name='vedi_aula'>
                                     <div>
-                                        <input type='hidden' name='room_name' value='".urlencode(toglispan($row_query['name']))."' />
                                         <button class=\"loginbtn\" type='submit' name='room_code' value='".$row_query['id']."' aria-label='Entra in aula di \"".$row_query['name']."\"'>Entra in aula</button>
                                     </div>
                                 </form>
@@ -1950,9 +1949,8 @@ function build_lista_aule_filter($categoria){
                                     </div>
                                 </form>";
             }
-            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\"&room_name=urlencode(\"".toglispan($row_query['name'])."\")' name='vedi_aula'>
+            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\")' name='vedi_aula'>
                                     <div>
-                                        <input type='hidden' name='room_name' value='".urlencode(toglispan($row_query['name']))."' />
                                         <button class=\"loginbtn\" type='submit' name='room_code' value='".$row_query['id']."' aria-label='Entra in aula di \"".$row_query['name']."\"'>Entra in aula</button>
                                     </div>
                                 </form>
@@ -1994,9 +1992,8 @@ function build_lista_aule_search($search){
                                     </div>
                                 </form>";
             }
-            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\"&room_name=urlencode(\"".toglispan($row_query['name'])."\")' name='vedi_aula'>
+            $lista_aule .= "<form method='get' action='aula.php?room_code=\"".$row_query['id']."\")' name='vedi_aula'>
                                     <div>
-                                        <input type='hidden' name='room_name' value='".urlencode(toglispan($row_query['name']))."' />
                                         <button class=\"loginbtn\" type='submit' name='room_code' value='".$row_query['id']."' aria-label='Entra in aula di \"".$row_query['name']."\"'>Entra in aula</button>
                                     </div>
                                 </form>

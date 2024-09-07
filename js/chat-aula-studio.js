@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
     const roomCode = getQueryParameter('room_code'); // Supponendo che il codice della stanza venga passato come parametro nella query string
-    const roomName = getQueryParameter('room_name'); // Supponendo che anche il nome della stanza venga passato
     getElementByIdWithScreenCheck('roomDisplayName').innerText = roomName.replace(/\+/g, ' '); // Sostituisce i caratteri "+" con spazi
 
     if (roomCode) {
