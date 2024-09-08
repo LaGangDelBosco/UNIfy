@@ -1,0 +1,7 @@
+# Reindirizza vari errori http alla pagina di errore
+# Per maggiori informazioni vedere commenti in custom.conf
+ErrorDocument 400 /error.php?error=400&forced=false
+ErrorDocument 401 /error.php?error=401&forced=false
+ErrorDocument 403 /error.php?error=403&forced=false
+ErrorDocument 404 /error.php?error=404&forced=false
+ErrorDocument 500 /error.php?error=500&forced=false

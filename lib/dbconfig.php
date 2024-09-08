@@ -1044,6 +1044,19 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         return !$this->err_code;
     }
 
+    public function check_username($username) : bool {
+        $conn = $this->apriconn();
+        $query = "SELECT * FROM user WHERE username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return !empty($data);
+    }
+
     public function get_amici($username){
         $conn = $this->apriconn();
         $query = "SELECT username_1, username_2 FROM friendship WHERE (username_1 = ? OR username_2 = ?) AND status = 'accepted'";

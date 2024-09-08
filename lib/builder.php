@@ -741,7 +741,7 @@ function build_mypost_mobile($username){
                                     <div>
                                         <input type='hidden' name='id_post' value='".$post_id."' />
                                         <input type='hidden' name='current_page' value='".$current_page."' />
-                                        <button class=\"interact\" type='submit' name='submit_nascondi_post'>Nascondi</button>
+                                        <button class=\"interact\" type='submit' name='submit_nascondi_post' aria-label='Bottone per nascondere il post di '".$username."' del '".$row_query['created_at'].">Nascondi</button>
                                     </div>
                                 </form>
                             </li>";
@@ -765,12 +765,12 @@ function build_mypost_mobile($username){
                                 <fieldset>
                                     <legend>Interazioni post del ". $row_query['created_at'] ." </legend>
                                     <ul>
-                                        <li><button class=\"like-interact\" data-post-id=\"". $post_id ."\">Mi piace</button>
+                                        <li><button class=\"like-interact\" data-post-id=\"". $post_id ."\" aria-label=\"Bottone di mi piace per il post di ".$username." creato il ".$row_query['created_at']."\">Mi piace</button>
                                             <span class=\"numero_like\">$like_count</span>
                                         </li>
                                         <li id=\"commento_fieldset\"><label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
                                             <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                            <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>
+                                            <button id='comment_button_mobile_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>
                                         </li>";
 
 
@@ -778,7 +778,7 @@ function build_mypost_mobile($username){
                 $mypost .= "            <li><form method='post' action='mio-profilo.php' name='elimina_post'>
                                         <div class = \"elimina_inline\"> 
                                             <input type='hidden' name='post_id' value='" . $row_query['post_id'] . "' />
-                                            <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina post</button>
+                                            <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post' aria-label=\"Bottone di cancellazione del tuo post creato il ".$row_query['created_at']."\">Elimina post</button>
                                         </div>
                                     </form></li>";
             }
@@ -835,13 +835,13 @@ function build_lista_libri(){
             if(isset($_SESSION['Username']) && $_SESSION['Username'] == $row_query['username']){
                 $lista_libri .= "<form method='get' action='annuncio.php?myid=".$row_query['book_id']."' name='vedi_annuncio'>
                                     <div>
-                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."' aria-label=\"Vedi il tuo annuncio del libro ".togliSpan($row_query['title'])."\" >Vedi il tuo annuncio</button>
+                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."' aria-label=\"Vedi il tuo annuncio del libro ".togliSpan($row_query['title'])." creato il ".$row_query['created_at']."\" >Vedi il tuo annuncio</button>
                                     </div>
                                 </form>";
             }else{
                 $lista_libri .= "<form method='post' action='annuncio.php?id=".$row_query['book_id']."' name='contatta_venditore'>
                                     <div>
-                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."' aria-label=\"Vedi annuncio del libro ".togliSpan($row_query['title'])."\">Vedi annuncio</button>
+                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."' aria-label=\"Vedi annuncio del libro ".togliSpan($row_query['title'])." dell'utente ".$row_query['username']."\">Vedi annuncio</button>
                                     </div>
                                 </form>";
             }
@@ -883,7 +883,7 @@ function build_buttons_mybook($id_annuncio){
     $buttons="<form method='post' action='annuncio.php?myid=".$id_annuncio."' name='form_elimina_annuncio' >
                 <div>
                     <input type='hidden' name='id_annuncio' value='".$id_annuncio."'>
-                    <button id=\"annuncio_button\" class=\"deletebtn\" type=\"submit\" name=\"submit_elimina_annuncio\">Elimina annuncio</button>
+                    <button id=\"annuncio_button\" class=\"deletebtn\" type=\"submit\" name=\"submit_elimina_annuncio\" aria-label=\"Bottone che permette di eliminare questo annuncio\">Elimina annuncio</button>
                 </div>
                 <hr/>
             </form>";
@@ -893,7 +893,7 @@ function build_buttons_mybook($id_annuncio){
 function build_buttons_otherbook($id_annuncio, $username){
     $buttons = "<form id='contactForm_".$id_annuncio."' onsubmit='openChat(".$id_annuncio.", \"".$username."\"); return false;'>
                     <div>
-                        <button id=\"annuncio_button\" class=\"loginbtn\" type=\"submit\">Contatta il venditore</button>
+                        <button id=\"annuncio_button\" class=\"loginbtn\" type=\"submit\" aria-label=\"Bottone che permette di contattare il venditore\">Contatta il venditore</button>
                     </div>
                 </form>";
     return $buttons;
@@ -1200,13 +1200,13 @@ function build_lista_libri_filter($genere, $autore, $anno){
             if(isset($_SESSION['Username']) && $_SESSION['Username'] == $row_query['username']){
                 $lista_libri .= "<form method='get' action='annuncio.php?myid=".$row_query['book_id']."' name='vedi_annuncio'>
                                     <div>
-                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."'>Vedi il tuo annuncio</button>
+                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."' aria-label=\"Vedi il tuo annuncio del libro ".togliSpan($row_query['title'])." creato il ".$row_query['created_at']."\">Vedi il tuo annuncio</button>
                                     </div>
                                 </form>";
             }else{
                 $lista_libri .= "<form method='post' action='annuncio.php?id=".$row_query['book_id']."' name='contatta_venditore'>
                                     <div>
-                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."'>Vedi annuncio</button>
+                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."' aria-label=\"Vedi annuncio del libro ".togliSpan($row_query['title'])." dell'utente ".$row_query['username']."\">Vedi annuncio</button>
                                     </div>
                                 </form>";
             }
@@ -1249,13 +1249,13 @@ function build_lista_libri_search($stringa){
             if(isset($_SESSION['Username']) && $_SESSION['Username'] == $row_query['username']){
                 $lista_libri .= "<form method='get' action='annuncio.php?myid=".$row_query['book_id']."' name='vedi_annuncio'>
                                     <div>
-                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."'>Vedi il tuo annuncio</button>
+                                        <button class=\"loginbtn\" type='submit' name='myid' value='".$row_query['book_id']."' aria-label=\"Vedi il tuo annuncio del libro ".togliSpan($row_query['title'])." creato il ".$row_query['created_at']."\">Vedi il tuo annuncio</button>
                                     </div>
                                 </form>";
             }else{
                 $lista_libri .= "<form method='post' action='annuncio.php?id=".$row_query['book_id']."' name='contatta_venditore'>
                                     <div>
-                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."'>Vedi annuncio</button>
+                                        <button class=\"loginbtn\" type='submit' name='id' value='".$row_query['book_id']."' aria-label=\"Vedi annuncio del libro ".togliSpan($row_query['title'])." dell'utente ".$row_query['username']."\">Vedi annuncio</button>
                                     </div>
                                 </form>";
             }
@@ -1304,17 +1304,17 @@ function build_liked_posts($username)
             $liked_posts .= "<li class=\"post-actions\">
                                 <fieldset>
                                     <legend>Interazioni post del $row_query[created_at]</legend>
-                                    <button class=\"like-interact\" data-post-id=\"$post_id\">Mi piace</button>
+                                    <button class=\"like-interact\" data-post-id=\"$post_id\" aria-label=\"Bottone di mi piace per il post di ".$username." creato il ".$row_query['created_at']."\">Mi piace</button>
                                     <span class=\"numero_like\">$like_count</span>
                                     <label class=\"label_commento\" for=\"comment_$post_id\"> - Scrivi un commento:</label>
                                     <textarea id='comment_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                    <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>";
+                                    <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>";
 
             if($_SESSION['Username'] == $post_username) {
                 $liked_posts .= "            <form method='post' action='post-piacciono.php' name='elimina_post'>
                                         <div class = \"elimina_inline\"> 
                                             <input type='hidden' name='post_id' value='" . $row_query['post_id'] . "' />
-                                            <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
+                                            <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post' aria-label=\"Bottone di cancellazione del tuo post creato il ".$row_query['created_at']."\">Elimina</button>
                                         </div>
                                     </form>
                                     </fieldset>
@@ -1381,19 +1381,19 @@ function build_liked_posts_mobile($username)
                                 <fieldset>
                                     <legend>Interazioni post del $row_query[created_at]</legend>
                                     <ul>
-                                        <li><button class=\"like-interact\" data-post-id=\"$post_id\">Mi piace</button>
+                                        <li><button class=\"like-interact\" data-post-id=\"$post_id\" aria-label=\"Bottone di mi piace per il post di ".$username." creato il ".$row_query['created_at']."\">Mi piace</button>
                                             <span class=\"numero_like\">$like_count</span>
                                         </li>
                                         <li id=\"commento_fieldset\"><label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
                                             <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                            <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>
+                                            <button id='comment_button_mobile_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>
                                         </li>";
                                     
             if($_SESSION['Username'] == $post_username) {
                 $liked_posts .= "            <li><form method='post' action='post-piacciono.php' name='elimina_post'>
                                         <div class = \"elimina_inline\"> 
                                             <input type='hidden' name='post_id' value='" . $row_query['post_id'] . "' />
-                                            <button id=\"del_post_mobile\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
+                                            <button id=\"del_post_mobile\" class=\"interact\" type='submit' name='submit_elimina_post' aria-label=\"Bottone di cancellazione del tuo post creato il ".$row_query['created_at']."\">Elimina</button>
                                         </div>
                                     </form></li></ul>
                                     </fieldset>
@@ -1458,17 +1458,17 @@ function build_commented_posts($username){
             $commented_posts .= "<li class=\"post-actions\">
                                 <fieldset>
                                     <legend>Interazioni post del $row_query[created_at]</legend>
-                                    <button class=\"like-interact\" data-post-id=\"$post_id\">Mi piace</button>
+                                    <button class=\"like-interact\" data-post-id=\"$post_id\" aria-label=\"Bottone di mi piace per il post di ".$username." creato il ".$row_query['created_at']."\">Mi piace</button>
                                     <span class=\"numero_like\">$like_count</span>
                                     <label class=\"label_commento\" for=\"comment_$post_id\"> - Scrivi un commento:</label>
                                     <textarea id='comment_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                    <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>";
+                                    <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>";
 
             if ($_SESSION['Username'] == $post_username) {
                 $commented_posts .= "            <form method='post' action='post-commentati.php' name='elimina_post'>
                                         <div class = \"elimina_inline\"> 
                                             <input type='hidden' name='post_id' value='" . $row_query['post_id'] . "' />
-                                            <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
+                                            <button id=\"del_post\" class=\"interact\" type='submit' name='submit_elimina_post' aria-label=\"Bottone di cancellazione del tuo post creato il ".$row_query['created_at']."\">Elimina</button>
                                         </div>
                                     </form>
                                     </fieldset>
@@ -1534,19 +1534,19 @@ function build_commented_posts_mobile($username){
                                 <fieldset>
                                     <legend>Interazioni post del $row_query[created_at]</legend>
                                     <ul>
-                                        <li><button class=\"like-interact\" data-post-id=\"$post_id\">Mi piace</button>
+                                        <li><button class=\"like-interact\" data-post-id=\"$post_id\" aria-label=\"Bottone di mi piace per il post di ".$username." creato il ".$row_query['created_at']."\">Mi piace</button>
                                             <span class=\"numero_like\">$like_count</span>
                                         </li>
                                         <li id=\"commento_fieldset\"><label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
                                             <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                            <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>
+                                            <button id='comment_button_mobile_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>
                                         </li>";
                                     
             if ($_SESSION['Username'] == $post_username) {
                 $commented_posts .= "   <li><form method='post' action='post-commentati.php' name='elimina_post'>
                                         <div class = \"elimina_inline\"> 
                                             <input type='hidden' name='post_id' value='" . $row_query['post_id'] . "' />
-                                            <button id=\"del_post_mobile\" class=\"interact\" type='submit' name='submit_elimina_post'>Elimina</button>
+                                            <button id=\"del_post_mobile\" class=\"interact\" type='submit' name='submit_elimina_post' aria-label=\"Bottone di cancellazione del tuo post creato il ".$row_query['created_at']."\">Elimina</button>
                                         </div>
                                     </form></li></ul>
                                     </fieldset>
@@ -1605,7 +1605,7 @@ function build_lista_utenti_banditi(){
                                                     <div>
                                                         <input type='hidden' name='username' value='" . $row_query['username'] . "' />
                                                     </div>
-                                                    <button class=\"loginbtn\" type='submit' name='submit_rimuovi_ban'>Rimuovi Ban</button>
+                                                    <button class=\"loginbtn\" type='submit' name='submit_rimuovi_ban' aria-label='Bottone per rimuovere il ban all'utente '".$row_query['username'].">Rimuovi Ban</button>
                                                 </form>
                                             </fieldset>
                                         </li>
@@ -1639,7 +1639,7 @@ function build_post_nascosti(){
                                     <form method='post' action='post-nascosti.php' name='mostra_post'>
                                         <div>
                                             <input type='hidden' name='id_post' value='" . $post_id . "' />
-                                            <button class=\"interact\" type='submit' name='submit_mostra_post'>Mostra</button>
+                                            <button class=\"interact\" type='submit' name='submit_mostra_post' aria-label='Bottone per mostrare il post nascosto di '".$row_query['username']."' creato il '".$row_query['created_at'].">Mostra</button>
                                         </div>
                                     </form>
                                 </li>";
@@ -1661,11 +1661,11 @@ function build_post_nascosti(){
             $post_nascosti .= "<li class=\"post-actions\">
                                 <fieldset>
                                     <legend>Interazioni post del " . $row_query['created_at'] . " </legend>
-                                    <button class=\"like-interact\" data-post-id=\"" . $post_id . "\">Mi piace</button>
+                                    <button class=\"like-interact\" data-post-id=\"" . $post_id . "\" aria-label=\"Bottone di mi piace per il post di ".$row_query['username']." creato il ".$row_query['created_at']."\">Mi piace</button>
                                     <span class=\"numero_like\">$like_count</span>
                                     <label class=\"label_commento\" for=\"comment_$post_id\"> - Scrivi un commento:</label>
                                     <textarea id='comment_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                    <button id='comment_button_$post_id' class=\"comment-interact\">Commenta</button>
+                                    <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$row_query['username']." creato il ".$row_query['created_at']."\">Commenta</button>
                                 </fieldset>
                             </li>";
 
@@ -1713,7 +1713,7 @@ function build_post_nascosti_mobile(){
                                     <form method='post' action='post-nascosti.php' name='mostra_post'>
                                         <div>
                                             <input type='hidden' name='id_post' value='" . $post_id . "' />
-                                            <button class=\"interact\" type='submit' name='submit_mostra_post'>Mostra</button>
+                                            <button class=\"interact\" type='submit' name='submit_mostra_post' aria-label='Bottone per mostrare il post nascosto di '".$row_query['username']."' creato il '".$row_query['created_at'].">Mostra</button>
                                         </div>
                                     </form>
                                 </li>";
@@ -1737,13 +1737,13 @@ function build_post_nascosti_mobile(){
                                     <legend>Interazioni post del " . $row_query['created_at'] . " </legend>
                                     <ul>
                                         <li>
-                                            <button class=\"like-interact\" data-post-id=\"" . $post_id . "\">Mi piace</button>
+                                            <button class=\"like-interact\" data-post-id=\"" . $post_id . "\" aria-label=\"Bottone di mi piace per il post di ".$row_query['username']." creato il ".$row_query['created_at']."\">Mi piace</button>
                                             <span class=\"numero_like\">$like_count</span>
                                         </li>
                                         <li id=\"commento_fieldset\">
                                             <label class=\"label_commento\" for=\"comment_mobile_$post_id\"> Scrivi un commento:</label><br/>
                                             <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                             <button id='comment_button_mobile_$post_id' class=\"comment-interact\">Commenta</button>
+                                             <button id='comment_button_mobile_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$row_query['username']." creato il ".$row_query['created_at']."\">Commenta</button>
                                         </li>
                                     </ul>
                                 </fieldset>
@@ -2024,6 +2024,61 @@ function toglispan($testo){
     $testo = str_replace("<span lang=\"en\">", "", $testo);
     $testo = str_replace("</span>", "", $testo);
     return $testo;
+}
+
+function build_error_message($error_code){
+    switch ($error_code){
+        case '400': // Bad request
+            $error = "<p>Siamo spiacenti, ma la richiesta non può essere elaborata.</p>
+                            <p>Questo potrebbe essere dovuto a un errore nell'indirizzo web che hai inserito o a un problema con la tua connessione internet.</p>
+                                <p>Per favore, controlla l'indirizzo web e riprova.</p>
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <br>";
+            break;
+        case '401': // Unauthorized
+            $error = "<p>Siamo spiacenti, ma non hai i permessi necessari per visualizzare questa pagina.
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <p>Se sei un utente registrato, ti preghiamo di effettuare il <a href=\"login.php\">login</a>,</p>
+                            <p>oppure, se non sei ancora registrato, ti invitiamo a <a href=\"registrazione.php\">registrarti</a>.</p>
+                            <br>
+                            <p>Altrimenti,</p>";
+            break;
+        case '403': // Forbidden
+            $error = "<p>Siamo spiacenti, ma non hai i permessi necessari per visualizzare questa pagina.
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <p>Se sei un amministratore, ti preghiamo di effettuare il <a href=\"login.php\">login</a>.</p>
+                            <br>
+                            <p>Altrimenti,</p>";
+            break;
+        case '404': // Not Found
+            $error = "<p>Siamo spiacenti, ma la pagina che stai cercando non è stata trovata.
+                            Questo potrebbe essere dovuto a un errore nell'indirizzo web che hai inserito o a un problema con la tua connessione internet. 
+                                Per favore, controlla l'indirizzo web e riprova.</p>
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <br>";
+            break;
+        case '418': // I'm a teapot (easter egg)
+            $error = "<p>Siamo spiacenti, ma il server non è in grado di preparare il caffè con una teiera.
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <br>";
+            break;
+        case '500': // Internal Server Error
+            $error = "<p>Siamo spiacenti, ma si è verificato un errore interno al server.
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <br>";
+            break;
+        case '503': // Service Unavailable
+            $error = "<p>Siamo spiacenti, ma il servizio non è al momento disponibile.
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <br>";
+            break;
+        default:
+            $error = "<p>Siamo spiacenti, ma si è verificato un errore sconosciuto.
+                            <p>Se il problema persiste, ti preghiamo di contattare il nostro <span lang=\"en\">team</span> di supporto.</p>
+                            <br>";
+            break;
+    }
+    return $error;
 }
 
 function build_search_bar()

@@ -17,6 +17,11 @@ if(isset($_SESSION['Username']))
 if(isset($_GET['user']))
     $utente_profilo = $_GET['user'];
 
+if($_GET['user'] == "" || !$db->check_username($utente_profilo)){
+    header("Location: error.php?error=400&forced=1");
+    exit();
+}
+
 if($utente_profilo == $username){
     header("Location: mio-profilo.php");
 }
