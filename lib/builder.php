@@ -537,12 +537,14 @@ function build_modifica_profilo($username){
 
         $modifica_profilo = "<form class='form_box' method='post' action='mio-profilo.php' name='modifica_profilo' enctype='multipart/form-data'>
                                 <div>
+                                    <label for='corso_studi'>Corso di Studi</label><br>
+                                    <input type='text' id='corso_studi' name='corso_studi' value='".cambialospan($row_query['corso_studi'])."' /><br/>
                                     <label for='bio'>Biografia</label><br>
                                     <textarea id='bio' name='bio' required>".cambialospan($row_query['bio'])."</textarea><br/>
                                     <label for='location'>Luogo</label><br/>
-                                    <input type='text' id='location' name='location' value='".$row_query['location']."' required /><br/>
+                                    <input type='text' id='location' name='location' value='".$row_query['location']."' /><br/>
                                     <label for='website'>Sito Web</label><br/>
-                                    <input type='text' id='website' name='website' value='".$row_query['website']."' required /><br/>
+                                    <input type='text' id='website' name='website' value='".$row_query['website']."' /><br/>
                                     <label for='profile_picture_path'>Foto Profilo</label><br/>
                                     <input type='file' id='profile_picture_path' name='profile_picture_path' accept='image/*' /><br/>
                                     <fieldset>
@@ -570,6 +572,8 @@ function build_modifica_profilo_mobile($username){
 
         $modifica_profilo = "<form class='form_box' method='post' action='mio-profilo.php' name='modifica_profilo' enctype='multipart/form-data'>
                                 <div>
+                                    <label for='corso_studi_mobile'>Corso di Studi</label><br>
+                                    <input type='text' id='corso_studi_mobile' name='corso_studi' value='".cambialospan($row_query['corso_studi'])."' /><br/>
                                     <label for='bio_mobile'>Biografia</label><br>
                                     <textarea id='bio_mobile' name='bio' required>".cambialospan($row_query['bio'])."</textarea><br/>
                                     <label for='location_mobile'>Luogo</label><br/>

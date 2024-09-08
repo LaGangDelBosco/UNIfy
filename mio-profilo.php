@@ -57,6 +57,7 @@ if(isset($_POST['submit_nascondi_post'])){
 }
 
 if(isset($_POST['submit_modifica_profilo'])){
+    $corso_studi = contrassegnaParoleInglesi($_POST['corso_studi']);
     $bio = contrassegnaParoleInglesi($_POST['bio']);
     $location = $_POST['location'];
     $website = $_POST['website'];
@@ -75,7 +76,7 @@ if(isset($_POST['submit_modifica_profilo'])){
         $profile_picture = null;
 
     if($profile_picture != null) {
-        if($db->modifica_profilo($username, $bio, $location, $website, $profile_picture)) {
+        if($db->modifica_profilo($username, $bio, $location, $website, $corso_studi, $profile_picture)) {
             header("Location: ./mio-profilo.php?messaggio=Dati modificati con successo");
             exit();
         }
@@ -84,7 +85,7 @@ if(isset($_POST['submit_modifica_profilo'])){
             exit();
         }
     }
-    if($db->modifica_profilo($username, $bio, $location, $website)) {
+    if($db->modifica_profilo($username, $bio, $location, $website, $corso_studi)){ 
         header("Location: ./mio-profilo.php?messaggio=Dati modificati con successo");
         exit();
     }

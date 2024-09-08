@@ -425,15 +425,15 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
      * @param $profile_picture_path string path dell'immagine del profilo
      * @return bool vero se il profilo è stato modificato, falso altrimenti
      */
-    public function modifica_profilo($username, $bio, $luogo, $sito, $profile_picture = null){
+    public function modifica_profilo($username, $bio, $luogo, $sito, $corso_studi, $profile_picture = null){
         $conn = $this->apriconn();
 
         if($profile_picture != null) {
-            $query = "UPDATE profile SET bio = ?, location = ?, website = ?, profile_picture_path = ?, updated_at = NOW() WHERE username = ?";
-            $parameters = array("sssss", $bio, $luogo, $sito, $profile_picture, $username);
+            $query = "UPDATE profile SET corso_studi= ? , bio = ?, location = ?, website = ?, profile_picture_path = ?, updated_at = NOW() WHERE username = ?";
+            $parameters = array("ssssss", $corso_studi, $bio, $luogo, $sito, $profile_picture, $username);
         } else {
-            $query = "UPDATE profile SET bio = ?, location = ?, website = ?, updated_at = NOW() WHERE username = ?";
-            $parameters = array("ssss", $bio, $luogo, $sito, $username);
+            $query = "UPDATE profile SET corso_studi = ?, bio = ?, location = ?, website = ?, updated_at = NOW() WHERE username = ?";
+            $parameters = array("sssss", $corso_studi, $bio, $luogo, $sito, $username);
         }
 
         // prepara lo statement
