@@ -9,9 +9,9 @@ if(!isset($_SESSION['Username'])){
     exit();
 }
 
-if($_SESSION['Username'] != "admin"){
-    header("Location: error.php?error=403");
-    exit();
+if($_SESSION['Username'] != "admin") {
+    header('Location: error.php?error=403&forced=1');
+    exit;
 }
 
 $username = $_SESSION['Username'];

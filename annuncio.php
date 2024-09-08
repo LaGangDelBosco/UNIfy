@@ -17,12 +17,18 @@ if(isset($_GET['id'])){
     $id_annuncio = $_GET['id'];
     $annuncio= $db->get_annuncio($id_annuncio);
     $tipo_annuncio= "id";
-    //if(!$annuncio) TODO: da implementare (magari con pagina di errore)
+    if(!$annuncio){
+        header("Location: error.php?error=400&forced=1");
+        exit();
+    }
 }elseif(isset($_GET['myid'])){
     $id_annuncio = $_GET['myid'];
     $annuncio= $db->get_annuncio($id_annuncio);
     $tipo_annuncio= "myid";
-    //if(!$annuncio) TODO: da implementare (magari con pagina di errore)
+    if(!$annuncio){
+        header("Location: error.php?error=400&forced=1");
+        exit();
+    }
 }
 
 
