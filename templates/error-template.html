@@ -33,6 +33,14 @@
   </nav>
 
   <main>
+    <div class="mobile-content">
+      <div id="search-bar">
+        <label for="search">Cerca qui:</label><br/>
+        <input type="text" id="search" placeholder="Cerca..." />
+        <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
+      </div>
+    </div>
+
     <h2 class="page_title">Errore (<component>code_error</component>)</h2>
 
     <div class="desktop-content hideall">
@@ -68,9 +76,18 @@
     </div>
 
     <div class="mobile-content">
-      <!-- TODO da fare -->
-      <component>goback</component>
+      <nav id="post-box_mobile" aria-label="Sezione con informazioni riguardanti l'errore incontrato">
+        <h3>Ops! C'e' stato un errore!</h3>
+        <h4> Codice di errore: <component>code_error</component></h4>
+        <br>
+        <div>
+          <p><component>message_error</component></p>
+          <br>
+          <p><a href="./index.php">Torna alla home page</a></p>
+        </div>
+      </nav>
     </div>
+      <component>goback</component>
   </main>
 </div>
 <component>footer</component>

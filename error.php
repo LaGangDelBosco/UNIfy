@@ -27,8 +27,8 @@ if(isset($_GET['error'])) {
 $error_template = $template_engine->load_template("error-template.html");
 
 $error_template->insert_multiple("code_error", $_SESSION['error_code']);
-$error_template->insert("message_error", build_error_message($_SESSION['error_code']));
-$error_template->insert("menu", build_menu());
+$error_template->insert_multiple("message_error", build_error_message($_SESSION['error_code']));
+$error_template->insert_multiple("menu", build_menu());
 $error_template->insert("header", build_header());
 $error_template->insert("goback", build_goback());
 $error_template->insert("footer", build_footer());
