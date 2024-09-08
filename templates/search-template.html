@@ -3,9 +3,9 @@
 <head>
 	<meta charset="utf-8" />
 	
-	<title> Notifiche - UNIfy </title>
-	<meta name = "description" content = "Questa è la pagina delle notifiche. Qui troverai tutte le notifiche riguardanti il tuo profilo" />
-	<meta name ="keywords" content ="unify, notifiche, social, reazioni, like, commenti, post, foto, video" />
+	<title> Risultato Ricerca - UNIfy </title>
+	<meta name = "description" content = "Questa è la pagina che mostra i risultati di una ricerca nel sito" />
+	<meta name ="keywords" content ="unify, università, studenti, social, ricerca post, foto, video" />
 	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso"/>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,26 +20,26 @@
 
 	<script src="./js/menu.js"></script>
 	<script src="./js/menu_mobile.js"></script>
-	<script src="./js/like-comment.js"></script>
 	<script src="./js/pagine_mobile.js"></script>
+	<script src="./js/like-comment.js"></script>
 </head>
 
 <body>	
     <div id="container">
         <component>header</component>
 
-        <nav class="breadcrumb" aria-label="Breadcrumb">      
-			<p>Ti trovi in: <a href="index.php"><span lang="en">Home</span></a> &gt;&gt; Notifiche</p>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+			<p>Ti trovi in: Ricerca</p><!--TODO da sistemare ma non so cosa scriverci-->
 		</nav>
 
         <main id="main">
 			<div class="mobile-content">
 				<div id="search-bar_mobile">
-					<component>search_bar</component>
+                    <component>search_bar</component>
 				</div>
 			</div>
 
-			<h2 class="page_title">Notifiche</h2>
+			<h2 class="page_title">Risultati Ricerca</h2>
 
 			<div class="desktop-content hideall">
 				<!-- da qui partono i 3 blocchi di contenuto -->
@@ -49,11 +49,8 @@
 						<component>menu</component>
 					</nav>
 					
-					<nav id="post-box" aria-label="Sezione visualizzazione notifiche">
-						<component>messaggio</component>
-						<div id="lista_notifiche">
-							<component>lista_notifiche</component>
-						</div>
+					<nav id="post-box" aria-label="Risultati Ricerca">
+						<component>ricerca</component>
 					</nav>
 						
 						
@@ -69,13 +66,18 @@
 
 			<div class="mobile-content">
 				<component>menu</component>
-				<nav id="post-box_mobile" aria-label="Sezione visualizzazione notifiche">
-					<component>messaggio</component>
-					<div id="lista_notifiche_mobile">
-						<component>lista_notifiche</component>
-					</div>
+				<nav id="post-box_mobile" aria-label="Risultati Ricerca">
+					<component>ricerca</component>
+
 				</nav>
 			</div>
+			<script>
+				like_post();
+			</script>
+
+			<br>
+			<hr/><h2>Contatti</h2>
+			<h3 class="social">Seguici sui social: <a href="https://it-it.facebook.com/"> <img src="./media/facebook.svg" alt="Icona di Facebook" /></a> <a href="https://www.instagram.com/"> <img src="./media/instagram.svg" alt="Icona di Instagram" /></a></h3>
 
 			<component>goback</component>
 		</main>

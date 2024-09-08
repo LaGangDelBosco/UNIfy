@@ -38,6 +38,8 @@ if ($genre === '' && $author === '' && $year === '' && $search === '') {
     }
 }
 
+$comprovendolibri_template->insert_multiple("search_bar", build_search_bar());
+
 $comprovendolibri_template->insert("header", build_header());
 $comprovendolibri_template->insert("goback", build_goback());
 $comprovendolibri_template->insert("footer", build_footer());

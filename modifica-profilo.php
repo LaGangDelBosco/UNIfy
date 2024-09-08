@@ -20,6 +20,8 @@ $modificadatipersonali_template->insert_multiple("menu", build_menu());
 $modificadatipersonali_template->insert("modifica_profilo", build_modifica_profilo($username));
 $modificadatipersonali_template->insert("modifica_profilo_mobile", build_modifica_profilo_mobile($username));
 
+$modificadatipersonali_template->insert_multiple("search_bar", build_search_bar());
+
 $modificadatipersonali_template->insert("header", build_header());
 $modificadatipersonali_template->insert("goback", build_goback());
 $modificadatipersonali_template->insert("footer", build_footer());

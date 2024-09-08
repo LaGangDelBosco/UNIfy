@@ -50,6 +50,8 @@ if($genre === '' && $search === ''){
     }
 }
 
+$aule_studio_virtuali_template->insert_multiple("search_bar", build_search_bar());
+
 $aule_studio_virtuali_template->insert("header", build_header());
 $aule_studio_virtuali_template->insert("goback", build_goback());
 $aule_studio_virtuali_template->insert("footer", build_footer());

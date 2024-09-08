@@ -64,6 +64,8 @@ if(isset($_GET['messaggio'])){
     $vendilibro_template->insert_multiple("messaggio", "");
 }
 
+$vendilibro_template->insert_multiple("search_bar", build_search_bar());
+
 $vendilibro_template->insert("header", build_header());
 $vendilibro_template->insert("goback", build_goback());
 $vendilibro_template->insert("footer", build_footer());

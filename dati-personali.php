@@ -46,6 +46,8 @@ if(isset($_GET['messaggio'])){
 
 $datipersonali_template->insert_multiple("datipersonali", build_datipersonali($username));
 
+$datipersonali_template->insert_multiple("search_bar", build_search_bar());
+
 $datipersonali_template->insert("header", build_header());
 $datipersonali_template->insert("goback", build_goback());
 $datipersonali_template->insert("footer", build_footer());

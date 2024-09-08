@@ -71,6 +71,9 @@ if(isset($_GET['messaggio'])){
 $index_template->insert_multiple("lista_post", build_lista_post());
 $index_template->insert("lista_post_mobile", build_lista_post_mobile());
 
+$index_template->insert_multiple("search_bar", build_search_bar());
+
+
 $index_template->insert("header", build_header());
 $index_template->insert("goback", build_goback());
 $index_template->insert("footer", build_footer());

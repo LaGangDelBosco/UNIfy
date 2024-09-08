@@ -36,6 +36,8 @@ if(isset($_GET['messaggio'])){
     }
 }else
     $creaaula_template->insert_multiple("messaggio", "");
+
+$creaaula_template->insert_multiple("search_bar", build_search_bar());
     
 $creaaula_template->insert("header", build_header());
 $creaaula_template->insert("goback", build_goback());
