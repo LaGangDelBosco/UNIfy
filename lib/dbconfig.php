@@ -1080,4 +1080,29 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $conn->close();
         return $result;
     }
+
+    public function get_corso_studi($username){
+        $conn = $this->apriconn();
+        $query = "SELECT corso_studi FROM profile WHERE username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data['corso_studi'];
+    }
+
+    public function get_utenti_corso_studi($corso_studi){
+        $conn = $this->apriconn();
+        $query = "SELECT username FROM profile WHERE corso_studi = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $corso_studi);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        $conn->close();
+        return $result;
+    }
 }

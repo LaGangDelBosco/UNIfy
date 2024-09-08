@@ -2187,5 +2187,26 @@ function build_lista_suggeriti(){
     }
     $suggested_friends .= "</ul>";
 
+    $corso_studi = $db->get_corso_studi($username);
+    $result_corso_studi = $db->get_utenti_corso_studi($corso_studi);
+
+    
+    $corso_studi_users = [];
+    while ($row = $result_corso_studi->fetch_assoc()) {
+        if($row['username'] != $username && !in_array($row['username'], $friends)){
+            $corso_studi_users[] = $row;
+        }
+    }
+    
+    $corso_studi_users = array_slice($corso_studi_users, 0, 5, true);
+
+    $suggested_friends .= "<h3>Studenti del tuo corso di studi</h3><ul>";
+
+    foreach ($corso_studi_users as $user) {
+        $suggested_friends .= "<li class='singolo_post'><a href=\"profilo.php?user=".$user['username']."\">".$user['username']."</a></li>";
+    }
+
+    $suggested_friends .= "</ul>";
+
     return $suggested_friends;
 }
