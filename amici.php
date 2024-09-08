@@ -36,6 +36,8 @@ if(isset($_GET['messaggio'])){
 $amici_template->insert_multiple("lista_amici", build_lista_amici($username));
 $amici_template->insert_multiple("lista_amici_mobile", build_lista_amici_mobile($username));
 
+$amici_template->insert_multiple("suggeriti", build_lista_suggeriti());
+
 $amici_template->insert("header", build_header());
 $amici_template->insert("goback", build_goback());
 $amici_template->insert("footer", build_footer());

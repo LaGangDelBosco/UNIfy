@@ -108,6 +108,7 @@ if(isset($_GET['messaggio'])){
 $mioprofilo_template->insert("post", build_mypost($username));
 $mioprofilo_template->insert("post_mobile", build_mypost_mobile($username));
 
+$mioprofilo_template->insert_multiple("suggeriti", build_lista_suggeriti());
 
 $mioprofilo_template->insert("header", build_header());
 $mioprofilo_template->insert("goback", build_goback());

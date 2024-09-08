@@ -47,6 +47,8 @@ if(isset($_GET['messaggio'])){
 
 $notifiche_template->insert_multiple("lista_notifiche", build_lista_notifiche($username));
 
+$notifiche_template->insert_multiple("suggeriti", build_lista_suggeriti());
+
 $notifiche_template->insert("header", build_header());
 $notifiche_template->insert("goback", build_goback());
 $notifiche_template->insert("footer", build_footer());

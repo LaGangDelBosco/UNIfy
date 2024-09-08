@@ -62,6 +62,8 @@ if($tipo_annuncio == "myid"){
     $annuncio_template->insert_multiple("destinatario", $annuncio['username']);
 }
 
+$annuncio_template->insert_multiple("suggeriti", build_lista_suggeriti());
+
 $annuncio_template->insert("header", build_header());
 $annuncio_template->insert("goback", build_goback());
 $annuncio_template->insert("footer", build_footer());

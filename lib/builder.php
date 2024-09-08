@@ -2076,3 +2076,57 @@ function build_search($query){
 
     return $search_results;
 }
+
+function build_lista_suggeriti(){
+    if (isset($_SESSION['Username'])){
+        $username = $_SESSION['Username'];
+    } else {
+        return "";
+    }
+
+    $db = new Servizio;
+    $db->apriconn();
+
+    $result_friends = $db->get_amici($username);
+
+    $friends = [];
+    while ($row = $result_friends->fetch_assoc()) {
+        if ($row['username_1'] != $username) {
+            $friends[] = $row['username_1'];
+        }
+        if ($row['username_2'] != $username) {
+            $friends[] = $row['username_2'];
+        }
+    }
+
+    $mutual_friends = [];
+    foreach ($friends as $friend) {
+        $result_mutual = $db->get_amici_in_comune($friend);
+
+        while ($row = $result_mutual->fetch_assoc()) {
+            $mutual_friend = ($row['username_1'] == $friend) ? $row['username_2'] : $row['username_1'];
+            if ($mutual_friend != $username && !in_array($mutual_friend, $friends)) {
+                if (!isset($mutual_friends[$mutual_friend])) {
+                    $mutual_friends[$mutual_friend] = 0;
+                }
+                $mutual_friends[$mutual_friend]++;
+            }
+        }
+    }
+
+    arsort($mutual_friends);
+
+    $mutual_friends = array_slice($mutual_friends, 0, 5, true);
+    
+    $suggested_friends = "<h3>Potresti Conoscere</h3><ul>";
+    foreach ($mutual_friends as $mutual_friend => $count) {
+        if ($count > 1) {
+            $suggested_friends .= "<li><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amici in comune</li>";
+        } else {
+            $suggested_friends .= "<li><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amico in comune</li>";
+        }
+    }
+    $suggested_friends .= "</ul>";
+
+    return $suggested_friends;
+}

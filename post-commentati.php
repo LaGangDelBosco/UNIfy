@@ -9,7 +9,7 @@ if(!isset($_SESSION['Username'])){
     exit();
 }
 
-$mioprofilo_template = $template_engine->load_template("post-commentati-template.html");
+$postcommentati_template = $template_engine->load_template("post-commentati-template.html");
 
 if(isset($_SESSION['Username']))
     $username = $_SESSION['Username'];
@@ -26,23 +26,25 @@ if(isset($_POST['submit_elimina_post'])){
     }
 }
 
-$mioprofilo_template->insert_multiple("menu", build_menu());
+$postcommentati_template->insert_multiple("menu", build_menu());
 
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
     if($messaggio == "Errore nell'eliminazione del post")
-        $mioprofilo_template->insert_multiple("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
+        $postcommentati_template->insert_multiple("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
     else
-        $mioprofilo_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
+        $postcommentati_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
 }else
-    $mioprofilo_template->insert_multiple("messaggio", "");
+    $postcommentati_template->insert_multiple("messaggio", "");
 
-$mioprofilo_template->insert("post", build_commented_posts($username));
-$mioprofilo_template->insert("post_mobile", build_commented_posts_mobile($username));
+$postcommentati_template->insert("post", build_commented_posts($username));
+$postcommentati_template->insert("post_mobile", build_commented_posts_mobile($username));
 
-$mioprofilo_template->insert("header", build_header());
-$mioprofilo_template->insert("goback", build_goback());
-$mioprofilo_template->insert("footer", build_footer());
+$postcommentati_template->insert_multiple("suggeriti", build_lista_suggeriti());
+
+$postcommentati_template->insert("header", build_header());
+$postcommentati_template->insert("goback", build_goback());
+$postcommentati_template->insert("footer", build_footer());
 
 
-echo $mioprofilo_template->build();
+echo $postcommentati_template->build();
