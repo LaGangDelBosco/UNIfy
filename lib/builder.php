@@ -540,7 +540,7 @@ function build_modifica_profilo($username){
                                     <label for='corso_studi'>Corso di Studi</label><br>
                                     <input type='text' id='corso_studi' name='corso_studi' value='".cambialospan($row_query['corso_studi'])."' /><br/>
                                     <label for='bio'>Biografia</label><br>
-                                    <textarea id='bio' name='bio' required>".cambialospan($row_query['bio'])."</textarea><br/>
+                                    <textarea id='bio' name='bio'>".cambialospan($row_query['bio'])."</textarea><br/>
                                     <label for='location'>Luogo</label><br/>
                                     <input type='text' id='location' name='location' value='".$row_query['location']."' /><br/>
                                     <label for='website'>Sito Web</label><br/>
@@ -575,11 +575,11 @@ function build_modifica_profilo_mobile($username){
                                     <label for='corso_studi_mobile'>Corso di Studi</label><br>
                                     <input type='text' id='corso_studi_mobile' name='corso_studi' value='".cambialospan($row_query['corso_studi'])."' /><br/>
                                     <label for='bio_mobile'>Biografia</label><br>
-                                    <textarea id='bio_mobile' name='bio' required>".cambialospan($row_query['bio'])."</textarea><br/>
+                                    <textarea id='bio_mobile' name='bio'>".cambialospan($row_query['bio'])."</textarea><br/>
                                     <label for='location_mobile'>Luogo</label><br/>
-                                    <input type='text' id='location_mobile' name='location' value='".$row_query['location']."' required /><br/>
+                                    <input type='text' id='location_mobile' name='location' value='".$row_query['location']."' /><br/>
                                     <label for='website_mobile'>Sito Web</label><br/>
-                                    <input type='text' id='website_mobile' name='website' value='".$row_query['website']."' required /><br/>
+                                    <input type='text' id='website_mobile' name='website' value='".$row_query['website']."' /><br/>
                                     <label for='profile_picture_path_mobile'>Foto Profilo</label><br/>
                                     <input type='file' id='profile_picture_path_mobile' name='profile_picture_path' accept='image/*' /><br/>
                                     <fieldset>
@@ -2180,9 +2180,9 @@ function build_lista_suggeriti(){
     $suggested_friends = "<h3>Potresti Conoscere</h3><ul>";
     foreach ($mutual_friends as $mutual_friend => $count) {
         if ($count > 1) {
-            $suggested_friends .= "<li><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amici in comune</li>";
+            $suggested_friends .= "<li class='singolo_post'><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amici in comune</li>";
         } else {
-            $suggested_friends .= "<li><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amico in comune</li>";
+            $suggested_friends .= "<li class='singolo_post'><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amico in comune</li>";
         }
     }
     $suggested_friends .= "</ul>";
