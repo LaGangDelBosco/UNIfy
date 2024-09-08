@@ -72,29 +72,29 @@ function build_menu(){
     if(isset($_SESSION['Username']) && ($_SESSION['Username']=="admin")){
         $menu_items=array(
             "<span lang=\"en\">Home</span>" => "index.php",
-            "Il mio profilo" => "mio-profilo.php",
-            "Amici" => "amici.php",
-            "Compro/Vendo Libri" => "compro-vendo-libri.php",
-            "Aule Studio Virtuali" => "aule-studio-virtuali.php",
-            "I miei dati personali" => "dati-personali.php",
-            "Post che mi piacciono" => "post-piacciono.php",
-            "Post commentati" => "post-commentati.php",
+            "Notifiche ".$notification_amount => "notifiche.php",
             "Utenti banditi" => "utenti-banditi.php",
             "Post nascosti" => "post-nascosti.php",
-            "Notifiche ".$notification_amount => "notifiche.php",
+            "Compro/Vendo Libri" => "compro-vendo-libri.php",
+            "Aule Studio Virtuali" => "aule-studio-virtuali.php",
+            "Post che mi piacciono" => "post-piacciono.php",
+            "Post commentati" => "post-commentati.php",
+            "Amici" => "amici.php",
+            "Il mio profilo" => "mio-profilo.php",
+            "I miei dati personali" => "dati-personali.php",
         );
     }else{
         if(isset($_SESSION['Username'])){
             $menu_items=array(
                 "<span lang=\"en\">Home</span>" => "index.php",
-                "Il mio profilo" => "mio-profilo.php",
-                "Amici" => "amici.php",
-                "Compro/Vendo Libri" => "compro-vendo-libri.php",
+                "Notifiche ".$notification_amount => "notifiche.php",
                 "Aule Studio Virtuali" => "aule-studio-virtuali.php",
-                "I miei dati personali" => "dati-personali.php",
+                "Compro/Vendo Libri" => "compro-vendo-libri.php",
                 "Post che mi piacciono" => "post-piacciono.php",
                 "Post commentati" => "post-commentati.php",
-                "Notifiche ".$notification_amount => "notifiche.php",
+                "Amici" => "amici.php",
+                "Il mio profilo" => "mio-profilo.php",
+                "I miei dati personali" => "dati-personali.php",
             );
         }
     }
