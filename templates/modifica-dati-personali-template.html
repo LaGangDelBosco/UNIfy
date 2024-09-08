@@ -34,7 +34,11 @@
         <main id="main">
 			<div class="mobile-content">
 				<div id="search-bar_mobile">
-					<component>search_bar</component>
+					<form method="GET" action="search.php">
+						<label for="search_mobile">Cerca qui:</label><br/>
+						<input type="text" name="q" id="search_mobile" placeholder="Cerca...">
+						<button type="submit" class="loginbtn">Cerca</button>
+					</form>
 				</div>
 			</div>
 
@@ -58,7 +62,11 @@
 						
 					<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
 						<div id="search-bar">
-							<component>search_bar</component>
+							<form method="GET" action="search.php">
+								<label for="search">Cerca qui:</label><br/>
+								<input type="text" name="q" id="search" placeholder="Cerca...">
+								<button type="submit" class="loginbtn">Cerca</button>
+							</form>
 						</div>
 						<!-- potrebbe interessarti -->
 					</nav>

@@ -30,9 +30,6 @@ else{
 
 $search_template->insert_multiple("ricerca", build_search($query));
 
-$search_template->insert_multiple("search_bar", build_search_bar());
-
-
 $search_template->insert("header", build_header());
 $search_template->insert("goback", build_goback());
 $search_template->insert("footer", build_footer());

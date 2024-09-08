@@ -29,8 +29,6 @@ $aule_studio_virtuali_template->insert_multiple("nome_aula_title", toglispan($no
 
 $aule_studio_virtuali_template->insert_multiple("code", $id_aula);
 
-$aule_studio_virtuali_template->insert_multiple("search_bar", build_search_bar());
-
 $aule_studio_virtuali_template->insert("header", build_header());
 $aule_studio_virtuali_template->insert("goback", build_goback());
 $aule_studio_virtuali_template->insert("footer", build_footer());

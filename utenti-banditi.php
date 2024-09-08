@@ -49,8 +49,6 @@ if(isset($_GET['messaggio'])){
 
 $utenti_banditi_template->insert_multiple("lista_utenti_banditi", build_lista_utenti_banditi());
 
-$utenti_banditi_template->insert_multiple("search_bar", build_search_bar());
-
 $utenti_banditi_template->insert("header", build_header());
 $utenti_banditi_template->insert("goback", build_goback());
 $utenti_banditi_template->insert("footer", build_footer());
