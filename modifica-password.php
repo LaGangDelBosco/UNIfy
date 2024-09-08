@@ -33,6 +33,8 @@ $modificapassword_template = $template_engine->load_template("modifica-password-
 
 $modificapassword_template->insert_multiple("menu", build_menu());
 
+$modificapassword_template->insert_multiple("suggeriti", build_lista_suggeriti());
+
 $modificapassword_template->insert("header", build_header());
 $modificapassword_template->insert("goback", build_goback());
 $modificapassword_template->insert("footer", build_footer());

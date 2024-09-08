@@ -1056,4 +1056,28 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $conn->close();
         return !empty($data);
     }
+
+    public function get_amici($username){
+        $conn = $this->apriconn();
+        $query = "SELECT username_1, username_2 FROM friendship WHERE (username_1 = ? OR username_2 = ?) AND status = 'accepted'";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ss", $username, $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        $conn->close();
+        return $result;
+    }
+
+    public function get_amici_in_comune($friend){
+        $conn = $this->apriconn();
+        $query = "SELECT username_1, username_2 FROM friendship WHERE (username_1 = ? OR username_2 = ?) AND status = 'accepted'";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ss", $friend, $friend);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        $conn->close();
+        return $result;
+    }
 }

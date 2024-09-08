@@ -3,10 +3,10 @@
 <head>
 	<meta charset="utf-8" />
 	
-	<title> Modifica il tuo profilo - UNIfy </title>
-	<meta name = "description" content = "Questa pagina è finalizzata alla modifica dei propri dati presenti nel profilo" />
-	<meta name = "keywords" content = "unify, modifica, dati, profilo, social" />
-	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso" />
+	<title> Risultato Ricerca - UNIfy </title>
+	<meta name = "description" content = "Questa è la pagina che mostra i risultati di una ricerca nel sito" />
+	<meta name ="keywords" content ="unify, università, studenti, social, ricerca post, foto, video" />
+	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso"/>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="./style.css" />
@@ -21,20 +21,21 @@
 	<script src="./js/menu.js"></script>
 	<script src="./js/menu_mobile.js"></script>
 	<script src="./js/pagine_mobile.js"></script>
+	<script src="./js/like-comment.js"></script>
 </head>
 
 <body>	
     <div id="container">
         <component>header</component>
 
-        <nav class="breadcrumb" aria-label="Breadcrumb">      
-			<p>Ti trovi in: <a href="index.php"><span lang="en">Home</span></a> &gt;&gt; <a href="mio-profilo.php">Il mio profilo</a> &gt;&gt; Modifica i dati personali</p>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+			<p>Ti trovi in: Ricerca</p><!--TODO da sistemare ma non so cosa scriverci-->
 		</nav>
 
         <main id="main">
 			<div class="mobile-content">
 				<div id="search-bar_mobile">
-					<form method="GET" action="search.php">
+                    <form method="GET" action="search.php">
 						<label for="search_mobile">Cerca qui:</label><br/>
 						<input type="text" name="q" id="search_mobile" placeholder="Cerca...">
 						<button type="submit" class="loginbtn">Cerca</button>
@@ -42,7 +43,7 @@
 				</div>
 			</div>
 
-			<h2 class="page_title">Modifica il tuo profilo</h2>
+			<h2 class="page_title">Risultati Ricerca</h2>
 
 			<div class="desktop-content hideall">
 				<!-- da qui partono i 3 blocchi di contenuto -->
@@ -52,12 +53,8 @@
 						<component>menu</component>
 					</nav>
 					
-					<nav id="post-box" aria-label="Sezione di modifica del profilo">
-						<div id="text-box">
-							<p class="info-tag-center">Per contrassegnare le parole in inglese nella Biografia, utilizza i tag [en]...[/en] nelle casella di testo corrispondente.</p>
-							<component>modifica_profilo</component>
-						</div>
-
+					<nav id="post-box" aria-label="Risultati Ricerca">
+						<component>ricerca</component>
 					</nav>
 						
 						
@@ -79,14 +76,18 @@
 
 			<div class="mobile-content">
 				<component>menu</component>
-				<nav id="post-box_mobile" aria-label="Sezione di modifica del profilo">
-					<div id="text-box_mobile">
-						<p class="info-tag-center">Per contrassegnare le parole in inglese nella Biografia, utilizza i tag [en]...[/en] nelle casella di testo corrispondente.</p>
-						<component>modifica_profilo_mobile</component>
-					</div>
+				<nav id="post-box_mobile" aria-label="Risultati Ricerca">
+					<component>ricerca</component>
 
 				</nav>
 			</div>
+			<script>
+				like_post();
+			</script>
+
+			<br>
+			<hr/><h2>Contatti</h2>
+			<h3 class="social">Seguici sui social: <a href="https://it-it.facebook.com/"> <img src="./media/facebook.svg" alt="Icona di Facebook" /></a> <a href="https://www.instagram.com/"> <img src="./media/instagram.svg" alt="Icona di Instagram" /></a></h3>
 
 			<component>goback</component>
 		</main>

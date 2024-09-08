@@ -2080,3 +2080,108 @@ function build_error_message($error_code){
     }
     return $error;
 }
+
+function build_search_bar()
+{
+    global $template_engine;
+
+    // carico il template del footer
+    $search_bar_template = $template_engine->load_template("search-bar-template.html");
+
+    // restituisco il codice html del footer
+    return $search_bar_template->build();
+}
+
+function build_search($query){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query_user = "SELECT * FROM user WHERE username LIKE '%$query%' OR name LIKE '%$query%'";
+    $query_post = "SELECT * FROM post WHERE content LIKE '%$query%' OR username LIKE '%$query%'";
+
+    $result_query_user = $db->query($query_user);
+    $result_query_post = $db->query($query_post);
+
+    $search_results = "";
+
+    if($result_query_user->num_rows == 0 && $result_query_post->num_rows == 0){
+        $search_results = "<div class=\"messaggio\">Nessun risultato trovato</div>";
+    }
+
+    if($result_query_user->num_rows > 0){
+        $search_results .= "<h3>Risultati utenti</h3>";
+        while($row_query_user = $result_query_user->fetch_assoc()){
+            $search_results .= "<ul class=\"search-result\">
+                                    <li><a href=\"profilo.php?user=".$row_query_user['username']."\">".$row_query_user['username']."</a></li>
+                                    <li>".$row_query_user['name']."</li>
+                                </ul>";
+        }
+    }
+
+    if($result_query_post->num_rows > 0){
+        $search_results .= "<h3>Risultati post</h3>";
+        while($row_query_post = $result_query_post->fetch_assoc()){
+            $search_results .= "<ul class=\"search-result\">
+                                    <li><a href=\"profilo.php?user=".$row_query_post['username']."\">".$row_query_post['username']."</a></li>
+                                    <li>".$row_query_post['created_at']."</li>
+                                    <li>".$row_query_post['content']."</li>
+                                </ul>";
+        }
+    }
+
+    return $search_results;
+}
+
+function build_lista_suggeriti(){
+    if (isset($_SESSION['Username'])){
+        $username = $_SESSION['Username'];
+    } else {
+        return "";
+    }
+
+    $db = new Servizio;
+    $db->apriconn();
+
+    $result_friends = $db->get_amici($username);
+
+    $friends = [];
+    while ($row = $result_friends->fetch_assoc()) {
+        if ($row['username_1'] != $username) {
+            $friends[] = $row['username_1'];
+        }
+        if ($row['username_2'] != $username) {
+            $friends[] = $row['username_2'];
+        }
+    }
+
+    $mutual_friends = [];
+    foreach ($friends as $friend) {
+        $result_mutual = $db->get_amici_in_comune($friend);
+
+        while ($row = $result_mutual->fetch_assoc()) {
+            $mutual_friend = ($row['username_1'] == $friend) ? $row['username_2'] : $row['username_1'];
+            if ($mutual_friend != $username && !in_array($mutual_friend, $friends)) {
+                if (!isset($mutual_friends[$mutual_friend])) {
+                    $mutual_friends[$mutual_friend] = 0;
+                }
+                $mutual_friends[$mutual_friend]++;
+            }
+        }
+    }
+
+    arsort($mutual_friends);
+
+    $mutual_friends = array_slice($mutual_friends, 0, 5, true);
+    
+    $suggested_friends = "<h3>Potresti Conoscere</h3><ul>";
+    foreach ($mutual_friends as $mutual_friend => $count) {
+        if ($count > 1) {
+            $suggested_friends .= "<li><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amici in comune</li>";
+        } else {
+            $suggested_friends .= "<li><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amico in comune</li>";
+        }
+    }
+    $suggested_friends .= "</ul>";
+
+    return $suggested_friends;
+}

@@ -48,8 +48,10 @@ if(isset($_GET['messaggio'])){
 }else
     $postnascosti_template->insert_multiple("messaggio", "");
 
-$postnascosti_template->insert("post_nascosti", build_post_nascosti($username));
-$postnascosti_template->insert("post_nascosti_mobile", build_post_nascosti_mobile($username));
+$postnascosti_template->insert("post_nascosti", build_post_nascosti());
+$postnascosti_template->insert("post_nascosti_mobile", build_post_nascosti_mobile());
+
+$postnascosti_template->insert_multiple("suggeriti", build_lista_suggeriti());
 
 $postnascosti_template->insert("header", build_header());
 $postnascosti_template->insert("goback", build_goback());

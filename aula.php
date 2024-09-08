@@ -23,20 +23,22 @@ if(isset($_GET['room_code'])){
 }
 
 
-$aule_studio_virtuali_template = $template_engine->load_template("aula-template.html");
+$aula_template = $template_engine->load_template("aula-template.html");
 
-$aule_studio_virtuali_template->insert("keywords", $nome_aula);
+$aula_template->insert("keywords", $nome_aula);
 
-$aule_studio_virtuali_template->insert_multiple("menu", build_menu());
+$aula_template->insert_multiple("menu", build_menu());
 
-$aule_studio_virtuali_template->insert_multiple("nome_aula", $nome_aula);
-$aule_studio_virtuali_template->insert_multiple("nome_aula_title", toglispan($nome_aula));
+$aula_template->insert_multiple("nome_aula", $nome_aula);
+$aula_template->insert_multiple("nome_aula_title", toglispan($nome_aula));
 
-$aule_studio_virtuali_template->insert_multiple("code", $id_aula);
+$aula_template->insert_multiple("code", $id_aula);
 
-$aule_studio_virtuali_template->insert("header", build_header());
-$aule_studio_virtuali_template->insert("goback", build_goback());
-$aule_studio_virtuali_template->insert("footer", build_footer());
+$aula_template->insert_multiple("suggeriti", build_lista_suggeriti());
+
+$aula_template->insert("header", build_header());
+$aula_template->insert("goback", build_goback());
+$aula_template->insert("footer", build_footer());
 
 
-echo $aule_studio_virtuali_template->build();
+echo $aula_template->build();
