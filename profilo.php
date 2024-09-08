@@ -71,11 +71,18 @@ if(!$amicizia_info){
 }
 
 if($_SESSION['Username'] == "admin"){
-    $mioprofilo_template->insert_multiple("ban_button", "<form id='banForm' onsubmit=\"openBanDialog('$utente_profilo'); return false;\">
+    if($db->check_ban($utente_profilo)) {
+        $mioprofilo_template->insert_multiple("ban_button", "<form method=\"post\" action=\"utenti-banditi.php\">
+                                            <input type=\"hidden\" name=\"username\" value=\"$utente_profilo\">
+                                            <button class=\"interact\" name=\"submit_rimuovi_ban\" id=\"ban_button\" type=\"submit\" aria-label=\"Bottone di rimozione ban utente\">Rimuovi ban utente</button>
+                                            </form>");
+    } else {
+        $mioprofilo_template->insert_multiple("ban_button", "<form id='banForm' onsubmit=\"openBanDialog('$utente_profilo'); return false;\">
                     <div>
                         <button id=\"ban_button\" class=\"interact\" type=\"submit\" aria-label=\"Bottone che permette di bannare l'utente\">Bandisci utente</button>
                     </div>
                 </form>");
+    }
 }else{
     $mioprofilo_template->insert_multiple("ban_button", "");
 }
