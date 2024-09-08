@@ -33,14 +33,16 @@ if($db->get_dati_utente_profilo($username)){
     $mioprofilo_template->insert_multiple("email", $datiutente['email']);
     $mioprofilo_template->insert_multiple("birthdate", $datiutente['birthdate']);
     $mioprofilo_template->insert_multiple("username", $username);
-    if(isset($datiutente['bio']) || isset($datiutente['location']) || isset($datiutente['website'])){
+    if(isset($datiutente['bio']) || isset($datiutente['location']) || isset($datiutente['website']) || isset($datiutente['corso_studi'])){
         $mioprofilo_template->insert_multiple("biografia", $datiutente['bio']);
         $mioprofilo_template->insert_multiple("luogo", $datiutente['location']);
         $mioprofilo_template->insert_multiple("sito", $datiutente['website']);
+        $mioprofilo_template->insert_multiple("corso_studi", $datiutente['corso_studi']);
     }else{
         $mioprofilo_template->insert_multiple("biografia", "");
         $mioprofilo_template->insert_multiple("luogo", "");
         $mioprofilo_template->insert_multiple("sito", "");
+        $mioprofilo_template->insert_multiple("corso_studi", "");
     }
 }
 else   

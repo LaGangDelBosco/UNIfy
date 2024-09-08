@@ -32,6 +32,7 @@ CREATE TABLE profile (
     profile_id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100),
     profile_picture_path VARCHAR(100),
+    corso_studi VARCHAR(100),
     bio TEXT,
     location VARCHAR(50),
     website VARCHAR(50),
@@ -151,17 +152,17 @@ INSERT INTO user (username, name, email, password, birthdate, gender, created_at
 ('francesco', 'Francesco Neri', 'francesco.neri@gmail.com', 'd601d7629b263221dd541a3131d865a9bcb087e3edc702867143a996803307ab', '1988-10-31', 'male', '2024-07-24', '2024-07-24'),
 ('elena', 'Elena Gialli', 'elena.gialli@gmail.com', 'ff7fb48ec0bd80876c9c246d33d18efd0648bff6467fcc945db7f49692dab1e1', '1989-05-30', 'female', '2024-07-31', '2024-07-31');
 
-INSERT INTO profile (profile_id, username, profile_picture_path, bio, location, website, created_at, updated_at) VALUES
-(1, 'admin', './media/profile-pictures/default.jpg', 'I am the admin', 'Milan, Italy', 'https://www.example.com', '2024-07-21', '2024-07-21'),
-(2, 'user', './media/profile-pictures/default.jpg', 'I am a user', 'Rome, Italy', 'https://www.example1.com', '2024-07-22', '2024-07-22'),
-(3, 'supermario', './media/profile-pictures/default.jpg', 'I am Mario', 'Milan, Italy', '', '2024-07-31', '2024-07-31'),
-(4, 'luigi', './media/profile-pictures/default.jpg', 'I am Luigi', 'Rome, Italy', 'https://www.example2.com', '2024-07-26', '2024-07-26'),
-(5, 'giuseppe', './media/profile-pictures/default.jpg', 'I am Giuseppe', 'Milan, Italy', '', '2024-08-01', '2024-08-01'),
-(6, 'anna', './media/profile-pictures/default.jpg', 'I am Anna', 'Rome, Italy', 'https://www.example3.com', '2024-07-29', '2024-07-29'),
-(7, 'marco', './media/profile-pictures/default.jpg', 'I am Marco', 'Milan, Italy', 'https://www.example4.com', '2024-07-30', '2024-07-30'),
-(8, 'laura', './media/profile-pictures/default.jpg', 'I am Laura', 'Rome, Italy', '', '2024-07-31', '2024-07-31'),
-(9, 'francesco', './media/profile-pictures/default.jpg', 'I am Francesco', 'Milan, Italy', 'https://www.example5.com', '2024-07-24', '2024-07-24'),
-(10, 'elena', './media/profile-pictures/default.jpg', 'I am Elena', 'Rome, Italy', '', '2024-07-31', '2024-07-31');
+INSERT INTO profile (profile_id, username, profile_picture_path, corso_studi, bio, location, website, created_at, updated_at) VALUES
+(1, 'admin', './media/profile-pictures/default.jpg', 'Scienze dell''Informazione', 'Sono l''amministratore', 'Milano, Italia', 'https://www.example.com', '2024-07-21', '2024-07-21'),
+(2, 'user', './media/profile-pictures/default.jpg', 'Amministrazione Aziendale', 'Sono un utente', 'Roma, Italia', 'https://www.example1.com', '2024-07-22', '2024-07-22'),
+(3, 'supermario', './media/profile-pictures/default.jpg', 'Idraulica', 'Sono Mario', 'Milano, Italia', '', '2024-07-31', '2024-07-31'),
+(4, 'luigi', './media/profile-pictures/default.jpg', 'Ingegneria Elettrica', 'Sono Luigi', 'Roma, Italia', 'https://www.example2.com', '2024-07-26', '2024-07-26'),
+(5, 'giuseppe', './media/profile-pictures/default.jpg', 'Ingegneria Meccanica', 'Sono Giuseppe', 'Milano, Italia', '', '2024-08-01', '2024-08-01'),
+(6, 'anna', './media/profile-pictures/default.jpg', 'Psicologia', 'Sono Anna', 'Roma, Italia', 'https://www.example3.com', '2024-07-29', '2024-07-29'),
+(7, 'marco', './media/profile-pictures/default.jpg', 'Architettura', 'Sono Marco', 'Milano, Italia', 'https://www.example4.com', '2024-07-30', '2024-07-30'),
+(8, 'laura', './media/profile-pictures/default.jpg', 'Medicina', 'Sono Laura', 'Roma, Italia', '', '2024-07-31', '2024-07-31'),
+(9, 'francesco', './media/profile-pictures/default.jpg', 'Chimica', 'Sono Francesco', 'Milano, Italia', 'https://www.example5.com', '2024-07-24', '2024-07-24'),
+(10, 'elena', './media/profile-pictures/default.jpg', 'Storia dell''Arte', 'Sono Elena', 'Roma, Italia', '', '2024-07-31', '2024-07-31');
 
 INSERT INTO post (post_id, username, content, media_path, created_at, updated_at) VALUES
 (1, 'admin', 'Hello, World!', '', '2024-07-21', '2024-07-21'),

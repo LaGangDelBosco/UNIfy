@@ -48,6 +48,7 @@ if($db->get_dati_utente_profilo($utente_profilo)){
     $mioprofilo_template->insert_multiple("biografia", $datiutente['bio']);
     $mioprofilo_template->insert_multiple("luogo", $datiutente['location']);
     $mioprofilo_template->insert_multiple("sito", $datiutente['website']);
+    $mioprofilo_template->insert_multiple("corso_studi", $datiutente['corso_studi']);
 }
 else
     echo "Errore nel caricamento dei dati utente";
