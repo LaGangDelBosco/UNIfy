@@ -1,17 +1,19 @@
 function openBanDialog(username) {
+    var banDialog = getElementByIdWithScreenCheck('banDialog');
     getElementByIdWithScreenCheck('banUsername').value = username;
-    getElementByIdWithScreenCheck('banDialog').classList.remove('hideall');
+    banDialog.classList.add('modal-view');
 }
 
 function closeBanDialog() {
-    getElementByIdWithScreenCheck('banDialog').classList.add('hideall');
+    var banDialog = getElementByIdWithScreenCheck('banDialog');
+    banDialog.classList.remove('modal-view');
 }
 
 // Chiudo la finestra di dialogo se l'utente clicca fuori dalla finestra
 window.onclick = function(event) {
     var modal = getElementByIdWithScreenCheck('banDialog');
     if (event.target == modal) {
-        modal.classList.add('hideall');
+        banDialog.classList.remove('modal-view');
     }
 }
 
