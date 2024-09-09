@@ -28,7 +28,14 @@ else{
 }
 
 
-$search_template->insert_multiple("ricerca", build_search($query));
+if(isset($_GET['messaggio'])){
+    $messaggio = htmlspecialchars($_GET['messaggio']);
+    $search_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
+}else
+    $search_template->insert_multiple("messaggio", "");
+
+$search_template->insert("ricerca", build_search($query));
+$search_template->insert("ricerca_mobile", build_search_mobile($query));
 
 $search_template->insert_multiple("suggeriti", build_lista_suggeriti());
 
