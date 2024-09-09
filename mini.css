@@ -58,7 +58,7 @@ header {
     margin-left: auto;
     margin-right: auto;
     margin-top: -8%;
-    margin-bottom: -8%;
+    margin-bottom: -6.5%;
 }
 
 .menu {
@@ -80,8 +80,8 @@ main h2{
 .menu-toggle {
     display: block; /* Mostra il pulsante dell'hamburger */
     cursor: pointer;
-    height:90px;
-    width:90px;
+    height:5.7em;
+    width:5.7em;
     margin-right: 50px;
 }
 
@@ -237,6 +237,12 @@ input[type="file"]::-webkit-file-upload-button {
 .product-card{
     width: 100%;
     margin-bottom: 2%;
+}
+
+.product-image img{
+    width: 60%;
+    height: auto;
+
 }
 
 #chatMessage_mobile, #chatMessageRoom_mobile{

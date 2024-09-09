@@ -181,7 +181,7 @@ header img {
     border-radius:5px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 75em) {
     .menu{
         flex-wrap: wrap;
     }
@@ -321,7 +321,7 @@ header img {
 #post-box{
     max-width: 80%;
     flex:2;
-    height:800px;
+    height:50em;
     overflow: auto;
     margin-right: -10%;
     margin-left:-10%;
@@ -330,7 +330,7 @@ header img {
 #post-box_mobile{
     max-width: 80%;
     flex:2;
-    height:800px;
+    height:50em;
     overflow: auto;
     margin-right: -10%;
     margin-left:-10%;
@@ -588,7 +588,7 @@ legend{
 
 hr{
     border: 0px;
-    height: 2px;
+    height: 0.13em;
     background: #333;
     background-image: linear-gradient(to right, #ccc, #1a3d95, #ccc);
 }
@@ -608,8 +608,8 @@ hr{
 .product-card {
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 16px;
-    width: calc(33.333% - 32px); /* Tre riquadri per riga con spazio */
+    padding: 1em;
+    width: calc(33.333% - 2em); /* Tre riquadri per riga con spazio */
     box-sizing: border-box;
     text-align: center;
     background-color: #d5e9ff;
@@ -643,7 +643,7 @@ hr{
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1em;
     z-index: 1000; /* Assicurati che il pulsante sia sopra altri elementi */
 }
 
@@ -689,13 +689,13 @@ hr{
 
 #chatMessages, #chatMessages_mobile{
     padding:10px; 
-    height:300px; 
+    height:19em; 
     overflow-y:scroll;
 }
 
 #chatMessagesRoom, #chatMessagesRoom_mobile{
     padding:10px; 
-    height: 450px;
+    height: 28em;
     overflow-y:scroll;
 }
 
@@ -886,7 +886,7 @@ hr{
 .close {
     color: #aaa;
     float: right;
-    font-size: 28px;
+    font-size: 1.5em;
     font-weight: bold;
 }
 
