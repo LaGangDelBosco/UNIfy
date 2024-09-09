@@ -2134,17 +2134,18 @@ function build_search($query){
             $post_id = $row_query_post['post_id'];
             $search_results .= "<ul class=\"singolo_post\">
                                     <li><a href=\"profilo.php?user=".$row_query_post['username']."\">".$row_query_post['username']."</a></li>";
-                if($_SESSION['Username'] == 'admin'){
+                if($_SESSION['Username'] == 'admin') {
                     $current_page = $_SERVER['REQUEST_URI'];
                     $search_results .= "<li>
                                         <form method='post' action='mio-profilo.php' name='nascondi_post'>
                                             <div>
-                                                <input type='hidden' name='id_post' value='".$row_query_post['post_id']."' />
-                                                <input type='hidden' name='current_page' value='".$current_page."' />
-                                                <button class=\"interact\" type='submit' name='submit_nascondi_post' aria-label='Nascondi il post di'". $row_query_post['username']."' creato il'".$row_query_post['created_at']."'>Nascondi</button>
+                                                <input type='hidden' name='id_post' value='" . $row_query_post['post_id'] . "' />
+                                                <input type='hidden' name='current_page' value='" . $current_page . "' />
+                                                <button class=\"interact\" type='submit' name='submit_nascondi_post' aria-label='Nascondi il post di'" . $row_query_post['username'] . "' creato il'" . $row_query_post['created_at'] . "'>Nascondi</button>
                                             </div>
                                         </form>
                                     </li>";
+                }
             $search_results .=     "<li>".$row_query_post['created_at']."</li>
             <li class=\"player\">".$row_query_post['content']."</li>";
 
@@ -2186,7 +2187,6 @@ function build_search($query){
             }
 
             $search_results .= "</ul>";
-            }
         }
     }
 
@@ -2226,17 +2226,18 @@ function build_search_mobile($query){
             $post_id = $row_query_post['post_id'];
             $search_results .= "<ul class=\"singolo_post\">
                                     <li><a href=\"profilo.php?user=".$row_query_post['username']."\">".$row_query_post['username']."</a></li>";
-                if($_SESSION['Username'] == 'admin'){
+                if($_SESSION['Username'] == 'admin') {
                     $current_page = $_SERVER['REQUEST_URI'];
                     $search_results .= "<li>
                                         <form method='post' action='mio-profilo.php' name='nascondi_post'>
                                             <div>
-                                                <input type='hidden' name='id_post' value='".$row_query_post['post_id']."' />
-                                                <input type='hidden' name='current_page' value='".$current_page."' />
-                                                <button class=\"interact\" type='submit' name='submit_nascondi_post' aria-label='Nascondi il post di'". $row_query_post['username']."' creato il'".$row_query_post['created_at']."'>Nascondi</button>
+                                                <input type='hidden' name='id_post' value='" . $row_query_post['post_id'] . "' />
+                                                <input type='hidden' name='current_page' value='" . $current_page . "' />
+                                                <button class=\"interact\" type='submit' name='submit_nascondi_post' aria-label='Nascondi il post di'" . $row_query_post['username'] . "' creato il'" . $row_query_post['created_at'] . "'>Nascondi</button>
                                             </div>
                                         </form>
                                     </li>";
+                }
             $search_results .=     "<li>".$row_query_post['created_at']."</li>
             <li class=\"player\">".$row_query_post['content']."</li>";
 
@@ -2278,7 +2279,6 @@ function build_search_mobile($query){
             }
 
             $search_results .= "</ul>";
-            }
         }
     }
 
