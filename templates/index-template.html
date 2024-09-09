@@ -35,11 +35,24 @@
         <main id="main">
 			<div class="mobile-content hideall">
 				<div id="search-bar_mobile">
-					<form method="GET" action="search.php">
-						<label for="search_mobile">Cerca qui:</label><br/>
-						<input type="text" name="q" id="search_mobile" placeholder="Cerca...">
-						<button type="submit" class="loginbtn">Cerca</button>
+					<form method="GET" id="searchbarmobile_form" name="searchbarmobile_form" action="search.php">
+						<div>
+							<label for="search_mobile">Cerca qui:</label><br/>
+							<input type="text" name="q" id="search_mobile" placeholder="Cerca...">
+							<button type="submit" class="loginbtn">Cerca</button>
+							<div class="error" id="searchmobile_error"></div>
+						</div>
 					</form>
+					<script>
+						document.addEventListener("DOMContentLoaded", function() {
+							var form = document.forms["searchbarmobile_form"];
+							form.addEventListener('submit', function(event) {
+								if(!searchbarmobile()){
+									event.preventDefault();
+								}
+							});
+						});
+					</script>
 				</div>
 			</div>
 
@@ -56,14 +69,25 @@
 					<nav id="post-box" aria-label="Sezione visualizzazione post">
 						<component>messaggio</component>
 						<div id="text-box">
-							<form method="post" action="index.php" enctype="multipart/form-data">
+							<form method="post" id="post_form" name="post_form" action="index.php" enctype="multipart/form-data">
 								<p><label for="text">Scrivi un post:</label><br/>
 									<p class="info-tag">Per contrassegnare le parole in inglese, utilizza i tag [en]...[/en] nella casella di testo.</p>
 									<textarea id="text" name="text" rows="4" cols="50" placeholder="Scrivi qualcosa..."></textarea><br/>
+									<div class="error" id="text_error"></div>
 								o <label for="media">Carica un'immagine o un video:</label>
 								<input type="file" id="media" name="media" accept="image/*, video/*" /></p>
 								<button class="loginbtn" id="public-post" type="submit" name="submit-public-post" aria-label="Bottone di pubblicazione del post">Pubblica</button>
 							</form>
+							<script>
+								document.addEventListener("DOMContentLoaded", function() {
+									var form = document.forms["post_form"];
+									form.addEventListener('submit', function(event) {
+										if(!post()){
+											event.preventDefault();
+										}
+									});
+								});
+							</script>
 						</div>
 						<hr/>
 						<div id="post">
@@ -74,11 +98,24 @@
 						
 					<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
 						<div id="search-bar">
-							<form method="GET" action="search.php">
-								<label for="search">Cerca qui:</label><br/>
-								<input type="text" name="q" id="search" placeholder="Cerca...">
-								<button type="submit" class="loginbtn">Cerca</button>
+							<form method="GET" id="searchbar_form" name="searchbar_form" action="search.php">
+								<div>
+									<label for="search">Cerca qui:</label><br/>
+									<input type="text" name="q" id="search" placeholder="Cerca...">
+									<button type="submit" class="loginbtn">Cerca</button>
+									<div class="error" id="search_error"></div>
+								</div>
 							</form>
+							<script>
+								document.addEventListener("DOMContentLoaded", function() {
+									var form = document.forms["searchbar_form"];
+									form.addEventListener('submit', function(event) {
+										if(!searchbar()){
+											event.preventDefault();
+										}
+									});
+								});
+							</script>
 						</div>
 						<div id="suggeriti">
 							<component>suggeriti</component>
@@ -97,6 +134,7 @@
 							<p><label for="text_mobile">Scrivi un post:</label><br/>
 								<p class="info-tag">Per contrassegnare le parole in inglese, utilizza i tag [en]...[/en] nella casella di testo.</p>
 								<textarea id="text_mobile" name="text" rows="4" cols="50" placeholder="Scrivi qualcosa..."></textarea><br/>
+								<div class="error" id="text_error"></div>
 							o <label for="media_mobile">Carica un'immagine o un video:</label>
 							<input type="file" id="media_mobile" name="media" accept="image/*, video/*" /></p>
 							<button class="loginbtn" id="public-post_mobile" type="submit" name="submit-public-post" aria-label="Bottone di pubblicazione del post">Pubblica</button>

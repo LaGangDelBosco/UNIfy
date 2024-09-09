@@ -34,11 +34,26 @@
 
   <main>
     <div class="mobile-content hideall">
-      <div id="search-bar">
-        <label for="search">Cerca qui:</label><br/>
-        <input type="text" id="search" placeholder="Cerca..." />
-        <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
-      </div>
+      <div id="search-bar_mobile">
+        <form method="GET" id="searchbarmobile_form" name="searchbarmobile_form" action="search.php">
+            <div>
+                <label for="search_mobile">Cerca qui:</label><br/>
+                <input type="text" name="q" id="search_mobile" placeholder="Cerca...">
+                <button type="submit" class="loginbtn">Cerca</button>
+                <div class="error" id="searchmobile_error"></div>
+            </div>
+        </form>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var form = document.forms["searchbarmobile_form"];
+                form.addEventListener('submit', function(event) {
+                    if(!searchbarmobile()){
+                        event.preventDefault();
+                    }
+                });
+            });
+        </script>
+    </div>
     </div>
 
     <h2 class="page_title">Errore (<component>code_error</component>)</h2>
@@ -65,11 +80,28 @@
 
         <nav id="extra-section" aria-label="Sezione di ricerca e interessi">
           <div id="search-bar">
-            <label for="search">Cerca qui:</label><br/>
-            <input type="text" id="search" placeholder="Cerca..." />
-            <button class="loginbtn" type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
-          </div>
-          <!-- potrebbe interessarti -->
+            <form method="GET" id="searchbar_form" name="searchbar_form" action="search.php">
+                <div>
+                    <label for="search">Cerca qui:</label><br/>
+                    <input type="text" name="q" id="search" placeholder="Cerca...">
+                    <button type="submit" class="loginbtn">Cerca</button>
+                    <div class="error" id="search_error"></div>
+                </div>
+            </form>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var form = document.forms["searchbar_form"];
+                    form.addEventListener('submit', function(event) {
+                        if(!searchbar()){
+                            event.preventDefault();
+                        }
+                    });
+                });
+            </script>
+        </div>
+        <div id="suggeriti">
+          <component>suggeriti</component>
+        </div>
         </nav>
         <!-- fine dei 3 blocchi di contenuto -->
       </div>
