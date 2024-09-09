@@ -470,9 +470,9 @@ function modificaprofilo(){
 }
 
 function modificaprofilomobile(){
-    let bio = document.forms["modifica_profilo"]["bio_mobile"].value;
-    let location = document.forms["modifica_profilo"]["location_mobile"].value;
-    let website = document.forms["modifica_profilo"]["website_mobile"].value;
+    let bio = document.forms["modifica_profilo_mobile"]["bio_mobile"].value;
+    let location = document.forms["modifica_profilo_mobile"]["location_mobile"].value;
+    let website = document.forms["modifica_profilo_mobile"]["website_mobile"].value;
 
     document.getElementById("bio_mobile_error").textContent = "";
     document.getElementById("location_mobile_error").textContent = "";
@@ -528,32 +528,32 @@ function modificadatipersonali(){
 }
 
 function modificadatipersonalimobile(){
-    let nome_cognome = document.forms["modifica_dati_personali_mobile"]["name_error"].value;
-    let email = document.forms["modifica_dati_personali_mobile"]["email_error"].value;
-    let data_nascita = document.forms["modifica_dati_personali_mobile"]["birthdate_error"].value;
-    let genere = document.forms["modifica_dati_personali_mobile"]["gender_error"].value;
+    let nome_cognome = document.forms["modifica_dati_personali_mobile"]["name_mobile"].value;
+    let email = document.forms["modifica_dati_personali_mobile"]["email_mobile"].value;
+    let data_nascita = document.forms["modifica_dati_personali_mobile"]["birthdate_mobile"].value;
+    let genere = document.forms["modifica_dati_personali_mobile"]["gender_mobile"].value;
 
-    document.getElementById("name_error_error").textContent = "";
-    document.getElementById("email_error_error").textContent = "";
-    document.getElementById("birthdate_error_error").textContent = "";
-    document.getElementById("gender_error_error").textContent = "";
+    document.getElementById("name_mobile_error").textContent = "";
+    document.getElementById("email_mobile_error").textContent = "";
+    document.getElementById("birthdate_mobile_error").textContent = "";
+    document.getElementById("gender_mobile_error").textContent = "";
 
     let errors = false;
 
     if (!check_nome_cognome(nome_cognome)) {
-        document.getElementById("name_error_error").textContent = "Nome e cognome non valido: \n- non deve contenere caratteri speciali, deve contenere tra i 2 e i 50 caratteri e non contenere un numero";
+        document.getElementById("name_mobile_error").textContent = "Nome e cognome non valido: \n- non deve contenere caratteri speciali, deve contenere tra i 2 e i 50 caratteri e non contenere un numero";
         errors = true;
     }
     if (!check_email(email)) {
-        document.getElementById("email_error_error").textContent = "Email non valida: \n - deve essere nel formato corretto";
+        document.getElementById("email_mobile_error").textContent = "Email non valida: \n - deve essere nel formato corretto";
         errors = true;
     }
     if (!check_dnascita(data_nascita)) {
-        document.getElementById("birthdate_error_error").textContent = "Data di nascita non valida: \n- deve essere nel formato gg/mm/aaaa";
+        document.getElementById("birthdate_mobile_error").textContent = "Data di nascita non valida: \n- deve essere nel formato gg/mm/aaaa";
         errors = true;
     }
     if (!check_genere(genere)){
-        document.getElementById("gender_error_error").textContent = "Genere non valido: \n- deve essere 'M', 'F' oppure 'Non specificato'";
+        document.getElementById("gender_mobile_error").textContent = "Genere non valido: \n- deve essere 'M', 'F' oppure 'Non specificato'";
         errors = true;
     }
 

@@ -245,7 +245,7 @@ function build_lista_post_mobile(){
                                         <button id='comment_button_mobile_$post_id' class=\"comment-interact\" aria-label=\"Bottone commenta per il post di ".$row_query['username']." creato il ".$row_query['created_at']."\">Commenta</button>
                                 </li>";
 
-            $query = "SELECT post.* FROM post JOIN user ON post.username = user.username WHERE post.hidden = 0 AND user.banned = FALSE ORDER BY post.created_at DESC";
+            $query = "SELECT comment.* FROM comment JOIN user ON comment.username = user.username WHERE comment.post_id = '$post_id' AND user.banned = FALSE ORDER BY comment.created_at DESC";
             $result_query_comment = $db->query($query);
 
             if($result_query_comment->num_rows > 0){
@@ -326,25 +326,6 @@ function build_lista_amici($username){
             if($result_query_profile->num_rows > 0)
                 $row_query_profile = $result_query_profile->fetch_assoc();
 
-            // Raul: aggiungo un TODO così ci ricordiamo di fare sta cosa o di eliminarla, che è sto blocco di codice?
-            // $lista_amici .= "<ul class=\"profilo\" id=\"amici\">
-            //                     <li><img class='profile-picture'  src = ".$row_query_user['profile_picture_path']." alt=\"\"/></li>  
-            //                     <li><b>Nome: </b>".$row_query_user['name']."</li>
-            //                     <li><b>Username: </b>".$amico."</li>
-            //                     <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
-            //                     <li>
-            //                         <fieldset>
-            //                             <legend>Rimuovi amicizia a ".$amico."</legend>
-            //                             <form method='post' action='amici.php' name='rimuovi_amicizia'>
-            //                                 <div>
-            //                                     <input type='hidden' name='amico' value='".$amico."' />
-            //                                 </div>
-            //                                 <button class=\"loginbtn\" type='submit' name='submit_rimuovi_amicizia'>Rimuovi Amicizia</button>
-            //                             </form>
-            //                         </fieldset>
-            //                     </li>
-            //                 </ul><hr/>"; //rimuovi_amicizia DA IMPLEMENTARE
-
             $lista_amici .= "<div class='amico'>
                     <div class='amico-foto'>
                         <img class='profile-picture' id='friend-picture' src='".$row_query_profile['profile_picture_path']."' alt=''/>
@@ -352,7 +333,7 @@ function build_lista_amici($username){
                     <div class='amico-info'>
                         <ul class='profilo'>
                             <li><b>Nome: </b>".$row_query_user['name']."</li>
-                            <li><b>Username: </b>".$amico."</li>
+                            <li><b>Username: </b><a href=\"profilo.php?user=".$amico."\">$amico</a></li>
                             <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
                         </ul>
                     </div>
@@ -410,7 +391,7 @@ function build_lista_amici_mobile($username){
                     <div class='amico-info'>
                         <ul class='profilo'>
                             <li><b>Nome: </b>".$row_query_user['name']."</li>
-                            <li><b>Username: </b>".$amico."</li>
+                            <li><b>Username: </b><a href=\"profilo.php?user=".$amico."\">$amico</a></li>
                             <li><b>Biografia: </b>".$row_query_profile['bio']."</li>
                         </ul>
                     </div>
@@ -541,7 +522,7 @@ function build_modifica_dati_personali_mobile($username){
                                                 <option value='F'".($row_query['gender']=='F'?' selected':'').">F</option>
                                                 <option value='Non specificato'".($row_query['gender']=='Non specificato'?' selected':'').">Non specificato</option>
                                             </select><br/>
-                                            <div class='error' id='gener_mobile_error'></div>
+                                            <div class='error' id='gender_mobile_error'></div>
                                         </div>
                                         <div>
                                             <label for='birthdate_mobile'>Data di nascita</label><br/>
@@ -551,7 +532,7 @@ function build_modifica_dati_personali_mobile($username){
                                         <div>
                                             <fieldset>
                                                 <legend>Bottone Modifica Dati Personali</legend>
-                                                <button class=\"loginbtn\" type='submit' name='submit_modifica_dati_personali' aria-label='Bottone per confermare la modifica dei dati personali>Modifica</button>
+                                                <button class=\"loginbtn\" type='submit' name='submit_modifica_dati_personali' aria-label='Bottone per confermare la modifica dei dati personali'>Modifica</button>
                                             </fieldset>
                                         </div>
                                     </form>

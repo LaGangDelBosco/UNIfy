@@ -97,7 +97,7 @@ main h2{
     display: none; /* Nascondi il menu inizialmente */
     top: 14.5%; 
     left: 0%;
-    width: 90%;
+    width: 100%;
     height:auto;
     background-color: var(--breadcolor);
     padding: 0px;
@@ -105,16 +105,17 @@ main h2{
     transition: 0.3s;
     margin-top: -10%;
     margin-left: 2%;
-    max-width: 70%;
+    max-width: 80%;
 }
 
 .menu{
     position:absolute;
 }
 
-.menu a, .currentmenu{
+.menu li a, .currentmenu{
     padding: 1em;
     font-size: 1.3em;
+    max-width: 100%;
 }
 
 .currentmenu{
