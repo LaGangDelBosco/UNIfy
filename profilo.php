@@ -22,20 +22,24 @@ if($_GET['user'] == "" || !$db->check_username($utente_profilo)){
     exit();
 }
 
+if($db->check_ban($utente_profilo) && $_SESSION['Username'] != "admin"){
+    header("Location: error.php?error=404&forced=1");
+    exit();
+}
+
 if($utente_profilo == $username){
     header("Location: mio-profilo.php");
 }
 
 if(isset($_POST['submit_elimina_post'])){       //TODO: ha sendo? nel profilo di un utente non elimino nessun post. semmai l'admin lo nasconde
-    $id_post = $_POST['post_id'];
+    $id_post = $_POST['post_id'];               // Raul - Boh, tu lo hai fatto, effettivamente non ha senso(?)
     if($db->elimina_post($id_post)){
         header("Location: profilo.php?user=$utente_profilo&messaggio=Post eliminato con successo");    //da aggiungere messaggio get
-        exit();
     }
     else{
         header("Location: profilo.php?user=$utente_profilo&messaggio=Errore nell'eliminazione del post");
-        exit();
     }
+    exit();
 }
 
 if($db->get_dati_utente_profilo($utente_profilo)){
