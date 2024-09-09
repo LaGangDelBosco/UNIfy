@@ -19,16 +19,16 @@ $username = $_SESSION['Username'];
 if(isset($_POST['submit_rimuovi_ban'])){
     $username = $_POST['username'];
     if($db->remove_user_ban($username)){
-        header("Location: utenti-banditi.php?messaggio=Utente ripristinato con successo");
+        header("Location: profilo.php?user=$username&messaggio=Utente ripristinato con successo");
         exit();
     }
     else
-        header("Location: utenti-banditi.php?messaggio=Errore nel ripristinare l'utente");
+        header("Location: profilo.php?user=$username&messaggio=Errore nel ripristinare l'utente");
 }
 
 if(isset($_POST['submit_ban'])){
     $username = $_POST['username'];
-    $reason = "TEST"; // FIXME da sistemare
+    $reason = $_POST['ban_reason'];
     $db->ban_user($username, $reason);
     header("Location: profilo.php?user=$username&messaggio=Utente bannato con successo");
 }
