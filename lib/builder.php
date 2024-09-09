@@ -817,7 +817,7 @@ function build_lista_libri(){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT * FROM book ORDER BY created_at DESC";
+    $query = "SELECT * FROM book WHERE username NOT IN (SELECT username FROM user WHERE banned = TRUE) ORDER BY created_at DESC";
     $result_query = $db->query($query);
 
     $lista_libri = "";
@@ -908,7 +908,7 @@ function build_tabella_interessati($id_annuncio){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT DISTINCT sender_username FROM chat_message WHERE id_annuncio = $id_annuncio AND sender_username != '".$_SESSION['Username']."'";
+    $query = "SELECT DISTINCT sender_username FROM chat_message WHERE id_annuncio = $id_annuncio AND sender_username != '".$_SESSION['Username']."' AND sender_username NOT IN (SELECT username FROM user WHERE banned = 1)";
     $result_query = $db->query($query);
 
     $tabella_interessati = "<h3> Interessati </h3>";
