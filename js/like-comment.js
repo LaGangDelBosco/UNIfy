@@ -47,6 +47,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         commentButton.addEventListener('click', function() {
             var comment = commentTextarea.value;
+
+            var regex = /^[a-zA-Z0-9\s,.:"';!?àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸ\[\]\/]{3,300}$/;
+            correct = regex.test(comment);
+            document.getElementById(`comment_error_${post_id}`).innerHTML = "";
+
+            if(!correct){
+                document.getElementById(`comment_error_${post_id}`).innerHTML = "Il commento deve contenere almeno 3 caratteri e massimo 300";
+                return;
+            }
+
             commentTextarea.value = '';
             commentButton.disabled = true;
 

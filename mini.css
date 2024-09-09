@@ -125,14 +125,6 @@ main h2{
     display: none;
 }
 
-
-/* .menu.menu-open{
-    display: block; /* Mostra il menu quando è aperto 
-    height: 30%;
-    width: 65%;
-    list-style-type: none;
-} */
-
 /* GESTIONE LOGIN BOX E POST BOX */
 
 #post-box_mobile {

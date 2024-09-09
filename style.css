@@ -534,7 +534,7 @@ legend{
     text-align: center;
 }
 
-#search, #search_mobile, #text, #text_mobile{
+#search, #search_aula, #search_aula_mobile, #search_libro, #search_libro_mobile, #search_mobile, #text, #text_mobile{
     padding: 10px; 
     margin: 10px 0;
     border-radius: 5px;
