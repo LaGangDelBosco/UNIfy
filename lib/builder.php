@@ -1855,6 +1855,7 @@ function build_filtri_aule(){
                         <div>
                             <label for='search'>Cerca: </label>
                             <input type='text' id='search' name='search' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
+                            <div class='error' id='searchaula_error'></div> 
                             <button class='interact' type='submit' aria-label='Bottone di ricerca per input'>Cerca</button>
                         </div>
                     </form>";
@@ -2079,17 +2080,6 @@ function build_error_message($error_code){
             break;
     }
     return $error;
-}
-
-function build_search_bar()
-{
-    global $template_engine;
-
-    // carico il template del footer
-    $search_bar_template = $template_engine->load_template("search-bar-template.html");
-
-    // restituisco il codice html del footer
-    return $search_bar_template->build();
 }
 
 function build_search($query){
