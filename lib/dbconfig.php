@@ -1059,7 +1059,13 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
     public function get_amici($username){
         $conn = $this->apriconn();
-        $query = "SELECT username_1, username_2 FROM friendship WHERE (username_1 = ? OR username_2 = ?) AND status = 'accepted'";
+        $query = "SELECT username_1, username_2 FROM friendship f 
+              JOIN user u1 ON f.username_1 = u1.username 
+              JOIN user u2 ON f.username_2 = u2.username 
+              WHERE (f.username_1 = ? OR f.username_2 = ?) 
+              AND f.status = 'accepted' 
+              AND u1.banned = 0 
+              AND u2.banned = 0";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ss", $username, $username);
         $stmt->execute();
@@ -1071,7 +1077,13 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
     public function get_amici_in_comune($friend){
         $conn = $this->apriconn();
-        $query = "SELECT username_1, username_2 FROM friendship WHERE (username_1 = ? OR username_2 = ?) AND status = 'accepted'";
+        $query = "SELECT username_1, username_2 FROM friendship f 
+              JOIN user u1 ON f.username_1 = u1.username 
+              JOIN user u2 ON f.username_2 = u2.username 
+              WHERE (f.username_1 = ? OR f.username_2 = ?) 
+              AND f.status = 'accepted' 
+              AND u1.banned = 0 
+              AND u2.banned = 0";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ss", $friend, $friend);
         $stmt->execute();
