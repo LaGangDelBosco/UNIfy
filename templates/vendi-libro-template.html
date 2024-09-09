@@ -105,8 +105,17 @@
                                 <div class="error" id="foto_error"></div>
                             </div>
                             <button class="loginbtn" type="submit" name="submit_vendi_libro" aria-label="Bottone per pubblicare la messa in vendita del libro">Vendi</button>
-
                         </form>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var form = document.forms['vendi_libro_form'];
+                                form.addEventListener('submit', function(event) {
+                                    if(!vendilibro()){
+                                        event.preventDefault();
+                                    }
+                                });
+                            });
+                        </script>
                         
 
                     </nav>
@@ -183,8 +192,17 @@
                             <div class="error" id="foto_error_mobile"></div>
                         </div>
                         <button class="loginbtn" type="submit" name="submit_vendi_libro" aria-label="Bottone per pubblicare la messa in vendita del libro">Vendi</button>
-
                     </form>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            var form = document.forms["vendi_libro_form_mobile"];
+                            form.addEventListener('submit', function(event) {
+                                if(!vendilibromobile()){
+                                    event.preventDefault();
+                                }
+                            });
+                        });
+                    </script>
                     
 
                 </nav>

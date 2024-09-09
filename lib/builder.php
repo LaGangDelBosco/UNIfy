@@ -162,9 +162,10 @@ function build_lista_post(){
                                     <span>$like_count</span>
                                 </li>
                                 <li>
-                                        <label class=\"label_commento\" id=\"label_comment_$post_id\" for=\"comment_$post_id\">Scrivi un commento:</label>
-                                        <textarea class=\"textarea_commento_index\" id='comment_$post_id' placeholder=\"Commenta\"></textarea>
-                                        <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone commenta per il post di ".$row_query['username']." creato il ".$row_query['created_at']."\">Commenta</button>
+                                    <label class=\"label_commento\" id=\"label_comment_$post_id\" for=\"comment_$post_id\">Scrivi un commento:</label>
+                                    <textarea class=\"textarea_commento_index\" id='comment_$post_id' placeholder=\"Commenta\"></textarea>
+                                    <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone commenta per il post di ".$row_query['username']." creato il ".$row_query['created_at']."\">Commenta</button>
+                                    <div class='error' id='comment_error_$post_id'></div>
                                 </li>";
 
             $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
@@ -448,28 +449,52 @@ function build_modifica_dati_personali($username){
         if($result_query_profile->num_rows > 0)
             $row_query_profile = $result_query_profile->fetch_assoc();
 
-        $modifica_dati_personali = "<form class='form_box' method='post' action='dati-personali.php' name='modifica_dati_personali'>
+        $modifica_dati_personali = "<form class='form_box' id='modifica_dati_personali' method='post' action='dati-personali.php' name='modifica_dati_personali'>
                                         <div>
                                             <label for='name'>Nome</label><br>
                                             <input type='text' id='name' name='name' value='".$row_query['name']."' required /><br/>
+                                            <div class='error' id='name_error'></div>
+                                        </div>
+                                        <div>
                                             <label for='email'>Email</label><br/>
                                             <input type='email' id='email' name='email' value='".$row_query['email']."' required /><br/>
+                                            <div class='error' id='email_error'></div>
+                                        </div>
+                                        <div>
                                             <label for='username'>Username</label><br/>
                                             <input type='text' id='username' name='username' value='".$row_query['username']."' readonly /><br/>
+                                        </div>
+                                        <div>
                                             <label for='gender'>Genere</label><br/>
                                             <select id='gender' name='gender' required>
                                                 <option value='M'".($row_query['gender']=='M'?' selected':'').">M</option>
                                                 <option value='F'".($row_query['gender']=='F'?' selected':'').">F</option>
                                                 <option value='Non specificato'".($row_query['gender']=='Non specificato'?' selected':'').">Non specificato</option>
                                             </select><br/>
+                                            <div class='error' id='gender_error'></div>
+                                        </div>
+                                        <div>
                                             <label for='birthdate'>Data di nascita</label><br/>
                                             <input type='date' id='birthdate' name='birthdate' value='".$row_query['birthdate']."' required /><br/>
+                                            <div class='error' id='birthdate_error'></div>
+                                        </div>
+                                        <div>
                                             <fieldset>
                                                 <legend>Bottone Modifica Dati Personali</legend>
                                                 <button class=\"loginbtn\" type='submit' name='submit_modifica_dati_personali' aria-label='Bottone per confermare la modifica dei dati personali'>Modifica</button>
                                             </fieldset>
                                         </div>
-                                    </form>";
+                                    </form>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            var form = document.forms['modifica_dati_personali'];
+                                            form.addEventListener('submit', function(event) {
+                                                if(!modificadatipersonali()){
+                                                    event.preventDefault();
+                                                }
+                                            });
+                                        });
+                                    </script>";
     }
 
     return $modifica_dati_personali;
@@ -493,28 +518,52 @@ function build_modifica_dati_personali_mobile($username){
         if($result_query_profile->num_rows > 0)
             $row_query_profile = $result_query_profile->fetch_assoc();
 
-        $modifica_dati_personali = "<form class='form_box' method='post' action='dati-personali.php' name='modifica_dati_personali'>
+        $modifica_dati_personali = "<form class='form_box' id='modifica_dati_personali_mobile' method='post' action='dati-personali.php' name='modifica_dati_personali_mobile'>
                                         <div>
                                             <label for='name_mobile'>Nome</label><br>
                                             <input type='text' id='name_mobile' name='name' value='".$row_query['name']."' required /><br/>
+                                            <div class='error' id='name_mobile_error'></div>
+                                        </div>
+                                        <div>
                                             <label for='email_mobile'>Email</label><br/>
                                             <input type='email' id='email_mobile' name='email' value='".$row_query['email']."' required /><br/>
+                                            <div class='error' id='email_mobile_error'></div>
+                                        </div>
+                                        <div>
                                             <label for='username_mobile'>Username</label><br/>
                                             <input type='text' id='username_mobile' name='username' value='".$row_query['username']."' readonly /><br/>
+                                        </div>
+                                        <div>
                                             <label for='gender_mobile'>Genere</label><br/>
                                             <select id='gender_mobile' name='gender' required>
                                                 <option value='M'".($row_query['gender']=='M'?' selected':'').">M</option>
                                                 <option value='F'".($row_query['gender']=='F'?' selected':'').">F</option>
                                                 <option value='Non specificato'".($row_query['gender']=='Non specificato'?' selected':'').">Non specificato</option>
                                             </select><br/>
+                                            <div class='error' id='gener_mobile_error'></div>
+                                        </div>
+                                        <div>
                                             <label for='birthdate_mobile'>Data di nascita</label><br/>
                                             <input type='date' id='birthdate_mobile' name='birthdate' value='".$row_query['birthdate']."' required /><br/>
+                                            <div class='error' id='birthdate_mobile_error'></div>
+                                        </div>
+                                        <div>
                                             <fieldset>
                                                 <legend>Bottone Modifica Dati Personali</legend>
                                                 <button class=\"loginbtn\" type='submit' name='submit_modifica_dati_personali' aria-label='Bottone per confermare la modifica dei dati personali>Modifica</button>
                                             </fieldset>
                                         </div>
-                                    </form>";
+                                    </form>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            var form = document.forms['modifica_dati_personali_mobile'];
+                                            form.addEventListener('submit', function(event) {
+                                                if(!modificadatipersonalimobile()){
+                                                    event.preventDefault();
+                                                }
+                                            });
+                                        });
+                                    </script>";
     }
 
     return $modifica_dati_personali;
@@ -535,22 +584,43 @@ function build_modifica_profilo($username){
     if($result_query->num_rows > 0){
         $row_query = $result_query->fetch_assoc();
 
-        $modifica_profilo = "<form class='form_box' method='post' action='mio-profilo.php' name='modifica_profilo' enctype='multipart/form-data'>
+        $modifica_profilo = "<form class='form_box' id='modifica_profilo' method='post' action='mio-profilo.php' name='modifica_profilo' enctype='multipart/form-data'>
                                 <div>
                                     <label for='bio'>Biografia</label><br>
                                     <textarea id='bio' name='bio' required>".cambialospan($row_query['bio'])."</textarea><br/>
+                                    <div class='error' id='bio_error'></div>
+                                </div>
+                                <div>
                                     <label for='location'>Luogo</label><br/>
                                     <input type='text' id='location' name='location' value='".$row_query['location']."' required /><br/>
+                                    <div class='error' id='location_error'>
+                                </div>
+                                <div>
                                     <label for='website'>Sito Web</label><br/>
                                     <input type='text' id='website' name='website' value='".$row_query['website']."' required /><br/>
+                                    <div class='error' id='website_error'></div>
+                                </div>
+                                <div>
                                     <label for='profile_picture_path'>Foto Profilo</label><br/>
                                     <input type='file' id='profile_picture_path' name='profile_picture_path' accept='image/*' /><br/>
+                                    <div class='error' id='profile_picture_path_error'></div>
+                                </div>
                                     <fieldset>
                                         <legend>Bottone Modifica Profilo</legend>
                                         <button class=\"loginbtn\" type='submit' name='submit_modifica_profilo' aria-label='Bottone per confermare la modifica dei dati del profilo'>Modifica</button>
                                     </fieldset>
                                 </div>
-                            </form>";
+                            </form>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    var form = document.forms['modifica_profilo'];
+                                    form.addEventListener('submit', function(event) {
+                                        if(!modificaprofilo()){
+                                            event.preventDefault();
+                                        }
+                                    });
+                                });
+                            </script>";
     }
 
     return $modifica_profilo;
@@ -568,22 +638,44 @@ function build_modifica_profilo_mobile($username){
     if($result_query->num_rows > 0){
         $row_query = $result_query->fetch_assoc();
 
-        $modifica_profilo = "<form class='form_box' method='post' action='mio-profilo.php' name='modifica_profilo' enctype='multipart/form-data'>
+        $modifica_profilo = "<form class='form_box' id='modifica_profilo_mobile' method='post' action='mio-profilo.php' name='modifica_profilo_mobile' enctype='multipart/form-data'>
                                 <div>
                                     <label for='bio_mobile'>Biografia</label><br>
                                     <textarea id='bio_mobile' name='bio' required>".cambialospan($row_query['bio'])."</textarea><br/>
+                                    <div class='error' id='bio_mobile_error'></div>
+                                </div>
+                                <div>
                                     <label for='location_mobile'>Luogo</label><br/>
-                                    <input type='text' id='location_mobile' name='location' value='".$row_query['location']."' required /><br/>
+                                    <input type='text' id='location_mobile' name='location_mobile' value='".$row_query['location']."' required /><br/>
+                                    <div class='error' id='location_mobile_error'>
+                                </div>
+                                <div>
                                     <label for='website_mobile'>Sito Web</label><br/>
-                                    <input type='text' id='website_mobile' name='website' value='".$row_query['website']."' required /><br/>
+                                    <input type='text' id='website_mobile' name='website_mobile' value='".$row_query['website']."' required /><br/>
+                                    <div class='error' id='website_mobile_error'></div>
+                                </div>
+                                <div>
                                     <label for='profile_picture_path_mobile'>Foto Profilo</label><br/>
-                                    <input type='file' id='profile_picture_path_mobile' name='profile_picture_path' accept='image/*' /><br/>
+                                    <input type='file' id='profile_picture_path_mobile' name='profile_picture_path_mobile' accept='image/*' /><br/>
+                                    <div class='error' id='profile_picture_path_mobile_error'></div>
+                                </div>
+                                <div>
                                     <fieldset>
                                         <legend>Bottone Modifica Profilo</legend>
                                         <button class=\"loginbtn\" type='submit' name='submit_modifica_profilo' aria-label='Bottone per confermare la modifica dei dati del profilo'>Modifica</button>
                                     </fieldset>
                                 </div>
-                            </form>";
+                            </form>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    var form = document.forms['modifica_profilo_mobile'];
+                                    form.addEventListener('submit', function(event) {
+                                        if(!modificaprofilomobile()){
+                                            event.preventDefault();
+                                        }
+                                    });
+                                });
+                            </script>";
     }
 
     return $modifica_profilo;
@@ -1052,13 +1144,24 @@ function build_filtri_libri(){
                     
                 </form>";
 
-                $filtri_libri .= "<form method='get' class='form_search' action='compro-vendo-libri.php' name='search_libri'>
+                $filtri_libri .= "<form method='get' id='search_libri' class='form_search' action='compro-vendo-libri.php' name='search_libri'>
                                     <div>
                                         <label for='search'>Cerca: </label>
-                                        <input type='text' id='search' name='search' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
+                                        <input type='text' id='search_libro' name='search_libro' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
                                         <button class='interact' type='submit' aria-label='Bottone di ricerca per input'>Cerca</button>
+                                        <div class='error' id='searchlibro_error'></div>
                                     </div> 
-                                </form>";
+                                </form>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        var form = document.forms['search_libri'];
+                                        form.addEventListener('submit', function(event) {
+                                            if(!searchlibri()){
+                                                event.preventDefault();
+                                            }
+                                        });
+                                    });
+                                </script>";
 
     return $filtri_libri;
 }
@@ -1146,13 +1249,24 @@ function build_filtri_libri_mobile(){
                     
                 </form>";
 
-                $filtri_libri .= "<form method='get' class='form_search' action='compro-vendo-libri.php' name='search_libri'>
+                $filtri_libri .= "<form method='get' id='search_libri_mobile' class='form_search' action='compro-vendo-libri.php' name='search_libri_mobile'>
                                     <div>
                                         <label for='search_mobile'>Cerca: </label>
-                                        <input type='text' id='search_mobile' name='search' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
+                                        <input type='text' id='search_libro_mobile' name='search_libro_mobile' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
                                         <button class='interact' type='submit' aria-label='Bottone di ricerca per input'>Cerca</button>
+                                        <div class='error' id='searchlibromobile_error'></div>
                                     </div> 
-                                </form>";
+                                </form>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        var form = document.forms['search_libri_mobile'];
+                                        form.addEventListener('submit', function(event) {
+                                            if(!searchlibrimobile()){
+                                                event.preventDefault();
+                                            }
+                                        });
+                                    });
+                                </script>";
 
     return $filtri_libri;
 }
@@ -1851,14 +1965,24 @@ function build_filtri_aule(){
                     </div>
                 </form>";
 
-    $filtri_aule .= "<form method='get' class='form_search' action='aule-studio-virtuali.php' name='search_aule'>
+    $filtri_aule .= "<form method='get' id='search_aule' class='form_search' action='aule-studio-virtuali.php' name='search_aule'>
                         <div>
                             <label for='search'>Cerca: </label>
-                            <input type='text' id='search' name='search' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
-                            <div class='error' id='searchaula_error'></div> 
+                            <input type='text' id='search_aula' name='search_aula' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
                             <button class='interact' type='submit' aria-label='Bottone di ricerca per input'>Cerca</button>
+                            <div class='error' id='searchaula_error'></div> 
                         </div>
-                    </form>";
+                    </form>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var form = document.forms['search_aule'];
+                            form.addEventListener('submit', function(event) {
+                                if(!searchaule()){
+                                    event.preventDefault();
+                                }
+                            });
+                        });
+                    </script>";
 
     return $filtri_aule;
 }
@@ -1901,13 +2025,24 @@ function build_filtri_aule_mobile(){
                     </div>
                 </form>";
 
-    $filtri_aule .= "<form method='get' class='form_search' action='aule-studio-virtuali.php' name='search_aule'>
+    $filtri_aule .= "<form method='get' id='search_aule_mobile' class='form_search' action='aule-studio-virtuali.php' name='search_aule_mobile'>
                         <div>
                             <label for='search_mobile'>Cerca: </label>
-                            <input type='text' id='search_mobile' name='search' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
+                            <input type='text' id='search_aula_mobile' name='search' placeholder='Cerca...' value='".htmlspecialchars($search)."'>
                             <button class='interact' type='submit' aria-label='Bottone di ricerca per input'>Cerca</button>
+                            <div class='error' id='searchaulamobile_error'></div>
                         </div>
-                    </form>";
+                    </form>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var form = document.forms['search_aule_mobile'];
+                            form.addEventListener('submit', function(event) {
+                                if(!searchaulemobile()){
+                                    event.preventDefault();
+                                }
+                            });
+                        });
+                    </script>";
 
     return $filtri_aule;
 }

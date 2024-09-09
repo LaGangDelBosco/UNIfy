@@ -80,8 +80,17 @@
 								<div class="error" id="genre_error"></div>
 							</div>
 							<button class="loginbtn" type="submit" name="submit_crea_aula" aria-label="Bottone per pubblicare la creazione dell'aula">Crea</button>
-
 						</form>
+						<script>
+							document.addEventListener("DOMContentLoaded", function() {
+								var form = document.forms["crea_aula_form"];
+								form.addEventListener('submit', function(event) {
+									if(!creaaula()){
+										event.preventDefault();
+									}
+								});
+							});
+						</script>
 						
 
 					</nav>
