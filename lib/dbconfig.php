@@ -826,6 +826,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         }
         $stmt->close();
         $conn->close();
+        $this->delete_aula_created_by($username);
         return !$this->err_code;
     }
 
@@ -922,6 +923,23 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $stmt->close();
         $conn->close();
         return $data;
+    }
+
+    public function delete_aula_created_by($user) {
+        $conn = $this->apriconn();
+        $query = "DELETE FROM room WHERE created_by = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $user);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'eliminazione dell'aula";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
     }
 
     public function get_room_chat_message($aula_id) {
