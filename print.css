@@ -1,0 +1,52 @@
+/*
+* {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+}
+*/
+
+body{
+    max-width: 100%;
+}
+
+#b_header {
+    display: none;
+}
+
+.menu {
+    display: none;
+}
+
+.goback {
+    display: none;
+}
+
+#post_box {
+    margin-left: 0%;
+    margin-right: auto;
+    max-width: 100%;
+}
+
+header {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#logo {
+    text-indent: -9999px;
+    background-image: url(./media/unify_logo.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    font-size: 10em;
+    height: 55vw; 
+    width: 60vw;  
+    position: static;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -8%;
+    margin-bottom: -8%;
+}
+
