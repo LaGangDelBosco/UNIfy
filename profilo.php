@@ -22,20 +22,24 @@ if($_GET['user'] == "" || !$db->check_username($utente_profilo)){
     exit();
 }
 
+if($db->check_ban($utente_profilo) && $_SESSION['Username'] != "admin"){
+    header("Location: error.php?error=404&forced=1");
+    exit();
+}
+
 if($utente_profilo == $username){
     header("Location: mio-profilo.php");
 }
 
 if(isset($_POST['submit_elimina_post'])){       //TODO: ha sendo? nel profilo di un utente non elimino nessun post. semmai l'admin lo nasconde
-    $id_post = $_POST['post_id'];
+    $id_post = $_POST['post_id'];               // Raul - Boh, tu lo hai fatto, effettivamente non ha senso(?)
     if($db->elimina_post($id_post)){
         header("Location: profilo.php?user=$utente_profilo&messaggio=Post eliminato con successo");    //da aggiungere messaggio get
-        exit();
     }
     else{
         header("Location: profilo.php?user=$utente_profilo&messaggio=Errore nell'eliminazione del post");
-        exit();
     }
+    exit();
 }
 
 if($db->get_dati_utente_profilo($utente_profilo)){
@@ -48,6 +52,7 @@ if($db->get_dati_utente_profilo($utente_profilo)){
     $mioprofilo_template->insert_multiple("biografia", $datiutente['bio']);
     $mioprofilo_template->insert_multiple("luogo", $datiutente['location']);
     $mioprofilo_template->insert_multiple("sito", $datiutente['website']);
+    $mioprofilo_template->insert_multiple("corso_studi", $datiutente['corso_studi']);
 }
 else
     echo "Errore nel caricamento dei dati utente";
@@ -70,14 +75,22 @@ if(!$amicizia_info){
 }
 
 if($_SESSION['Username'] == "admin"){
-    $mioprofilo_template->insert_multiple("ban_button", "<form method=\"post\" action=\"utenti-banditi.php\">
+    if($db->check_ban($utente_profilo)) {
+        $mioprofilo_template->insert_multiple("ban_button", "<form method=\"post\" action=\"utenti-banditi.php\">
                                             <input type=\"hidden\" name=\"username\" value=\"$utente_profilo\">
-                                            <button class=\"interact\" name=\"submit_ban\" id=\"ban_button\" type=\"submit\" aria-label=\"Bottone di ban utente\">Bandisci utente</button>
+                                            <button class=\"interact\" name=\"submit_rimuovi_ban\" id=\"ban_button\" type=\"submit\" aria-label=\"Bottone di rimozione ban utente\">Rimuovi ban utente</button>
                                             </form>");
-} else
-{
+    } else {
+        $mioprofilo_template->insert_multiple("ban_button", "<form id='banForm' onsubmit=\"openBanDialog('$utente_profilo'); return false;\">
+                    <div>
+                        <button id=\"ban_button\" class=\"interact\" type=\"submit\" aria-label=\"Bottone che permette di bannare l'utente\">Bandisci utente</button>
+                    </div>
+                </form>");
+    }
+}else{
     $mioprofilo_template->insert_multiple("ban_button", "");
 }
+
 
 if(isset($_POST['submit_friendship'])){
     if($db->invia_richiesta_amicizia($username, $utente_profilo)){

@@ -115,7 +115,7 @@ function build_lista_post(){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT * FROM post WHERE hidden = 0 ORDER BY created_at DESC";
+    $query = "SELECT post.* FROM post JOIN user ON post.username = user.username WHERE post.hidden = 0 AND user.banned = FALSE ORDER BY post.created_at DESC";
     $result_query = $db->query($query);
 
     $lista_post = "";
@@ -168,7 +168,7 @@ function build_lista_post(){
                                     <div class='error' id='comment_error_$post_id'></div>
                                 </li>";
 
-            $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
+            $query = "SELECT comment.* FROM comment JOIN user ON comment.username = user.username WHERE comment.post_id = '$post_id' AND user.banned = FALSE ORDER BY comment.created_at DESC";
             $result_query_comment = $db->query($query);
 
             if($result_query_comment->num_rows > 0){
@@ -193,7 +193,7 @@ function build_lista_post_mobile(){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT * FROM post WHERE hidden = 0 ORDER BY created_at DESC";
+    $query = "SELECT post.* FROM post JOIN user ON post.username = user.username WHERE post.hidden = 0 AND user.banned = FALSE ORDER BY post.created_at DESC";
     $result_query = $db->query($query);
 
     $lista_post = "";
@@ -245,7 +245,7 @@ function build_lista_post_mobile(){
                                         <button id='comment_button_mobile_$post_id' class=\"comment-interact\" aria-label=\"Bottone commenta per il post di ".$row_query['username']." creato il ".$row_query['created_at']."\">Commenta</button>
                                 </li>";
 
-            $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
+            $query = "SELECT post.* FROM post JOIN user ON post.username = user.username WHERE post.hidden = 0 AND user.banned = FALSE ORDER BY post.created_at DESC";
             $result_query_comment = $db->query($query);
 
             if($result_query_comment->num_rows > 0){
@@ -326,6 +326,7 @@ function build_lista_amici($username){
             if($result_query_profile->num_rows > 0)
                 $row_query_profile = $result_query_profile->fetch_assoc();
 
+            // Raul: aggiungo un TODO così ci ricordiamo di fare sta cosa o di eliminarla, che è sto blocco di codice?
             // $lista_amici .= "<ul class=\"profilo\" id=\"amici\">
             //                     <li><img class='profile-picture'  src = ".$row_query_user['profile_picture_path']." alt=\"\"/></li>  
             //                     <li><b>Nome: </b>".$row_query_user['name']."</li>
@@ -447,7 +448,7 @@ function build_modifica_dati_personali($username){
         $result_query_profile = $db->query($query_profile);
 
         if($result_query_profile->num_rows > 0)
-            $row_query_profile = $result_query_profile->fetch_assoc();
+            $row_query_profile = $result_query_profile->fetch_assoc(); // TODO che senso ha fare sta cosa? Non viene usato
 
         $modifica_dati_personali = "<form class='form_box' id='modifica_dati_personali' method='post' action='dati-personali.php' name='modifica_dati_personali'>
                                         <div>
@@ -516,7 +517,7 @@ function build_modifica_dati_personali_mobile($username){
         $result_query_profile = $db->query($query_profile);
 
         if($result_query_profile->num_rows > 0)
-            $row_query_profile = $result_query_profile->fetch_assoc();
+            $row_query_profile = $result_query_profile->fetch_assoc(); // TODO che senso ha fare sta cosa? Non viene usato
 
         $modifica_dati_personali = "<form class='form_box' id='modifica_dati_personali_mobile' method='post' action='dati-personali.php' name='modifica_dati_personali_mobile'>
                                         <div>
@@ -586,18 +587,20 @@ function build_modifica_profilo($username){
 
         $modifica_profilo = "<form class='form_box' id='modifica_profilo' method='post' action='mio-profilo.php' name='modifica_profilo' enctype='multipart/form-data'>
                                 <div>
+                                    <label for='corso_studi'>Corso di Studi</label><br>
+                                    <input type='text' id='corso_studi' name='corso_studi' value='".cambialospan($row_query['corso_studi'])."' /><br/>
                                     <label for='bio'>Biografia</label><br>
-                                    <textarea id='bio' name='bio' required>".cambialospan($row_query['bio'])."</textarea><br/>
+                                    <textarea id='bio' name='bio'>".cambialospan($row_query['bio'])."</textarea><br/>
                                     <div class='error' id='bio_error'></div>
                                 </div>
                                 <div>
                                     <label for='location'>Luogo</label><br/>
-                                    <input type='text' id='location' name='location' value='".$row_query['location']."' required /><br/>
+                                    <input type='text' id='location' name='location' value='".$row_query['location']."' /><br/>
                                     <div class='error' id='location_error'>
                                 </div>
                                 <div>
                                     <label for='website'>Sito Web</label><br/>
-                                    <input type='text' id='website' name='website' value='".$row_query['website']."' required /><br/>
+                                    <input type='text' id='website' name='website' value='".$row_query['website']."' /><br/>
                                     <div class='error' id='website_error'></div>
                                 </div>
                                 <div>
@@ -640,18 +643,20 @@ function build_modifica_profilo_mobile($username){
 
         $modifica_profilo = "<form class='form_box' id='modifica_profilo_mobile' method='post' action='mio-profilo.php' name='modifica_profilo_mobile' enctype='multipart/form-data'>
                                 <div>
+                                    <label for='corso_studi_mobile'>Corso di Studi</label><br>
+                                    <input type='text' id='corso_studi_mobile' name='corso_studi' value='".cambialospan($row_query['corso_studi'])."' /><br/>
                                     <label for='bio_mobile'>Biografia</label><br>
-                                    <textarea id='bio_mobile' name='bio' required>".cambialospan($row_query['bio'])."</textarea><br/>
+                                    <textarea id='bio_mobile' name='bio'>".cambialospan($row_query['bio'])."</textarea><br/>
                                     <div class='error' id='bio_mobile_error'></div>
                                 </div>
                                 <div>
                                     <label for='location_mobile'>Luogo</label><br/>
-                                    <input type='text' id='location_mobile' name='location_mobile' value='".$row_query['location']."' required /><br/>
+                                    <input type='text' id='location_mobile' name='location_mobile' value='".$row_query['location']."' /><br/>
                                     <div class='error' id='location_mobile_error'>
                                 </div>
                                 <div>
                                     <label for='website_mobile'>Sito Web</label><br/>
-                                    <input type='text' id='website_mobile' name='website_mobile' value='".$row_query['website']."' required /><br/>
+                                    <input type='text' id='website_mobile' name='website_mobile' value='".$row_query['website']."' /><br/>
                                     <div class='error' id='website_mobile_error'></div>
                                 </div>
                                 <div>
@@ -904,7 +909,7 @@ function build_lista_libri(){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT * FROM book ORDER BY created_at DESC";
+    $query = "SELECT * FROM book WHERE username NOT IN (SELECT username FROM user WHERE banned = TRUE) ORDER BY created_at DESC";
     $result_query = $db->query($query);
 
     $lista_libri = "";
@@ -995,7 +1000,7 @@ function build_tabella_interessati($id_annuncio){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT DISTINCT sender_username FROM chat_message WHERE id_annuncio = $id_annuncio AND sender_username != '".$_SESSION['Username']."'";
+    $query = "SELECT DISTINCT sender_username FROM chat_message WHERE id_annuncio = $id_annuncio AND sender_username != '".$_SESSION['Username']."' AND sender_username NOT IN (SELECT username FROM user WHERE banned = 1)";
     $result_query = $db->query($query);
 
     $tabella_interessati = "<h3> Interessati </h3>";
@@ -1542,7 +1547,8 @@ function build_commented_posts($username){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT * FROM post WHERE post_id IN (SELECT post_id FROM comment WHERE username = '$username') ORDER BY created_at DESC";
+    $query = "SELECT * FROM post WHERE post_id IN (SELECT post_id FROM comment WHERE username = '$username') AND username IN (SELECT username FROM user WHERE banned = FALSE) ORDER BY created_at DESC";
+    // TODO aggiunto il controllo per non mostrare i post di utenti banditi, ma NON testato!
     $result_query = $db->query($query);
 
     $commented_posts = "";
@@ -1591,7 +1597,8 @@ function build_commented_posts($username){
                 $commented_posts .= "</fieldset></li>";
             }
 
-            $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
+            $query = "SELECT * FROM comment WHERE post_id = '$post_id' AND username IN (SELECT username FROM user WHERE banned = FALSE) ORDER BY created_at DESC";
+            // TODO aggiunto il controllo per non mostrare i commenti di utenti banditi, ma NON testato!
             $result_query_comment = $db->query($query);
 
             if ($result_query_comment->num_rows > 0) {
@@ -1617,7 +1624,8 @@ function build_commented_posts_mobile($username){
     $db = new Servizio;
     $db->apriconn();
 
-    $query = "SELECT * FROM post WHERE post_id IN (SELECT post_id FROM comment WHERE username = '$username') ORDER BY created_at DESC";
+    $query = "SELECT * FROM post WHERE post_id IN (SELECT post_id FROM comment WHERE username = '$username') AND username IN (SELECT username FROM user WHERE banned = FALSE) ORDER BY created_at DESC";
+    // TODO aggiunto il controllo per non mostrare i post di utenti banditi, ma NON testato!
     $result_query = $db->query($query);
 
     $commented_posts = "";
@@ -1669,7 +1677,8 @@ function build_commented_posts_mobile($username){
                 $commented_posts .= "</fieldset></li>";
             }
 
-            $query = "SELECT * FROM comment WHERE post_id = '$post_id' ORDER BY created_at DESC";
+            $query = "SELECT * FROM comment WHERE post_id = '$post_id' AND username IN (SELECT username FROM user WHERE banned = FALSE) ORDER BY created_at DESC";
+            // TODO aggiunto il controllo per non mostrare i commenti di utenti banditi, ma NON testato!
             $result_query_comment = $db->query($query);
 
             if ($result_query_comment->num_rows > 0) {
@@ -2221,8 +2230,8 @@ function build_search($query){
     $db = new Servizio;
     $db->apriconn();
 
-    $query_user = "SELECT * FROM user WHERE username LIKE '%$query%' OR name LIKE '%$query%'";
-    $query_post = "SELECT * FROM post WHERE content LIKE '%$query%' OR username LIKE '%$query%'";
+    $query_user = "SELECT * FROM user WHERE (username LIKE '%$query%' OR name LIKE '%$query%') AND banned = 0";
+    $query_post = "SELECT * FROM post WHERE (content LIKE '%$query%' OR username LIKE '%$query%') AND username NOT IN (SELECT username FROM user WHERE banned = 1) AND hidden = 0";
 
     $result_query_user = $db->query($query_user);
     $result_query_post = $db->query($query_post);
@@ -2236,7 +2245,7 @@ function build_search($query){
     if($result_query_user->num_rows > 0){
         $search_results .= "<h3>Risultati utenti</h3>";
         while($row_query_user = $result_query_user->fetch_assoc()){
-            $search_results .= "<ul class=\"search-result\">
+            $search_results .= "<ul class=\"singolo_post\">
                                     <li><a href=\"profilo.php?user=".$row_query_user['username']."\">".$row_query_user['username']."</a></li>
                                     <li>".$row_query_user['name']."</li>
                                 </ul>";
@@ -2246,11 +2255,155 @@ function build_search($query){
     if($result_query_post->num_rows > 0){
         $search_results .= "<h3>Risultati post</h3>";
         while($row_query_post = $result_query_post->fetch_assoc()){
-            $search_results .= "<ul class=\"search-result\">
-                                    <li><a href=\"profilo.php?user=".$row_query_post['username']."\">".$row_query_post['username']."</a></li>
-                                    <li>".$row_query_post['created_at']."</li>
-                                    <li>".$row_query_post['content']."</li>
+            $like_count = $db->get_like_count($row_query_post['post_id']);
+            $post_id = $row_query_post['post_id'];
+            $search_results .= "<ul class=\"singolo_post\">
+                                    <li><a href=\"profilo.php?user=".$row_query_post['username']."\">".$row_query_post['username']."</a></li>";
+                if($_SESSION['Username'] == 'admin') {
+                    $current_page = $_SERVER['REQUEST_URI'];
+                    $search_results .= "<li>
+                                        <form method='post' action='mio-profilo.php' name='nascondi_post'>
+                                            <div>
+                                                <input type='hidden' name='id_post' value='" . $row_query_post['post_id'] . "' />
+                                                <input type='hidden' name='current_page' value='" . $current_page . "' />
+                                                <button class=\"interact\" type='submit' name='submit_nascondi_post' aria-label='Nascondi il post di'" . $row_query_post['username'] . "' creato il'" . $row_query_post['created_at'] . "'>Nascondi</button>
+                                            </div>
+                                        </form>
+                                    </li>";
+                }
+            $search_results .=     "<li>".$row_query_post['created_at']."</li>
+            <li class=\"player\">".$row_query_post['content']."</li>";
+
+            if($db->get_media_path($row_query_post['post_id']) != "NULL") {
+                // controlla se il media è un'immagine o un video
+                $media_path = $db->get_media_path($row_query_post['post_id']);
+                $media_type = $db->get_media_type($row_query_post['post_id']);
+                if ($media_type == "image") {
+                    $search_results .= "<li class=\"media\"><img src=" . $media_path . " alt=\"\"/></li>";
+                } else if ($media_type == "video") {
+                    $search_results .= "<li class=\"media\"><video controls><source src=" . $media_path . " type=\"video/mp4\"></video></li>";
+                }
+            }
+
+            $search_results .=     "
+                                <li>
+                                    <button class=\"like-interact\" data-post-id=\"". $row_query_post['post_id'] ."\" aria-label=\"Bottone mi piace per il post di ".$row_query_post['username']." creato il ".$row_query_post['created_at']."\">Mi piace</button>
+                                    <span>$like_count</span>
+                                </li>
+                                <li>
+                                        <label class=\"label_commento\" id=\"label_comment_$post_id\" for=\"comment_\"".$row_query_post['post_id']."\">Scrivi un commento:</label>
+                                        <textarea class=\"textarea_commento_index\" id='comment_$post_id' placeholder=\"Commenta\"></textarea>
+                                        <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone commenta per il post di ".$row_query_post['username']." creato il ".$row_query_post['created_at']."\">Commenta</button>
+                                </li>";
+
+            $query = "SELECT * FROM comment WHERE post_id = \"".$row_query_post['post_id']."\" ORDER BY created_at DESC";
+            $result_query_comment = $db->query($query);
+
+            if($result_query_comment->num_rows > 0){
+                $search_results .= "<li id='comment_list_". $row_query_post['post_id'] ."'><ul>";
+                while($row_query_comment = $result_query_comment->fetch_assoc()){
+                    $search_results .= "<li><a href=\"profilo.php?user=".$row_query_comment['username']."\">".$row_query_comment['username']."</a></li>
+                                    <li>".$row_query_comment['created_at']."</li>
+                                    <li class=\"content_comm\">".$row_query_comment['content']."</li>";
+                }
+                $search_results .= "</ul></li>";
+            } else {
+                $search_results .= "<li id='comment_list_". $row_query_post['post_id'] ."'></li>";
+            }
+
+            $search_results .= "</ul>";
+        }
+    }
+
+    return $search_results;
+}
+
+function build_search_mobile($query){
+    $db = new Servizio;
+    $db->apriconn();
+
+    $query_user = "SELECT * FROM user WHERE (username LIKE '%$query%' OR name LIKE '%$query%') AND banned = 0";
+    $query_post = "SELECT * FROM post WHERE (content LIKE '%$query%' OR username LIKE '%$query%') AND username NOT IN (SELECT username FROM user WHERE banned = 1) AND hidden = 0";
+
+    $result_query_user = $db->query($query_user);
+    $result_query_post = $db->query($query_post);
+
+    $search_results = "";
+
+    if($result_query_user->num_rows == 0 && $result_query_post->num_rows == 0){
+        $search_results = "<div class=\"messaggio\">Nessun risultato trovato</div>";
+    }
+
+    if($result_query_user->num_rows > 0){
+        $search_results .= "<h3>Risultati utenti</h3>";
+        while($row_query_user = $result_query_user->fetch_assoc()){
+            $search_results .= "<ul class=\"singolo_post\">
+                                    <li><a href=\"profilo.php?user=".$row_query_user['username']."\">".$row_query_user['username']."</a></li>
+                                    <li>".$row_query_user['name']."</li>
                                 </ul>";
+        }
+    }
+
+    if($result_query_post->num_rows > 0){
+        $search_results .= "<h3>Risultati post</h3>";
+        while($row_query_post = $result_query_post->fetch_assoc()){
+            $like_count = $db->get_like_count($row_query_post['post_id']);
+            $post_id = $row_query_post['post_id'];
+            $search_results .= "<ul class=\"singolo_post\">
+                                    <li><a href=\"profilo.php?user=".$row_query_post['username']."\">".$row_query_post['username']."</a></li>";
+                if($_SESSION['Username'] == 'admin') {
+                    $current_page = $_SERVER['REQUEST_URI'];
+                    $search_results .= "<li>
+                                        <form method='post' action='mio-profilo.php' name='nascondi_post'>
+                                            <div>
+                                                <input type='hidden' name='id_post' value='" . $row_query_post['post_id'] . "' />
+                                                <input type='hidden' name='current_page' value='" . $current_page . "' />
+                                                <button class=\"interact\" type='submit' name='submit_nascondi_post' aria-label='Nascondi il post di'" . $row_query_post['username'] . "' creato il'" . $row_query_post['created_at'] . "'>Nascondi</button>
+                                            </div>
+                                        </form>
+                                    </li>";
+                }
+            $search_results .=     "<li>".$row_query_post['created_at']."</li>
+            <li class=\"player\">".$row_query_post['content']."</li>";
+
+            if($db->get_media_path($row_query_post['post_id']) != "NULL") {
+                // controlla se il media è un'immagine o un video
+                $media_path = $db->get_media_path($row_query_post['post_id']);
+                $media_type = $db->get_media_type($row_query_post['post_id']);
+                if ($media_type == "image") {
+                    $search_results .= "<li class=\"media\"><img src=" . $media_path . " alt=\"\"/></li>";
+                } else if ($media_type == "video") {
+                    $search_results .= "<li class=\"media\"><video controls><source src=" . $media_path . " type=\"video/mp4\"></video></li>";
+                }
+            }
+
+            $search_results .=     "
+                                <li>
+                                    <button class=\"like-interact\" data-post-id=\"". $row_query_post['post_id'] ."\" aria-label=\"Bottone mi piace per il post di ".$row_query_post['username']." creato il ".$row_query_post['created_at']."\">Mi piace</button>
+                                    <span>$like_count</span>
+                                </li>
+                                <li>
+                                        <label class=\"label_commento\" id=\"label_comment_mobile_$post_id\" for=\"comment_mobile_$post_id\">Scrivi un commento:</label>
+                                        <textarea class=\"textarea_commento_index\" id='comment_mobile_$post_id' placeholder=\"Commenta\"></textarea>
+                                        <button id='comment_button_mobile_$post_id' class=\"comment-interact\" aria-label=\"Bottone commenta per il post di ".$row_query_post['username']." creato il ".$row_query_post['created_at']."\">Commenta</button>
+                                </li>";
+
+            $query = "SELECT * FROM comment WHERE post_id = \"".$row_query_post['post_id']."\" ORDER BY created_at DESC";
+            $result_query_comment = $db->query($query);
+
+            if($result_query_comment->num_rows > 0){
+                $search_results .= "<li id='comment_list_". $row_query_post['post_id'] ."_mobile'><ul>";
+                while($row_query_comment = $result_query_comment->fetch_assoc()){
+                    $search_results .= "<li><a href=\"profilo.php?user=".$row_query_comment['username']."\">".$row_query_comment['username']."</a></li>
+                                    <li>".$row_query_comment['created_at']."</li>
+                                    <li class=\"content_comm\">".$row_query_comment['content']."</li>";
+                }
+                $search_results .= "</ul></li>";
+            } else {
+                $search_results .= "<li id='comment_list_". $row_query_post['post_id'] ."_mobile'></li>";
+            }
+
+            $search_results .= "</ul>";
         }
     }
 
@@ -2301,11 +2454,32 @@ function build_lista_suggeriti(){
     $suggested_friends = "<h3>Potresti Conoscere</h3><ul>";
     foreach ($mutual_friends as $mutual_friend => $count) {
         if ($count > 1) {
-            $suggested_friends .= "<li><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amici in comune</li>";
+            $suggested_friends .= "<li class='singolo_post'><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amici in comune</li>";
         } else {
-            $suggested_friends .= "<li><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amico in comune</li>";
+            $suggested_friends .= "<li class='singolo_post'><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amico in comune</li>";
         }
     }
+    $suggested_friends .= "</ul><hr/>";
+
+    $corso_studi = $db->get_corso_studi($username);
+    $result_corso_studi = $db->get_utenti_corso_studi($corso_studi);
+
+    
+    $corso_studi_users = [];
+    while ($row = $result_corso_studi->fetch_assoc()) {
+        if($row['username'] != $username && !in_array($row['username'], $friends)){
+            $corso_studi_users[] = $row;
+        }
+    }
+    
+    $corso_studi_users = array_slice($corso_studi_users, 0, 5, true);
+
+    $suggested_friends .= "<h3>Studenti del tuo corso di studi</h3><ul>";
+
+    foreach ($corso_studi_users as $user) {
+        $suggested_friends .= "<li class='singolo_post'><a href=\"profilo.php?user=".$user['username']."\">".$user['username']."</a></li>";
+    }
+
     $suggested_friends .= "</ul>";
 
     return $suggested_friends;

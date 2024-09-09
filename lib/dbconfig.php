@@ -425,15 +425,15 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
      * @param $profile_picture_path string path dell'immagine del profilo
      * @return bool vero se il profilo è stato modificato, falso altrimenti
      */
-    public function modifica_profilo($username, $bio, $luogo, $sito, $profile_picture = null){
+    public function modifica_profilo($username, $bio, $luogo, $sito, $corso_studi, $profile_picture = null){
         $conn = $this->apriconn();
 
         if($profile_picture != null) {
-            $query = "UPDATE profile SET bio = ?, location = ?, website = ?, profile_picture_path = ?, updated_at = NOW() WHERE username = ?";
-            $parameters = array("sssss", $bio, $luogo, $sito, $profile_picture, $username);
+            $query = "UPDATE profile SET corso_studi= ? , bio = ?, location = ?, website = ?, profile_picture_path = ?, updated_at = NOW() WHERE username = ?";
+            $parameters = array("ssssss", $corso_studi, $bio, $luogo, $sito, $profile_picture, $username);
         } else {
-            $query = "UPDATE profile SET bio = ?, location = ?, website = ?, updated_at = NOW() WHERE username = ?";
-            $parameters = array("ssss", $bio, $luogo, $sito, $username);
+            $query = "UPDATE profile SET corso_studi = ?, bio = ?, location = ?, website = ?, updated_at = NOW() WHERE username = ?";
+            $parameters = array("sssss", $corso_studi, $bio, $luogo, $sito, $username);
         }
 
         // prepara lo statement
@@ -826,6 +826,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         }
         $stmt->close();
         $conn->close();
+        $this->delete_aula_created_by($username);
         return !$this->err_code;
     }
 
@@ -922,6 +923,23 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
         $stmt->close();
         $conn->close();
         return $data;
+    }
+
+    public function delete_aula_created_by($user) {
+        $conn = $this->apriconn();
+        $query = "DELETE FROM room WHERE created_by = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $user);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $this->err_code = false;
+        } else {
+            $this->err_code = true;
+            $this->err_text = "Errore durante l'eliminazione dell'aula";
+        }
+        $stmt->close();
+        $conn->close();
+        return !$this->err_code;
     }
 
     public function get_room_chat_message($aula_id) {
@@ -1059,7 +1077,13 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
     public function get_amici($username){
         $conn = $this->apriconn();
-        $query = "SELECT username_1, username_2 FROM friendship WHERE (username_1 = ? OR username_2 = ?) AND status = 'accepted'";
+        $query = "SELECT username_1, username_2 FROM friendship f 
+              JOIN user u1 ON f.username_1 = u1.username 
+              JOIN user u2 ON f.username_2 = u2.username 
+              WHERE (f.username_1 = ? OR f.username_2 = ?) 
+              AND f.status = 'accepted' 
+              AND u1.banned = 0 
+              AND u2.banned = 0";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ss", $username, $username);
         $stmt->execute();
@@ -1071,9 +1095,40 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
 
     public function get_amici_in_comune($friend){
         $conn = $this->apriconn();
-        $query = "SELECT username_1, username_2 FROM friendship WHERE (username_1 = ? OR username_2 = ?) AND status = 'accepted'";
+        $query = "SELECT username_1, username_2 FROM friendship f 
+              JOIN user u1 ON f.username_1 = u1.username 
+              JOIN user u2 ON f.username_2 = u2.username 
+              WHERE (f.username_1 = ? OR f.username_2 = ?) 
+              AND f.status = 'accepted' 
+              AND u1.banned = 0 
+              AND u2.banned = 0";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ss", $friend, $friend);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        $conn->close();
+        return $result;
+    }
+
+    public function get_corso_studi($username){
+        $conn = $this->apriconn();
+        $query = "SELECT corso_studi FROM profile WHERE username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        $conn->close();
+        return $data['corso_studi'];
+    }
+
+    public function get_utenti_corso_studi($corso_studi){
+        $conn = $this->apriconn();
+        $query = "SELECT username FROM profile WHERE corso_studi = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $corso_studi);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

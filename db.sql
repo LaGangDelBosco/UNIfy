@@ -32,6 +32,7 @@ CREATE TABLE profile (
     profile_id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100),
     profile_picture_path VARCHAR(100),
+    corso_studi VARCHAR(100),
     bio TEXT,
     location VARCHAR(50),
     website VARCHAR(50),
@@ -151,17 +152,17 @@ INSERT INTO user (username, name, email, password, birthdate, gender, created_at
 ('francesco', 'Francesco Neri', 'francesco.neri@gmail.com', 'd601d7629b263221dd541a3131d865a9bcb087e3edc702867143a996803307ab', '1988-10-31', 'male', '2024-07-24', '2024-07-24'),
 ('elena', 'Elena Gialli', 'elena.gialli@gmail.com', 'ff7fb48ec0bd80876c9c246d33d18efd0648bff6467fcc945db7f49692dab1e1', '1989-05-30', 'female', '2024-07-31', '2024-07-31');
 
-INSERT INTO profile (profile_id, username, profile_picture_path, bio, location, website, created_at, updated_at) VALUES
-(1, 'admin', './media/profile-pictures/default.jpg', 'I am the admin', 'Milan, Italy', 'https://www.example.com', '2024-07-21', '2024-07-21'),
-(2, 'user', './media/profile-pictures/default.jpg', 'I am a user', 'Rome, Italy', 'https://www.example1.com', '2024-07-22', '2024-07-22'),
-(3, 'supermario', './media/profile-pictures/default.jpg', 'I am Mario', 'Milan, Italy', '', '2024-07-31', '2024-07-31'),
-(4, 'luigi', './media/profile-pictures/default.jpg', 'I am Luigi', 'Rome, Italy', 'https://www.example2.com', '2024-07-26', '2024-07-26'),
-(5, 'giuseppe', './media/profile-pictures/default.jpg', 'I am Giuseppe', 'Milan, Italy', '', '2024-08-01', '2024-08-01'),
-(6, 'anna', './media/profile-pictures/default.jpg', 'I am Anna', 'Rome, Italy', 'https://www.example3.com', '2024-07-29', '2024-07-29'),
-(7, 'marco', './media/profile-pictures/default.jpg', 'I am Marco', 'Milan, Italy', 'https://www.example4.com', '2024-07-30', '2024-07-30'),
-(8, 'laura', './media/profile-pictures/default.jpg', 'I am Laura', 'Rome, Italy', '', '2024-07-31', '2024-07-31'),
-(9, 'francesco', './media/profile-pictures/default.jpg', 'I am Francesco', 'Milan, Italy', 'https://www.example5.com', '2024-07-24', '2024-07-24'),
-(10, 'elena', './media/profile-pictures/default.jpg', 'I am Elena', 'Rome, Italy', '', '2024-07-31', '2024-07-31');
+INSERT INTO profile (profile_id, username, profile_picture_path, corso_studi, bio, location, website, created_at, updated_at) VALUES
+(1, 'admin', './media/profile-pictures/default.jpg', 'Scienze dell''Informazione', 'Sono l''amministratore', 'Milano, Italia', 'https://www.example.com', '2024-07-21', '2024-07-21'),
+(2, 'user', './media/profile-pictures/default.jpg', 'Amministrazione Aziendale', 'Sono un utente', 'Roma, Italia', 'https://www.example1.com', '2024-07-22', '2024-07-22'),
+(3, 'supermario', './media/profile-pictures/default.jpg', 'Idraulica', 'Sono Mario', 'Milano, Italia', '', '2024-07-31', '2024-07-31'),
+(4, 'luigi', './media/profile-pictures/default.jpg', 'Ingegneria Elettrica', 'Sono Luigi', 'Roma, Italia', 'https://www.example2.com', '2024-07-26', '2024-07-26'),
+(5, 'giuseppe', './media/profile-pictures/default.jpg', 'Ingegneria Meccanica', 'Sono Giuseppe', 'Milano, Italia', '', '2024-08-01', '2024-08-01'),
+(6, 'anna', './media/profile-pictures/default.jpg', 'Psicologia', 'Sono Anna', 'Roma, Italia', 'https://www.example3.com', '2024-07-29', '2024-07-29'),
+(7, 'marco', './media/profile-pictures/default.jpg', 'Architettura', 'Sono Marco', 'Milano, Italia', 'https://www.example4.com', '2024-07-30', '2024-07-30'),
+(8, 'laura', './media/profile-pictures/default.jpg', 'Medicina', 'Sono Laura', 'Roma, Italia', '', '2024-07-31', '2024-07-31'),
+(9, 'francesco', './media/profile-pictures/default.jpg', 'Chimica', 'Sono Francesco', 'Milano, Italia', 'https://www.example5.com', '2024-07-24', '2024-07-24'),
+(10, 'elena', './media/profile-pictures/default.jpg', 'Storia dell''Arte', 'Sono Elena', 'Roma, Italia', '', '2024-07-31', '2024-07-31');
 
 INSERT INTO post (post_id, username, content, media_path, created_at, updated_at) VALUES
 (1, 'admin', 'Hello, World!', '', '2024-07-21', '2024-07-21'),
@@ -290,31 +291,31 @@ INSERT INTO friendship (friendship_id, username_1, username_2, status, created_a
 (20, 'elena', 'user', 'sent', '2024-07-31', '2024-07-31');
 
 INSERT INTO book (book_id, username, title, author, genre, year, description, cover_path, created_at, updated_at, price) VALUES
-(1, 'admin', 'Introduzione agli Algoritmi', 'Thomas H. Cormen', 'Informatica', 2009, 'Un libro completo sugli algoritmi.', '/covers/intro_to_algorithms.jpg', '2024-07-21', '2024-07-21', 50.00),
-(2, 'luigi', 'Intelligenza Artificiale: Un Approccio Moderno', 'Stuart Russell', 'Informatica', 2010, "Un libro sull'intelligenza artificiale.", '/covers/ai_modern_approach.jpg', '2024-07-22', '2024-07-22', 45.00),
-(3, 'admin', 'Concetti di Sistemi di Database', 'Abraham Silberschatz', 'Informatica', 2011, 'Un libro sui sistemi di database.', '/covers/db_system_concepts.jpg', '2024-07-23', '2024-07-23', 55.00),
-(4, 'user', 'Concetti di Sistemi Operativi', 'Abraham Silberschatz', 'Informatica', 2012, 'Un libro sui sistemi operativi.', '/covers/os_concepts.jpg', '2024-07-24', '2024-07-24', 60.00),
-(5, 'user', 'Reti di Calcolatori', 'Andrew S. Tanenbaum', 'Informatica', 2013, 'Un libro sulle reti di calcolatori.', '/covers/computer_networks.jpg', '2024-07-25', '2024-07-25', 40.00),
-(6, 'admin', 'Matematica Discreta e le sue Applicazioni', 'Kenneth H. Rosen', 'Matematica', 2014, 'Un libro sulla matematica discreta.', '/covers/discrete_mathematics.jpg', '2024-07-26', '2024-07-26', 65.00),
-(7, 'luigi', 'Calcolo: Funzioni Trascendenti', 'James Stewart', 'Matematica', 2015, 'Un libro sul calcolo.', '/covers/calculus.jpg', '2024-07-27', '2024-07-27', 70.00),
-(8, 'admin', 'Fisica per Scienziati e Ingegneri', 'Raymond A. Serway', 'Fisica', 2016, 'Un libro sulla fisica.', '/covers/physics.jpg', '2024-07-28', '2024-07-28', 75.00),
-(9, 'user', 'Chimica Organica', 'Paula Yurkanis Bruice', 'Chimica', 2017, 'Un libro sulla chimica organica.', '/covers/organic_chemistry.jpg', '2024-07-29', '2024-07-29', 80.00),
-(10, 'giuseppe', 'Principi di Microeconomia', 'N. Gregory Mankiw', 'Economia', 2018, 'Un libro sulla microeconomia.', '/covers/microeconomics.jpg', '2024-07-30', '2024-07-30', 85.00),
-(11, 'admin', 'Storia della Filosofia Occidentale', 'Bertrand Russell', 'Umanistico', 1945, 'Un libro che esplora la storia della filosofia occidentale.', '/covers/storia_filosofia_occidentale.jpg', '2024-08-01', '2024-08-01', 90.00),
-(12, 'giuseppe', 'La Divina Commedia', 'Dante Alighieri', 'Umanistico', 1320, 'Un poema epico scritto da Dante Alighieri.', '/covers/divina_commedia.jpg', '2024-08-02', '2024-08-02', 95.00),
-(13, 'admin', 'Guerra e Pace', 'Lev Tolstoj', 'Umanistico', 1869, 'Un romanzo storico che narra le vicende di diverse famiglie russe durante le guerre napoleoniche.', '/covers/guerra_e_pace.jpg', '2024-08-03', '2024-08-03', 100.00),
-(14, 'giuseppe', 'Il Principe', 'Niccolò Machiavelli', 'Umanistico', 1532, 'Un trattato politico scritto da Niccolò Machiavelli.', '/covers/il_principe.jpg', '2024-08-04', '2024-08-04', 105.00),
-(15, 'giuseppe', "L'Interpretazione dei Sogni", 'Sigmund Freud', 'Umanistico', 1899, 'Un libro che esplora la teoria dei sogni di Sigmund Freud.', '/covers/interpretazione_sogni.jpg', '2024-08-05', '2024-08-05', 110.00),
-(16, 'admin', 'Manuale di Psichiatria', 'Giovanni Battista Cassano', 'Medico', 2010, 'Un manuale completo di psichiatria.', '/covers/manuale_psichiatria.jpg', '2024-08-06', '2024-08-06', 115.00),
-(17, 'anna', 'Anatomia Umana', 'Frank H. Netter', 'Medico', 2014, 'Un atlante di anatomia umana.', '/covers/anatomia_umana.jpg', '2024-08-07', '2024-08-07', 120.00),
-(18, 'admin', 'Principi di Medicina Interna', 'Harrison', 'Medico', 2018, 'Un libro di riferimento per la medicina interna.', '/covers/principi_medicina_interna.jpg', '2024-08-08', '2024-08-08', 125.00),
-(19, 'anna', 'Fisiologia Medica', 'Guyton e Hall', 'Medico', 2016, 'Un libro di testo sulla fisiologia medica.', '/covers/fisiologia_medica.jpg', '2024-08-09', '2024-08-09', 130.00),
-(20, 'admin', 'Patologia Generale', 'Robbins e Cotran', 'Medico', 2015, 'Un libro di testo sulla patologia generale.', '/covers/patologia_generale.jpg', '2024-08-10', '2024-08-10', 135.00),
-(21, 'user', 'Farmacologia', 'Rang e Dale', 'Medico', 2019, 'Un libro di testo sulla farmacologia.', '/covers/farmacologia.jpg', '2024-08-11', '2024-08-11', 140.00),
-(22, 'giuseppe', 'Microbiologia Medica', 'Murray', 'Medico', 2020, 'Un libro di testo sulla microbiologia medica.', '/covers/microbiologia_medica.jpg', '2024-08-12', '2024-08-12', 145.00),
-(23, 'admin', 'Immunologia', 'Abbas', 'Medico', 2017, "Un libro di testo sull'immunologia.", '/covers/immunologia.jpg', '2024-08-13', '2024-08-13', 150.00),
-(24, 'user', 'Chirurgia Generale', 'Sabiston', 'Medico', 2018, 'Un libro di testo sulla chirurgia generale.', '/covers/chirurgia_generale.jpg', '2024-08-14', '2024-08-14', 155.00),
-(25, 'admin', 'Diagnostica per Immagini', 'Brant e Helms', 'Medico', 2021, 'Un libro di testo sulla diagnostica per immagini.', '/covers/diagnostica_per_immagini.jpg', '2024-08-15', '2024-08-15', 160.00);
+(1, 'admin', 'Introduzione agli Algoritmi', 'Thomas H. Cormen', 'Informatica', 2009, 'Un libro completo sugli algoritmi.', './media/book-pictures/intro_to_algorithms.jpg', '2024-07-21', '2024-07-21', 50.00),
+(2, 'luigi', 'Intelligenza Artificiale: Un Approccio Moderno', 'Stuart Russell', 'Informatica', 2010, "Un libro sull'intelligenza artificiale.", './media/book-pictures/ai_modern_approach.jpg', '2024-07-22', '2024-07-22', 45.00),
+(3, 'admin', 'Concetti di Sistemi di Database', 'Abraham Silberschatz', 'Informatica', 2011, 'Un libro sui sistemi di database.', './media/book-pictures/db_system_concepts.jpg', '2024-07-23', '2024-07-23', 55.00),
+(4, 'user', 'Concetti di Sistemi Operativi', 'Abraham Silberschatz', 'Informatica', 2012, 'Un libro sui sistemi operativi.', './media/book-pictures/os_concepts.jpg', '2024-07-24', '2024-07-24', 60.00),
+(5, 'user', 'Reti di Calcolatori', 'Andrew S. Tanenbaum', 'Informatica', 2013, 'Un libro sulle reti di calcolatori.', './media/book-pictures/computer_networks.jpg', '2024-07-25', '2024-07-25', 40.00),
+(6, 'admin', 'Matematica Discreta e le sue Applicazioni', 'Kenneth H. Rosen', 'Matematica', 2014, 'Un libro sulla matematica discreta.', './media/book-pictures/discrete_mathematics.jpg', '2024-07-26', '2024-07-26', 65.00),
+(7, 'luigi', 'Calcolo: Funzioni Trascendenti', 'James Stewart', 'Matematica', 2015, 'Un libro sul calcolo.', './media/book-pictures/calculus.jpg', '2024-07-27', '2024-07-27', 70.00),
+(8, 'admin', 'Fisica per Scienziati e Ingegneri', 'Raymond A. Serway', 'Fisica', 2016, 'Un libro sulla fisica.', './media/book-pictures/physics.jpg', '2024-07-28', '2024-07-28', 75.00),
+(9, 'user', 'Chimica Organica', 'Paula Yurkanis Bruice', 'Chimica', 2017, 'Un libro sulla chimica organica.', './media/book-pictures/organic_chemistry.jpg', '2024-07-29', '2024-07-29', 80.00),
+(10, 'giuseppe', 'Principi di Microeconomia', 'N. Gregory Mankiw', 'Economia', 2018, 'Un libro sulla microeconomia.', './media/book-pictures/microeconomics.jpg', '2024-07-30', '2024-07-30', 85.00),
+(11, 'admin', 'Storia della Filosofia Occidentale', 'Bertrand Russell', 'Umanistico', 1945, 'Un libro che esplora la storia della filosofia occidentale.', './media/book-pictures/storia_filosofia_occidentale.jpg', '2024-08-01', '2024-08-01', 90.00),
+(12, 'giuseppe', 'La Divina Commedia', 'Dante Alighieri', 'Umanistico', 1320, 'Un poema epico scritto da Dante Alighieri.', './media/book-pictures/divina_commedia.jpg', '2024-08-02', '2024-08-02', 95.00),
+(13, 'admin', 'Guerra e Pace', 'Lev Tolstoj', 'Umanistico', 1869, 'Un romanzo storico che narra le vicende di diverse famiglie russe durante le guerre napoleoniche.', './media/book-pictures/guerra_e_pace.jpg', '2024-08-03', '2024-08-03', 100.00),
+(14, 'giuseppe', 'Il Principe', 'Niccolò Machiavelli', 'Umanistico', 1532, 'Un trattato politico scritto da Niccolò Machiavelli.', './media/book-pictures/il_principe.jpg', '2024-08-04', '2024-08-04', 105.00),
+(15, 'giuseppe', "L'Interpretazione dei Sogni", 'Sigmund Freud', 'Umanistico', 1899, 'Un libro che esplora la teoria dei sogni di Sigmund Freud.', './media/book-pictures/interpretazione_sogni.jpg', '2024-08-05', '2024-08-05', 110.00),
+(16, 'admin', 'Manuale di Psichiatria', 'Giovanni Battista Cassano', 'Medico', 2010, 'Un manuale completo di psichiatria.', './media/book-pictures/manuale_psichiatria.jpg', '2024-08-06', '2024-08-06', 115.00),
+(17, 'anna', 'Anatomia Umana', 'Frank H. Netter', 'Medico', 2014, 'Un atlante di anatomia umana.', './media/book-pictures/anatomia_umana.jpg', '2024-08-07', '2024-08-07', 120.00),
+(18, 'admin', 'Principi di Medicina Interna', 'Harrison', 'Medico', 2018, 'Un libro di riferimento per la medicina interna.', './media/book-pictures/principi_medicina_interna.jpg', '2024-08-08', '2024-08-08', 125.00),
+(19, 'anna', 'Fisiologia Medica', 'Guyton e Hall', 'Medico', 2016, 'Un libro di testo sulla fisiologia medica.', './media/book-pictures/fisiologia_medica.jpg', '2024-08-09', '2024-08-09', 130.00),
+(20, 'admin', 'Patologia Generale', 'Robbins e Cotran', 'Medico', 2015, 'Un libro di testo sulla patologia generale.', './media/book-pictures/patologia_generale.jpg', '2024-08-10', '2024-08-10', 135.00),
+(21, 'user', 'Farmacologia', 'Rang e Dale', 'Medico', 2019, 'Un libro di testo sulla farmacologia.', './media/book-pictures/farmacologia.jpg', '2024-08-11', '2024-08-11', 140.00),
+(22, 'giuseppe', 'Microbiologia Medica', 'Murray', 'Medico', 2020, 'Un libro di testo sulla microbiologia medica.', './media/book-pictures/microbiologia_medica.jpg', '2024-08-12', '2024-08-12', 145.00),
+(23, 'admin', 'Immunologia', 'Abbas', 'Medico', 2017, "Un libro di testo sull'immunologia.", './media/book-pictures/immunologia.jpg', '2024-08-13', '2024-08-13', 150.00),
+(24, 'user', 'Chirurgia Generale', 'Sabiston', 'Medico', 2018, 'Un libro di testo sulla chirurgia generale.', './media/book-pictures/chirurgia_generale.jpg', '2024-08-14', '2024-08-14', 155.00),
+(25, 'admin', 'Diagnostica per Immagini', 'Brant e Helms', 'Medico', 2021, 'Un libro di testo sulla diagnostica per immagini.', './media/book-pictures/diagnostica_per_immagini.jpg', '2024-08-15', '2024-08-15', 160.00);
 
 INSERT INTO likes (post_id, username, created_at) VALUES
 (1, 'user', '2024-07-21'),

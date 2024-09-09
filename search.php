@@ -16,7 +16,7 @@ $search_template->insert_multiple("menu", build_menu());
 
 function convert_youtube_links_to_iframe($text) {
     $pattern = '/(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/i';
-    $replacement = '<iframe width="560" height="315" src="https://www.youtube.com/embed/$4" frameborder="0" allowfullscreen></iframe>';
+    $replacement = '<iframe width="560" height="315" src="https://www.youtube.com/embed/$4" allowfullscreen></iframe>';
     return preg_replace($pattern, $replacement, $text);
 }
 
@@ -28,7 +28,14 @@ else{
 }
 
 
-$search_template->insert_multiple("ricerca", build_search($query));
+if(isset($_GET['messaggio'])){
+    $messaggio = htmlspecialchars($_GET['messaggio']);
+    $search_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
+}else
+    $search_template->insert_multiple("messaggio", "");
+
+$search_template->insert("ricerca", build_search($query));
+$search_template->insert("ricerca_mobile", build_search_mobile($query));
 
 $search_template->insert_multiple("suggeriti", build_lista_suggeriti());
 
