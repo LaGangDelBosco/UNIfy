@@ -2105,8 +2105,8 @@ function build_search($query){
     $db = new Servizio;
     $db->apriconn();
 
-    $query_user = "SELECT * FROM user WHERE username LIKE '%$query%' OR name LIKE '%$query%'";
-    $query_post = "SELECT * FROM post WHERE content LIKE '%$query%' OR username LIKE '%$query%'";
+    $query_user = "SELECT * FROM user WHERE (username LIKE '%$query%' OR name LIKE '%$query%') AND banned = 0";
+    $query_post = "SELECT * FROM post WHERE (content LIKE '%$query%' OR username LIKE '%$query%') AND username NOT IN (SELECT username FROM user WHERE banned = 1)";
 
     $result_query_user = $db->query($query_user);
     $result_query_post = $db->query($query_post);
