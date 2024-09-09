@@ -87,12 +87,6 @@ if($_SESSION['Username'] == "admin"){
     $mioprofilo_template->insert_multiple("ban_button", "");
 }
 
-/* TODO: Form da riutilizzare per confermare il ban
-                
-                "<form method=\"post\" action=\"utenti-banditi.php\">
-                                            <input type=\"hidden\" name=\"username\" value=\"$utente_profilo\">
-                                            <button class=\"interact\" name=\"submit_ban\" id=\"ban_button\" type=\"submit\" aria-label=\"Bottone di ban utente\">Bandisci utente</button>
-                                            </form>"*/
 
 if(isset($_POST['submit_friendship'])){
     if($db->invia_richiesta_amicizia($username, $utente_profilo)){
