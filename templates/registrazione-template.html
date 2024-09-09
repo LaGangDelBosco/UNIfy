@@ -81,14 +81,39 @@
 					<input type="password" id="conferma_password" name="conferma_password" placeholder="conferma_password" required />
 					<div class="error" id="conferma_password_error"></div>
 				</div>
-                <button class="loginbtn" aria-label="Bottone di registrazione">Registrati</button><br>
+				<button class="loginbtn" id="submit_button" aria-label="Bottone di registrazione">Registrati</button><br>
                 Sei già registrato? <a href="login.php">Accedi</a>
             </form>
 			<script>
 				document.addEventListener("DOMContentLoaded", function() {
 					var form = document.forms["registrazione_form"];
+					var usernameInput = document.getElementById("username");
+					var usernameError = document.getElementById("username_error");
+					var submitButton = document.getElementById("submit_button");
+
+					usernameInput.addEventListener("blur", function() {
+						var username = usernameInput.value;
+						if (username) {
+							$.ajax({
+								url: 'check_username.php',
+								type: 'POST',
+								data: { username: username },
+								success: function(response) {
+									var data = JSON.parse(response);
+									if (data.exists) {
+										usernameError.textContent = "Username già esistente";
+										submitButton.disabled = true;
+									} else {
+										usernameError.textContent = "";
+										submitButton.disabled = false;
+									}
+								}
+							});
+						}
+					});
+
 					form.addEventListener('submit', function(event) {
-						if(!registrazione()){
+						if (!registrazione()) {
 							event.preventDefault();
 						}
 					});
