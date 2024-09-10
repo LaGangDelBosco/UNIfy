@@ -15,11 +15,12 @@ if(isset($_POST['username']) && isset($_POST['nome_cognome']) && isset($_POST['e
 
     if($password != $conferma_password) {
         $error = "Le password non coincidono";
+        header("Location: registrazione.php?messaggio=Le password non coincidono");
     } 
     else{
         if($db->registrazione($username, $nome_cognome, $email, $password, $data_nascita, $gender)) {
             $error = "Registrazione avvenuta con successo";
-            header("Location: index.php?messaggio=Registrazione avvenuta con successo! Effettua il login per accedere al tuo account.");
+            header("Location: login.php?messaggio=Registrazione avvenuta con successo! Effettua il login per accedere al tuo account.");
         } 
         else {
             $error = "Errore durante la registrazione";
@@ -39,11 +40,11 @@ $registrazione_template->insert("footer", build_footer());
 
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
-    if($messaggio == "Nome utente o password errata"){
-        $registrazione_template-> insert("messaggio", ('<div id="messaggioerrore">' . $messaggio . '</div>'));
+    if($messaggio == "Errore durante la registrazione") {
+        $registrazione_template-> insert("messaggio", ('<div class="messaggioerrore">' . $messaggio . '</div>'));
     }
     else
-        $registrazione_template-> insert("messaggio", ('<div id="messaggio">' . $messaggio . '</div>'));
+        $registrazione_template-> insert("messaggio", ('<div class="messaggio">' . $messaggio . '</div>'));
 }
 else $registrazione_template-> insert("messaggio", (""));
 

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="utf-8" />
+	
+	<title> Vendi un libro - UNIfy </title>
+	<meta name = "description" content = "Questa pagina è dedicata alla vendita dei libri universitari" />
+	<meta name ="keywords" content ="unify, università, studenti, social, reazioni, vendita, libro, universitario" />
+	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso"/>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="./style.css" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px)" />
+	<link rel="stylesheet" href="./print.css" media="print"/>
+
+	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
+	<link rel="shortcut icon" type="image/png" href="./media/unify_icon.png" media="screen" /> <!--icona visibile su browser-->
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+	<script src="./js/menu_mobile.js"></script>
+    <script src="./js/pagine_mobile.js"></script>
+</head>
+
+<body>	
+    <div id="container">
+        <component>header</component>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">      
+			<p>Ti trovi in: <a href="index.php"><span lang="en">Home</span></a> &gt;&gt; <a href="compro-vendo-libri.php">Compro/Vendo Libri</a> &gt;&gt; Vendi un libro</p>
+		</nav>
+
+        <main id="main">
+            <div class="mobile-content hideall">
+                <div id="search-bar_mobile">
+                    <form method="get" id="searchbarmobile_form" name="searchbarmobile_form" action="search.php">
+                        <div>
+                            <label for="search_mobile">Cerca qui:</label><br/>
+                            <input type="text" name="q" id="search_mobile" placeholder="Cerca..." />
+                            <button type="submit" class="loginbtn">Cerca</button>
+                            <div class="error" id="searchmobile_error"></div>
+                        </div>
+                    </form>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            var form = document.forms["searchbarmobile_form"];
+                            form.addEventListener('submit', function(event) {
+                                if(!searchbarmobile()){
+                                    event.preventDefault();
+                                }
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+
+			<h2 class="page_title">Vendi un libro</h2>
+
+            <div class="desktop-content">
+                <!-- da qui partono i 3 blocchi di contenuto -->
+                <div class="content">
+                    <!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+                    <nav id="menu" aria-label="Menù del sito">
+                        <component>menu</component>
+                    </nav>
+                    
+                    <nav id="post-box" aria-label="Sezione compilazione dati per mettere in vendita un libro">
+                        <component>messaggio</component>
+                        <p class="info-tag-center">Per contrassegnare le parole in inglese, utilizza i tag [en]...[/en] nelle caselle di testo.</p>
+                        <form class="form_box" id="vendi_libro_form" name="vendi_libro_form" method="post" action="vendi-libro.php" enctype="multipart/form-data">
+                            <div>
+                                <label for="titolo">Titolo:</label><br/>
+                                <input type="text" id="titolo" name="titolo" placeholder="titolo" required />
+                                <div class="error" id="titolo_error"></div>
+                            </div>
+                            <div>
+                                <label for="autore">Autore:</label><br/>
+                                <input type="text" id="autore" name="autore" placeholder="autore" required />
+                                <div class="error" id="autore_error"></div>
+                            </div>
+                            <div>
+                                <label for="categoria">Categoria:</label><br/>
+                                <input type="text" id="categoria" name="categoria" placeholder="categoria" required />
+                                <div class="error" id="categoria_error"></div>
+                            </div>
+                            <div>
+                                <label for="anno">Anno di pubblicazione:</label><br/>
+                                <input type="number" id="anno" name="anno" placeholder="anno" required />
+                                <div class="error" id="anno_error"></div>
+                            </div>
+                            <div>
+                                <label for="descrizione">Descrizione:</label><br/>
+                                <textarea id="descrizione" name="descrizione" placeholder="descrizione" required></textarea>
+                                <div class="error" id="descrizione_error"></div>
+                            </div>
+                            <div>
+                                <label for="prezzo">Prezzo:</label><br/>
+                                <input type="number" id="prezzo" name="prezzo" placeholder="prezzo" required />
+                                <div class="error" id="prezzo_error"></div>
+                            </div>
+                            <div>
+                                <label for="book_picture_path">Foto:</label><br/>
+                                <input type="file" id="book_picture_path" name="book_picture_path" accept="image/*" />
+                                <div class="error" id="foto_error"></div>
+                            </div>
+                            <button class="loginbtn" type="submit" name="submit_vendi_libro" aria-label="Bottone per pubblicare la messa in vendita del libro">Vendi</button>
+                        </form>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var form = document.forms['vendi_libro_form'];
+                                form.addEventListener('submit', function(event) {
+                                    if(!vendilibro()){
+                                        event.preventDefault();
+                                    }
+                                });
+                            });
+                        </script>
+                        
+
+                    </nav>
+                        
+                        
+                    <nav id="extra-section" aria-label="Sezione di ricerca e interessi">
+                        <div id="search-bar">
+                            <form method="get" id="searchbar_form" name="searchbar_form" action="search.php">
+                                <div>
+                                    <label for="search">Cerca qui:</label><br/>
+                                    <input type="text" name="q" id="search" placeholder="Cerca..." />
+                                    <button type="submit" class="loginbtn">Cerca</button>
+                                    <div class="error" id="search_error"></div>
+                                </div>
+                            </form>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    var form = document.forms["searchbar_form"];
+                                    form.addEventListener('submit', function(event) {
+                                        if(!searchbar()){
+                                            event.preventDefault();
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div id="suggeriti">
+							<component>suggeriti</component>
+						</div>
+                    </nav>
+                <!-- fine dei 3 blocchi di contenuto -->
+                </div>
+            </div>
+
+            <div class="mobile-content hideall">
+                <component>menu</component>
+                <nav id="post-box_mobile" aria-label="Sezione compilazione dati per mettere in vendita un libro">
+                    <component>messaggio</component>
+                    <p class="info-tag-center">Per contrassegnare le parole in inglese, utilizza i tag [en]...[/en] nelle caselle di testo.</p>
+                    <form class="form_box" id="vendi_libro_form_mobile" name="vendi_libro_form" method="post" action="vendi-libro.php" enctype="multipart/form-data">
+                        <div>
+                            <label for="titolo_mobile">Titolo:</label><br/>
+                            <input type="text" id="titolo_mobile" name="titolo" placeholder="titolo" required />
+                            <div class="error" id="titolo_error_mobile"></div>
+                        </div>
+                        <div>
+                            <label for="autore_mobile">Autore:</label><br/>
+                            <input type="text" id="autore_mobile" name="autore" placeholder="autore" required />
+                            <div class="error" id="autore_error_mobile"></div>
+                        </div>
+                        <div>
+                            <label for="categoria_mobile">Categoria:</label><br/>
+                            <input type="text" id="categoria_mobile" name="categoria" placeholder="categoria" required />
+                            <div class="error" id="categoria_error_mobile"></div>
+                        </div>
+                        <div>
+                            <label for="anno_mobile">Anno di pubblicazione:</label><br/>
+                            <input type="number" id="anno_mobile" name="anno" placeholder="anno" required />
+                            <div class="error" id="anno_error_mobile"></div>
+                        </div>
+                        <div>
+                            <label for="descrizione_mobile">Descrizione:</label><br/>
+                            <textarea id="descrizione_mobile" name="descrizione" placeholder="descrizione" required></textarea>
+                            <div class="error" id="descrizione_error_mobile"></div>
+                        </div>
+                        <div>
+                            <label for="prezzo_mobile">Prezzo:</label><br/>
+                            <input type="number" id="prezzo_mobile" name="prezzo" placeholder="prezzo" required />
+                            <div class="error" id="prezzo_error_mobile"></div>
+                        </div>
+                        <div>
+                            <label for="book_picture_path_mobile">Foto:</label><br/>
+                            <input type="file" id="book_picture_path_mobile" name="book_picture_path" accept="image/*" />
+                            <div class="error" id="foto_error_mobile"></div>
+                        </div>
+                        <button class="loginbtn" type="submit" name="submit_vendi_libro" aria-label="Bottone per pubblicare la messa in vendita del libro">Vendi</button>
+                    </form>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            var form = document.forms["vendi_libro_form_mobile"];
+                            form.addEventListener('submit', function(event) {
+                                if(!vendilibromobile()){
+                                    event.preventDefault();
+                                }
+                            });
+                        });
+                    </script>
+                </nav>
+                <div id="suggeriti_mobile">
+					<component>suggeriti</component>
+				</div>
+            </div>
+
+			
+			<component>goback</component>
+		</main>
+	</div>
+    <component>footer</component>
+
+</body>
+</html>

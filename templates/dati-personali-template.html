@@ -8,9 +8,9 @@
 	<meta name = "keywords" content = "unify, social, dati, personali, modifica, password" />
 	<meta name="author" content="Leonardo Frigo, Nicholas Moretto, Raul Seganfreddo, Giacomo Toso" />
 	
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="./style.css" />
-	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px), only screen and (max-device-width:600px)" />
+	<link rel="stylesheet" href="./mini.css" media="screen and (max-width:600px)" />
 	<link rel="stylesheet" href="./print.css" media="print"/>
 
 	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
@@ -18,8 +18,9 @@
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-	<script src="./js/menu.js"></script>
+
 	<script src="./js/menu_mobile.js"></script>
+	<script src="./js/pagine_mobile.js"></script>
 </head>
 
 <body>	
@@ -30,36 +31,95 @@
 			<p>Ti trovi in: <a href="index.php"><span lang="en">Home</span></a> &gt;&gt; I miei dati personali</p>
 		</nav>
 
-        <main>
+        <main id="main">
+			<div class="mobile-content hideall">
+				<div id="search-bar_mobile">
+					<form method="get" id="searchbarmobile_form" name="searchbarmobile_form" action="search.php">
+						<div>
+							<label for="search_mobile">Cerca qui:</label><br/>
+							<input type="text" name="q" id="search_mobile" placeholder="Cerca..." />
+							<button type="submit" class="loginbtn">Cerca</button>
+							<div class="error" id="searchmobile_error"></div>
+						</div>
+					</form>
+					<script>
+						document.addEventListener("DOMContentLoaded", function() {
+							var form = document.forms["searchbarmobile_form"];
+							form.addEventListener('submit', function(event) {
+								if(!searchbarmobile()){
+									event.preventDefault();
+								}
+							});
+						});
+					</script>
+				</div>
+			</div>
+
 			<h2 class="page_title">I miei dati personali</h2>
 
-			<!-- da qui partono i 3 blocchi di contenuto -->
-			<div class="content">
-				<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
-				<nav id="menu" aria-label="Sezione di visualizzazione dati personali">
-					<component>menu</component>
-				</nav>
-				
-				<nav id="post-box">
-					<div id="text-box">
-						<component>mioprofilo</component>
-						<button class="loginbtn" type="button" onclick="window.location.href='modifica-dati-personali.php'">Modifica dati</button>
-						<button class="loginbtn" type="button" onclick="window.location.href='modifica-password.php'">Modifica password</button>
-					</div>
+			<div class="desktop-content">
+				<!-- da qui partono i 3 blocchi di contenuto -->
+				<div class="content">
+					<!-- nota: i 3 blocchi andrebbero messi uno a fianco all'altro, ma aspetto qualche guru del front-end per farlo -->
+					<nav id="menu" aria-label="Sezione di visualizzazione dati personali">
+						<component>menu</component>
+					</nav>
+					
+					<nav id="post-box">
+						<component>messaggio</component>
+						<div id="text-box">
+							<component>datipersonali</component>
+							<button class="loginbtn" type="button" onclick="window.location.href='modifica-dati-personali.php'" aria-label="Bottone per entrane nella modifica dei dati personali">Modifica dati</button>
+							<button class="loginbtn" type="button" onclick="window.location.href='modifica-password.php'" aria-label="Bottone per entrare nella modifica della password">Modifica password</button>
+						</div>
 
-				</nav>
-					
-					
-				<nav id="extra-section">
-                    <div id="search-bar">
-						<label for="search">Cerca:</label>
-                        <input type="text" id="search" placeholder="Cerca..." />
-                        <button type="button" onclick="searchFunction()">Cerca</button> <!-- da implementare -->
-                    </div>
-                    <!-- potrebbe interessarti -->
-                </nav>
-			<!-- fine dei 3 blocchi di contenuto -->
+					</nav>
+						
+						
+					<nav id="extra-section">
+						<div id="search-bar">
+							<form method="get" id="searchbar_form" name="searchbar_form" action="search.php">
+								<div>
+									<label for="search">Cerca qui:</label><br/>
+									<input type="text" name="q" id="search" placeholder="Cerca..." />
+									<button type="submit" class="loginbtn">Cerca</button>
+									<div class="error" id="search_error"></div>
+								</div>
+							</form>
+							<script>
+								document.addEventListener("DOMContentLoaded", function() {
+									var form = document.forms["searchbar_form"];
+									form.addEventListener('submit', function(event) {
+										if(!searchbar()){
+											event.preventDefault();
+										}
+									});
+								});
+							</script>
+						</div>
+						<div id="suggeriti">
+							<component>suggeriti</component>
+						</div>
+					</nav>
+				<!-- fine dei 3 blocchi di contenuto -->
+				</div>
 			</div>
+
+			<div class="mobile-content hideall">
+				<component>menu</component>
+				<nav id="post-box_mobile">
+					<component>messaggio</component>
+					<div id="text-box_mobile">
+						<component>datipersonali</component>
+						<button class="loginbtn" type="button" onclick="window.location.href='modifica-dati-personali.php'" aria-label="Modifica dati: Bottone per entrane nella modifica dei dati personali">Modifica dati</button>
+						<button class="loginbtn" type="button" onclick="window.location.href='modifica-password.php'" aria-label="Modifica password: Bottone per entrare nella modifica della password">Modifica password</button>
+					</div>
+				</nav>
+				<div id="suggeriti_mobile">
+					<component>suggeriti</component>
+				</div>
+			</div>
+				
 
 			<component>goback</component>
 		</main>

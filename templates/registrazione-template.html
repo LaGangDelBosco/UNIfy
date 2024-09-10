@@ -23,7 +23,9 @@
 
 <body>	
     <div id="container">
-        <component>header</component>
+		<div id="header_login">
+        	<component>header</component>
+		</div>
 
         <nav id="menu" aria-label="Menù del sito">
             <!-- component menu -->
@@ -40,53 +42,78 @@
 
 			<form class="form_box" id="registrazione_form" name="registrazione_form" method="post" action="registrazione.php">
 				<div>
-					<label for="username">Username:</label>
+					<label for="username">Username:</label><br/>
 					<input type="text" id="username" name="username" placeholder="username" required />
 					<div class="error" id="username_error"></div>
 				</div>
 				<div>
-					<label for="nome_cognome">Nome e Cognome:</label>
+					<label for="nome_cognome">Nome e Cognome:</label><br/>
 					<input type="text" id="nome_cognome" name="nome_cognome" placeholder="nome_cognome" required />
 					<div class="error" id="nome_error"></div>
 				</div>
 				<div>
-					<label for="email"><span lang="en">Email:</span></label>
+					<label for="email"><span lang="en">Email:</span></label><br/>
 					<input type="email" id="email" name="email" placeholder="email" aria-describedby="emailHelp" required />
 					<div id="emailHelp">Inserire un indirizzo <span lang="en">E-mail</span> valido</div>
                     <div class="error" id="email_error"></div>
 				</div>
 				<div>
-					<label for="data_nascita">Data di nascita:</label>
-					<input type="date" id="data_nascita" name="data_nascita" placeholder="data_nascita" required />
+					<label for="data_nascita">Data di nascita:</label><br/>
+					<input type="date" id="data_nascita" name="data_nascita" required />
 					<div class="error" id="data_nascita_error"></div>
 				</div>
 				<div>
-					<label for="gender">Genere:</label>
+					<label for="gender">Genere:</label><br/>
 					<select id="gender" name="gender" required>
-						<option value="M">Maschio</option>
-						<option value="F">Femmina</option>
+						<option value="M">M</option>
+						<option value="F">F</option>
 						<option value="Non specificato">Non specificato</option>
 					</select>
 					<div class="error" id="gender_error"></div>
 				</div>
 				<div>
-					<label for="password"><span lang="en">Password:</span></label>
+					<label for="password"><span lang="en">Password:</span></label><br/>
 					<input type="password" id="password" name="password" placeholder="password" required />
 					<div class="error" id="password_error"></div>
 				</div>
 				<div>
-					<label for="conferma_password">Conferma <span lang="en">Password</span>:</label>
+					<label for="conferma_password">Conferma <span lang="en">Password</span>:</label><br/>
 					<input type="password" id="conferma_password" name="conferma_password" placeholder="conferma_password" required />
 					<div class="error" id="conferma_password_error"></div>
 				</div>
-                <button class="loginbtn">Registrati</button><br>
+				<button class="loginbtn" id="submit_button" aria-label="Registrati: Bottone di registrazione">Registrati</button><br/>
                 Sei già registrato? <a href="login.php">Accedi</a>
             </form>
 			<script>
 				document.addEventListener("DOMContentLoaded", function() {
 					var form = document.forms["registrazione_form"];
+					var usernameInput = document.getElementById("username");
+					var usernameError = document.getElementById("username_error");
+					var submitButton = document.getElementById("submit_button");
+
+					usernameInput.addEventListener("blur", function() {
+						var username = usernameInput.value;
+						if (username) {
+							$.ajax({
+								url: 'check_username.php',
+								type: 'POST',
+								data: { username: username },
+								success: function(response) {
+									var data = JSON.parse(response);
+									if (data.exists) {
+										usernameError.textContent = "Username già esistente";
+										submitButton.disabled = true;
+									} else {
+										usernameError.textContent = "";
+										submitButton.disabled = false;
+									}
+								}
+							});
+						}
+					});
+
 					form.addEventListener('submit', function(event) {
-						if(!registrazione()){
+						if (!registrazione()) {
 							event.preventDefault();
 						}
 					});

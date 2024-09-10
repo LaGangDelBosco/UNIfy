@@ -8,6 +8,12 @@ if (isset($_POST['username']) && isset($_POST['password'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
     $result = $db->login($username, $password);
+
+    if($db->check_ban($username)){
+        header("Location: ./login.php?messaggio=Utente bannato");
+        exit();
+    }
+
     if(!$result){
         echo $db->err_text;
         $db->err_text = "";
@@ -31,7 +37,10 @@ $login_template->insert("footer", build_footer());
 
 if(isset($_GET['messaggio'])){
     $messaggio = htmlspecialchars($_GET['messaggio']);
-    $login_template-> insert("messaggio", '<div id="messaggioerrore">' . $messaggio . '</div>');
+    if($messaggio == "Nome utente o password errata")
+        $login_template-> insert("messaggio", '<div class="messaggioerrore">' . $messaggio . '</div>');
+    else
+        $login_template-> insert("messaggio", '<div class="messaggio">' . $messaggio . '</div>');
 }
 else $login_template-> insert("messaggio", "");
 

@@ -12,17 +12,19 @@ if(!isset($_SESSION['Username'])){
 $index_template = $template_engine->load_template("index-template.html");
 
 #$index_template->insert("build_keywords", build_keywords());
-$index_template->insert("menu", build_menu());
+$index_template->insert_multiple("menu", build_menu());
 
 function convert_youtube_links_to_iframe($text) {
     $pattern = '/(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/i';
-    $replacement = '<iframe width="560" height="315" src="https://www.youtube.com/embed/$4" frameborder="0" allowfullscreen></iframe>';
+    $replacement = '<iframe width="560" height="315" src="https://www.youtube.com/embed/$4" allowfullscreen></iframe>';
     return preg_replace($pattern, $replacement, $text);
 }
 
 if(isset($_POST['submit-public-post'])){
     $text = $_POST['text'];
     $media = $_FILES['media'];
+
+    $text = contrassegnaParoleInglesi($text);
 
     $text = convert_youtube_links_to_iframe($text);
 
@@ -34,19 +36,42 @@ if(isset($_POST['submit-public-post'])){
 
         // se $media_path supera i 100 caratteri ritorna errore
         if(strlen($media_path) > 100){
-            header("Location: index.php?error=media_path_too_long");
+            header("Location: index.php?error=media_path_too_long?messaggio=Il nome del file è troppo lungo");
         }
 
         move_uploaded_file($media['tmp_name'], $media_path);
         $db->inserisci_post($text, $_SESSION['Username'], $media_path);
+        header("Location: index.php?messaggio=Post pubblicato con successo");
     } else {
         $db->inserisci_post($text, $_SESSION['Username']);
+        header("Location: index.php?messaggio=Post pubblicato con successo");
     }
-    $error = $media['error'];
-    header("Location: index.php?error=$error");
 }
 
-$index_template->insert("lista_post", build_lista_post());
+if(isset($_POST['submit_nascondi_post'])){
+    $id_post = $_POST['id_post'];
+    $current_page = $_POST['current_page'];
+    $db->nascondi_post($id_post);
+    header("Location: $current_page?messaggio=Post nascosto con successo");
+    exit();
+}
+
+
+if(isset($_GET['messaggio'])){
+    $messaggio = htmlspecialchars($_GET['messaggio']);
+    if($messaggio == "Il nome del file è troppo lungo" || $messaggio == "Errore nell'eliminazione del post")
+        $index_template->insert_multiple("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
+    else
+        $index_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
+}else
+    $index_template->insert_multiple("messaggio", "");
+
+
+
+$index_template->insert_multiple("lista_post", build_lista_post());
+$index_template->insert("lista_post_mobile", build_lista_post_mobile());
+
+$index_template->insert_multiple("suggeriti", build_lista_suggeriti());
 
 $index_template->insert("header", build_header());
 $index_template->insert("goback", build_goback());

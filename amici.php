@@ -22,10 +22,21 @@ if(isset($_POST['submit_rimuovi_amicizia'])){
 
 $amici_template = $template_engine->load_template("amici-template.html");
 
-#$index_template->insert("build_keywords", build_keywords());
-$amici_template->insert("menu", build_menu());
+$amici_template->insert_multiple("menu", build_menu());
 
-$amici_template->insert("lista_amici", build_lista_amici($username));
+if(isset($_GET['messaggio'])){
+    $messaggio = htmlspecialchars($_GET['messaggio']);
+    if($messaggio == "Errore nella rimozione dell'amicizia")
+        $amici_template->insert_multiple("messaggio", "<div class='messaggioerrore'>" . $messaggio . "</div>");
+    else
+        $amici_template->insert_multiple("messaggio", "<div class='messaggio'>" . $messaggio . "</div>");
+}else
+    $amici_template->insert_multiple("messaggio", "");
+
+$amici_template->insert_multiple("lista_amici", build_lista_amici($username));
+$amici_template->insert_multiple("lista_amici_mobile", build_lista_amici_mobile($username));
+
+$amici_template->insert_multiple("suggeriti", build_lista_suggeriti());
 
 $amici_template->insert("header", build_header());
 $amici_template->insert("goback", build_goback());
