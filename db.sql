@@ -270,25 +270,25 @@ INSERT INTO comment (comment_id, post_id, username, content, created_at, updated
 
 INSERT INTO friendship (friendship_id, username_1, username_2, status, created_at, updated_at) VALUES
 (1, 'admin', 'user', 'accepted', '2024-07-21', '2024-07-21'),
-(2, 'user', 'supermario', 'sent', '2024-07-22', '2024-07-22'),
+(2, 'user', 'supermario', 'pending', '2024-07-22', '2024-07-22'),
 (3, 'supermario', 'luigi', 'accepted', '2024-07-31', '2024-07-31'),
 (4, 'luigi', 'giuseppe', 'accepted', '2024-07-26', '2024-07-26'),
-(5, 'giuseppe', 'anna', 'sent', '2024-08-01', '2024-08-01'),
+(5, 'giuseppe', 'anna', 'pending', '2024-08-01', '2024-08-01'),
 (6, 'anna', 'marco', 'accepted', '2024-07-29', '2024-07-29'),
 (7, 'marco', 'laura', 'accepted', '2024-07-30', '2024-07-30'),
 (8, 'laura', 'francesco', 'accepted', '2024-07-31', '2024-07-31'),
-(9, 'francesco', 'elena', 'sent', '2024-07-24', '2024-07-24'),
+(9, 'francesco', 'elena', 'pending', '2024-07-24', '2024-07-24'),
 (10, 'elena', 'admin', 'accepted', '2024-07-31', '2024-07-31'),
 (11, 'admin', 'supermario', 'accepted', '2024-07-21', '2024-07-21'),
-(12, 'user', 'luigi', 'sent', '2024-07-22', '2024-07-22'),
+(12, 'user', 'luigi', 'pending', '2024-07-22', '2024-07-22'),
 (13, 'supermario', 'giuseppe', 'accepted', '2024-07-31', '2024-07-31'),
 (14, 'luigi', 'anna', 'accepted', '2024-07-26', '2024-07-26'),
 (15, 'giuseppe', 'marco', 'accepted', '2024-08-01', '2024-08-01'),
-(16, 'anna', 'laura', 'sent', '2024-07-29', '2024-07-29'),
+(16, 'anna', 'laura', 'pending', '2024-07-29', '2024-07-29'),
 (17, 'marco', 'francesco', 'accepted', '2024-07-30', '2024-07-30'),
 (18, 'laura', 'elena', 'accepted', '2024-07-31', '2024-07-31'),
 (19, 'francesco', 'admin', 'accepted', '2024-07-24', '2024-07-24'),
-(20, 'elena', 'user', 'sent', '2024-07-31', '2024-07-31');
+(20, 'elena', 'user', 'pending', '2024-07-31', '2024-07-31');
 
 INSERT INTO book (book_id, username, title, author, genre, year, description, cover_path, created_at, updated_at, price) VALUES
 (1, 'admin', 'Introduzione agli Algoritmi', 'Thomas H. Cormen', 'Informatica', 2009, 'Un libro completo sugli algoritmi.', './media/book-pictures/intro_to_algorithms.jpg', '2024-07-21', '2024-07-21', 50.00),
