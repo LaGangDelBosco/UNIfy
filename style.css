@@ -11,11 +11,9 @@ SEZIONE GLOBALE
 
 :root {                              /*Variabili globali*/ 
     --bgcolor: #f1f1f1;              
-    --breadcolor: #fefff0; /*#e3f7ff   */
+    --breadcolor: #fefff0; 
     --logboxsfondo: rgba(107, 141, 193, 0.149);
     --txtcolor: rgb(0, 0, 0);
-    --boxcolor: #040082; 
-    --boxhover: #000000; /*#a4a4a4*/
     --linkcolor: #000d94;
     --currentlinkcolor: #e1e1e1;
     --visitedlinkcolor: #e80055;
@@ -26,7 +24,7 @@ SEZIONE GLOBALE
 }
 
 :visited {
-    color: #e80055;/*#61008e*/
+    color: #e80055;
 }
 
 
@@ -204,7 +202,7 @@ header img {
     padding-bottom:0.5em;
     display: block;
     height: 100%;
-    width: 100%;
+    width: 87%;
     text-decoration: none;
     color: #000000;
     background: var(--breadcolor);
@@ -216,15 +214,14 @@ header img {
 
 .menu li a:visited{
     color: #b34848;
-    /* background-color: #0073ff;#88c5de */
 }
 
 .menu li a:not(.currentmenu):hover{
-    background-color: var(--boxhover);
+    border: 2px solid #000000;
 }
 
 .menu a:not(.currentmenu):hover{
-    background-color: var(--boxhover);
+    border: 2px solid #000000;
 }
 
 .currentmenu{

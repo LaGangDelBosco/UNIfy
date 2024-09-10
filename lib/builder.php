@@ -767,7 +767,7 @@ function build_lista_notifiche($username){
     if($result_query->num_rows > 0){
 
         $notifiche = "<form method='post' action='notifiche.php' name='elimina_tutte_notifiche'>
-                        <div>
+                        <div class='elimina_notifiche'>
                             <button class=\"interact\" type='submit' name='submit_elimina_tutte_notifiche' aria-label='Bottone di eliminazione di tutte le notifiche'>Elimina tutte le notifiche</button>
                         </div>
                     </form>";

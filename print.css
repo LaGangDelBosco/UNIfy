@@ -32,7 +32,48 @@ body{
 }
 
 .singolo_post{
+    margin-left: 13%;
+}
+
+.singola_notifica{
     margin-left: 20%;
+}
+
+.elimina_notifiche{
+    margin-left: 20%;
+}
+
+.filtri{
+    margin-left: 20%;
+}
+
+.product-list {
+    margin-left: 13%;
+    width: 100%;
+}
+
+#chatContainerRoom {
+    margin-left: 11%;
+}
+
+.annuncio_container {
+    margin-left: 20%;
+}
+
+#annuncio_button {
+    margin-left: 20%;
+}
+
+.img_annuncio{
+    list-style-type: none;
+}
+
+#post{
+    margin-left: 20%;
+}
+
+#profile-info {
+    margin-left: 24%;
 }
 
 header {

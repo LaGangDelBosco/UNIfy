@@ -44,15 +44,15 @@ if(isset($_POST['submit_elimina_post'])){       //TODO: ha sendo? nel profilo di
 
 if($db->get_dati_utente_profilo($utente_profilo)){
     $datiutente = $db->get_dati_utente_profilo($utente_profilo);
-    $mioprofilo_template->insert_multiple("immagine", $datiutente['profile_picture_path']);
+    $mioprofilo_template->insert_multiple("immagine", $datiutente['profile_picture_path'] ?? "media/profile-pictures/default.jpg");
     $mioprofilo_template->insert_multiple("nome", $datiutente['name']);
     $mioprofilo_template->insert_multiple("email", $datiutente['email']);
     $mioprofilo_template->insert_multiple("birthdate", $datiutente['birthdate']);
     $mioprofilo_template->insert_multiple("username", $utente_profilo);
-    $mioprofilo_template->insert_multiple("biografia", $datiutente['bio']);
-    $mioprofilo_template->insert_multiple("luogo", $datiutente['location']);
-    $mioprofilo_template->insert_multiple("sito", $datiutente['website']);
-    $mioprofilo_template->insert_multiple("corso_studi", $datiutente['corso_studi']);
+    $mioprofilo_template->insert_multiple("biografia", $datiutente['bio'] ?? "");
+    $mioprofilo_template->insert_multiple("luogo", $datiutente['location'] ?? "");
+    $mioprofilo_template->insert_multiple("sito", $datiutente['website'] ?? "");
+    $mioprofilo_template->insert_multiple("corso_studi", $datiutente['corso_studi'] ?? "");
 }
 else
     echo "Errore nel caricamento dei dati utente";
