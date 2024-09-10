@@ -243,13 +243,14 @@ function build_lista_post_mobile(){
                                         <label class=\"label_commento\" id=\"label_comment_mobile_$post_id\" for=\"comment_mobile_$post_id\">Scrivi un commento:</label>
                                         <textarea class=\"textarea_commento_index\" id='comment_mobile_$post_id' placeholder=\"Commenta\"></textarea>
                                         <button id='comment_button_mobile_$post_id' class=\"comment-interact\" aria-label=\"Bottone commenta per il post di ".$row_query['username']." creato il ".$row_query['created_at']."\">Commenta</button>
+                                        <div class='error' id='comment_mobile_error_$post_id'></div>
                                 </li>";
 
             $query = "SELECT comment.* FROM comment JOIN user ON comment.username = user.username WHERE comment.post_id = '$post_id' AND user.banned = FALSE ORDER BY comment.created_at DESC";
             $result_query_comment = $db->query($query);
 
             if($result_query_comment->num_rows > 0){
-                $lista_post .= "<li id='comment_list_". $post_id ."_mobile'><ul>";
+                $lista_post .= "<li id='comment_list_mobile_". $post_id ."'><ul>";
                 while($row_query_comment = $result_query_comment->fetch_assoc()){
                     $lista_post .= "<li><a href=\"profilo.php?user=".$row_query_comment['username']."\">".$row_query_comment['username']."</a></li>
                                     <li>".$row_query_comment['created_at']."</li>
@@ -257,7 +258,7 @@ function build_lista_post_mobile(){
                 }
                 $lista_post .= "</ul></li>";
             } else {
-                $lista_post .= "<li id='comment_list_". $post_id ."_mobile'></li>";
+                $lista_post .= "<li id='comment_list_mobile_". $post_id ."'></li>";
             }
 
             $lista_post .= "</ul>";
@@ -681,8 +682,27 @@ function build_mypost($username){
             $post_id = $row_query['post_id'];
             $like_count = $db->get_like_count($post_id);
 
-            $mypost .= "<ul class=\"singolo_post\" id=$post_id>
-                            <li><a href=\"\">".$row_query['username']."</a></li>";
+//            if($_SESSION['Username'] != $username) {
+//                $mypost .= "<ul class=\"singolo_post\" id=$post_id>
+//                            <li><a href=\"\">" . $row_query['username'] . "</a></li>";
+//            } else { // evito link circolari
+//                $mypost .= "<ul class=\"singolo_post\" id=$post_id>
+//                            <li>" . $row_query['username'] . "</li>";
+//            }
+            if($username == $row_query['username'] && isset($_GET['user'])) { // casistica profilo.php
+                $mypost .= "<ul class=\"singolo_post\" id=$post_id>
+                            <li>" . $row_query['username'] . "</li>";
+            } else if(isset($_GET['user'])) { // casistica profilo.php
+                $mypost .= "<ul class=\"singolo_post\" id=$post_id>
+                            <li><a href=\"profilo.php?user=".$row_query['username']."\">" . $row_query['username'] . "</a></li>";
+            } else if ($_SESSION['Username'] == $username) { // casistica mio-profilo.php
+                $mypost .= "<ul class=\"singolo_post\" id=$post_id>
+                            <li>" . $row_query['username'] . "</li>";
+            } else { // casistica mio-profilo.php
+                $mypost .= "<ul class=\"singolo_post\" id=$post_id>
+                            <li><a href=\"profilo.php?user=".$row_query['username']."\">" . $row_query['username'] . "</a></li>";
+            }
+
 
             if($_SESSION['Username'] == 'admin'){
                 $current_page = $_SERVER['REQUEST_URI'];
@@ -711,14 +731,15 @@ function build_mypost($username){
                 }
             }
 
-             $mypost .= "<li class=\"post-actions\">
+            $mypost .= "<li class=\"post-actions\">
                                 <fieldset>
                                     <legend>Interazioni post del ". $row_query['created_at'] ." </legend>
                                     <button class=\"like-interact\" data-post-id=\"". $post_id ."\" aria-label=\"Bottone di mi piace per il post di ".$username." creato il ".$row_query['created_at']."\">Mi piace</button>
                                     <span class=\"numero_like\">$like_count</span>
                                     <label class=\"label_commento\" for=\"comment_$post_id\"> - Scrivi un commento:</label>
                                     <textarea id='comment_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                    <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>";
+                                    <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>
+                                    <div class='error' id='comment_error_$post_id'></div>";
 
 
             if($_SESSION['Username'] == $username) {
@@ -739,9 +760,22 @@ function build_mypost($username){
             if($result_query_comment->num_rows > 0){
                 $mypost .= "<li id='comment_list_". $post_id ."'><ul>";
                 while($row_query_comment = $result_query_comment->fetch_assoc()){
-                    $mypost .= "<li><a href=\"profilo.php?user=".$row_query_comment['username']."\">".$row_query_comment['username']."</a></li>
-                                    <li>".$row_query_comment['created_at']."</li>
-                                    <li class=\"content_comm\">".$row_query_comment['content']."</li>";
+//                    if($_SESSION['Username'] != $row_query_comment['username']) {
+//                        $mypost .= "<li><a href=\"profilo.php?user=".$row_query_comment['username']."\">".$row_query_comment['username']."</a></li>";
+//                    } else {
+//                        $mypost .= "<li>".$row_query_comment['username']."</li>";
+//                    }
+                    if($username == $row_query_comment['username'] && isset($_GET['user'])) { // casistica profilo.php
+                        $mypost .= "<li>" . $row_query_comment['username'] . "</li>";
+                    } else if(isset($_GET['user'])) { // casistica profilo.php
+                        $mypost .= "<li><a href=\"profilo.php?user=".$row_query_comment['username']."\">" . $row_query_comment['username'] . "</a></li>";
+                    } else if ($_SESSION['Username'] == $row_query_comment['username']) { // casistica mio-profilo.php
+                        $mypost .= "<li>" . $row_query_comment['username'] . "</li>";
+                    } else { // casistica mio-profilo.php
+                        $mypost .= "<li><a href=\"profilo.php?user=".$row_query_comment['username']."\">" . $row_query_comment['username'] . "</a></li>";
+                    }
+                    $mypost .= "<li>".$row_query_comment['created_at']."</li>
+                    <li class=\"content_comm\">".$row_query_comment['content']."</li>";
                 }
                 $mypost .= "</ul></li>";
             } else {
@@ -849,6 +883,7 @@ function build_mypost_mobile($username){
                                         <li id=\"commento_fieldset\"><label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
                                             <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
                                             <button id='comment_button_mobile_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>
+                                            <div class='error' id='comment_mobile_error_$post_id'></div>
                                         </li>";
 
 
@@ -868,7 +903,7 @@ function build_mypost_mobile($username){
             $result_query_comment = $db->query($query);
 
             if($result_query_comment->num_rows > 0){
-                $mypost .= "<li id='comment_list_". $post_id ."_mobile'><ul>";
+                $mypost .= "<li id='comment_list_mobile_". $post_id ."'><ul>";
                 while($row_query_comment = $result_query_comment->fetch_assoc()){
                     $mypost .= "<li><a href=\"profilo.php?user=".$row_query_comment['username']."\">".$row_query_comment['username']."</a></li>
                                     <li>".$row_query_comment['created_at']."</li>
@@ -876,7 +911,7 @@ function build_mypost_mobile($username){
                 }
                 $mypost .= "</ul></li>";
             } else {
-                $mypost .= "<li id='comment_list_". $post_id ."_mobile'></li>";
+                $mypost .= "<li id='comment_list_mobile_". $post_id ."'></li>";
             }
 
             $mypost .= "</ul>";
@@ -1408,7 +1443,8 @@ function build_liked_posts($username)
                                     <span class=\"numero_like\">$like_count</span>
                                     <label class=\"label_commento\" for=\"comment_$post_id\"> - Scrivi un commento:</label>
                                     <textarea id='comment_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                    <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>";
+                                    <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>
+                                    <div class='error' id='comment_error_$post_id'></div>";
 
             if($_SESSION['Username'] == $post_username) {
                 $liked_posts .= "            <form method='post' action='post-piacciono.php' name='elimina_post'>
@@ -1487,6 +1523,7 @@ function build_liked_posts_mobile($username)
                                         <li id=\"commento_fieldset\"><label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
                                             <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
                                             <button id='comment_button_mobile_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>
+                                            <div class='error' id='comment_mobile_error_$post_id'></div>
                                         </li>";
                                     
             if($_SESSION['Username'] == $post_username) {
@@ -1563,7 +1600,8 @@ function build_commented_posts($username){
                                     <span class=\"numero_like\">$like_count</span>
                                     <label class=\"label_commento\" for=\"comment_$post_id\"> - Scrivi un commento:</label>
                                     <textarea id='comment_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
-                                    <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>";
+                                    <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>
+                                    <div class='error' id='comment_error_$post_id'></div>";
 
             if ($_SESSION['Username'] == $post_username) {
                 $commented_posts .= "            <form method='post' action='post-commentati.php' name='elimina_post'>
@@ -1643,6 +1681,7 @@ function build_commented_posts_mobile($username){
                                         <li id=\"commento_fieldset\"><label class=\"label_commento\" for=\"comment_mobile_$post_id\"> - Scrivi un commento:</label>
                                             <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
                                             <button id='comment_button_mobile_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$username." creato il ".$row_query['created_at']."\">Commenta</button>
+                                            <div class='error' id='comment_mobile_error_$post_id'></div>
                                         </li>";
                                     
             if ($_SESSION['Username'] == $post_username) {
@@ -1770,6 +1809,7 @@ function build_post_nascosti(){
                                     <label class=\"label_commento\" for=\"comment_$post_id\"> - Scrivi un commento:</label>
                                     <textarea id='comment_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
                                     <button id='comment_button_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$row_query['username']." creato il ".$row_query['created_at']."\">Commenta</button>
+                                    <div class='error' id='comment_error_$post_id'></div>
                                 </fieldset>
                             </li>";
 
@@ -1848,6 +1888,7 @@ function build_post_nascosti_mobile(){
                                             <label class=\"label_commento\" for=\"comment_mobile_$post_id\"> Scrivi un commento:</label><br/>
                                             <textarea id='comment_mobile_$post_id' class=\"textarea_commento\" placeholder=\"Commenta\"></textarea>
                                              <button id='comment_button_mobile_$post_id' class=\"comment-interact\" aria-label=\"Bottone di commenta per il post di ".$row_query['username']." creato il ".$row_query['created_at']."\">Commenta</button>
+                                            <div class='error' id='comment_mobile_error_$post_id'></div>
                                         </li>
                                     </ul>
                                 </fieldset>

@@ -50,10 +50,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
             var regex = /^[a-zA-Z0-9\s,.:"';!?àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸ\[\]\/]{3,300}$/;
             correct = regex.test(comment);
-            document.getElementById(`comment_error_${post_id}`).innerHTML = "";
 
-            if(!correct){
+            if(isMobile || window.innerWidth < 768) {
+                document.getElementById(`comment_mobile_error_${post_id}`).innerHTML = "";
+            } else {
+                document.getElementById(`comment_error_${post_id}`).innerHTML = "";
+            }
+
+            if(!correct && (!isMobile || window.innerWidth >= 768)){
                 document.getElementById(`comment_error_${post_id}`).innerHTML = "Il commento deve contenere almeno 3 caratteri e massimo 300";
+                return;
+            } else if(!correct && (isMobile || window.innerWidth < 768)){
+                document.getElementById(`comment_mobile_error_${post_id}`).innerHTML = "Il commento deve contenere almeno 3 caratteri e massimo 300";
                 return;
             }
 
@@ -74,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (data.success) {
                             let commentList = document.getElementById(`comment_list_${post_id}`);
                             if(isMobile || window.innerWidth < 768){
-                                commentList = document.getElementById(`comment_list_${post_id}_mobile`);
+                                commentList = document.getElementById(`comment_list_mobile_${post_id}`);
                             }
                             if (commentList) { // Check if commentList exists
                                 const newComment = document.createElement('ul');
