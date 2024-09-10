@@ -2476,9 +2476,17 @@ function build_lista_suggeriti(){
     $suggested_friends = "<h3>Potresti Conoscere</h3><ul>";
     foreach ($mutual_friends as $mutual_friend => $count) {
         if ($count > 1) {
-            $suggested_friends .= "<li class='singolo_post'><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amici in comune</li>";
+            if(isset($_GET['user']) && $mutual_friend == $_GET['user']){ // evito link circolare
+                $suggested_friends .= "<li class='singolo_post'>" . $mutual_friend . " - " . $count . " amici in comune</li>";
+            } else {
+                $suggested_friends .= "<li class='singolo_post'><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amici in comune</li>";
+            }
         } else {
-            $suggested_friends .= "<li class='singolo_post'><a href=\"profilo.php?user=".$mutual_friend."\">".$mutual_friend."</a> - ".$count." amico in comune</li>";
+            if(isset($_GET['user']) && $mutual_friend == $_GET['user']){ // evito link circolare
+                $suggested_friends .= "<li class='singolo_post'>" . $mutual_friend . " - " . $count . " amico in comune</li>";
+            } else {
+                $suggested_friends .= "<li class='singolo_post'><a href=\"profilo.php?user=" . $mutual_friend . "\">" . $mutual_friend . "</a> - " . $count . " amico in comune</li>";
+            }
         }
     }
     $suggested_friends .= "</ul><hr/>";
@@ -2499,7 +2507,11 @@ function build_lista_suggeriti(){
     $suggested_friends .= "<h3>Studenti del tuo corso di studi</h3><ul>";
 
     foreach ($corso_studi_users as $user) {
-        $suggested_friends .= "<li class='singolo_post'><a href=\"profilo.php?user=".$user['username']."\">".$user['username']."</a></li>";
+        if($user['username'] != $_GET['user']){ // evito link circolare
+            $suggested_friends .= "<li class='singolo_post'><a href=\"profilo.php?user=".$user['username']."\">".$user['username']."</a></li>";
+        } else {
+            $suggested_friends .= "<li class='singolo_post'>".$user['username']."</li>";
+        }
     }
 
     $suggested_friends .= "</ul>";
