@@ -18,7 +18,7 @@
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-	<script src="./js/menu.js"></script>
+
 	<script src="./js/menu_mobile.js"></script>
 	<script src="./js/pagine_mobile.js"></script>
 </head>
@@ -34,10 +34,10 @@
         <main id="main">
 			<div class="mobile-content hideall">
 				<div id="search-bar_mobile">
-					<form method="GET" id="searchbarmobile_form" name="searchbarmobile_form" action="search.php">
+					<form method="get" id="searchbarmobile_form" name="searchbarmobile_form" action="search.php">
 						<div>
 							<label for="search_mobile">Cerca qui:</label><br/>
-							<input type="text" name="q" id="search_mobile" placeholder="Cerca...">
+							<input type="text" name="q" id="search_mobile" placeholder="Cerca..." />
 							<button type="submit" class="loginbtn">Cerca</button>
 							<div class="error" id="searchmobile_error"></div>
 						</div>
@@ -69,7 +69,7 @@
 						<component>messaggio</component>
 
 						<form action="crea-aula.php" method="post">
-							<button class="sell-book-btn" type="submit" aria-label="Bottone che permette di creare un'aula virtuale">Crea un aula</button>
+							<button class="sell-book-btn" type="submit" aria-label="Crea un aula: Bottone che permette di creare un'aula virtuale">Crea un aula</button>
 						</form>
 
 						<div class="filtri">
@@ -83,10 +83,10 @@
 						
 					<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
 						<div id="search-bar">
-							<form method="GET" id="searchbar_form" name="searchbar_form" action="search.php">
+							<form method="get" id="searchbar_form" name="searchbar_form" action="search.php">
 								<div>
 									<label for="search">Cerca qui:</label><br/>
-									<input type="text" name="q" id="search" placeholder="Cerca...">
+									<input type="text" name="q" id="search" placeholder="Cerca..." />
 									<button type="submit" class="loginbtn">Cerca</button>
 									<div class="error" id="search_error"></div>
 								</div>
@@ -116,7 +116,7 @@
 					<component>messaggio</component>
 
 					<form action="crea-aula.php" method="post">
-						<button class="sell-book-btn" type="submit" aria-label="Bottone che permette di creare un'aula virtuale">Crea un aula</button>
+						<button class="sell-book-btn" type="submit" aria-label="Crea un aula: Bottone che permette di creare un'aula virtuale">Crea un aula</button>
 					</form>
 
 					<div class="filtri">

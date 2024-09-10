@@ -19,7 +19,7 @@
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-	<script src="./js/menu.js"></script>
+
 	<script src="./js/menu_mobile.js"></script>
 	<script>
         // Passa il nome dell'aula al JavaScript
@@ -40,10 +40,10 @@
         <main id="main">
 			<div class="mobile-content hideall">
 				<div id="search-bar_mobile">
-					<form method="GET" id="searchbarmobile_form" name="searchbarmobile_form" action="search.php">
+					<form method="get" id="searchbarmobile_form" name="searchbarmobile_form" action="search.php">
 						<div>
 							<label for="search_mobile">Cerca qui:</label><br/>
-							<input type="text" name="q" id="search_mobile" placeholder="Cerca...">
+							<input type="text" name="q" id="search_mobile" placeholder="Cerca..." />
 							<button type="submit" class="loginbtn">Cerca</button>
 							<div class="error" id="searchmobile_error"></div>
 						</div>
@@ -80,7 +80,7 @@
 								<!-- Messaggi della chat -->
 							</div>
 							<div id="chatInputRoom">
-								<input type="text" id="chatMessageRoom" placeholder="Scrivi un messaggio...">
+								<input type="text" id="chatMessageRoom" placeholder="Scrivi un messaggio..." />
 								<button id="sendButton" onclick="sendMessage(<component>code</component>)" title="Invia" aria-label="Bottone di invio del messaggio" ><i class="fas fa-paper-plane"></i></button>
 							</div>
 						</div>
@@ -90,10 +90,10 @@
 						
 					<nav id="extra-section" aria-label="Sezione di ricerca e interessi">
 						<div id="search-bar">
-							<form method="GET" id="searchbar_form" name="searchbar_form" action="search.php">
+							<form method="get" id="searchbar_form" name="searchbar_form" action="search.php">
 								<div>
 									<label for="search">Cerca qui:</label><br/>
-									<input type="text" name="q" id="search" placeholder="Cerca...">
+									<input type="text" name="q" id="search" placeholder="Cerca..." />
 									<button type="submit" class="loginbtn">Cerca</button>
 									<div class="error" id="search_error"></div>
 								</div>
@@ -128,7 +128,7 @@
 							<!-- Messaggi della chat -->
 						</div>
 						<div id="chatInputRoom_mobile">
-							<input type="text" id="chatMessageRoom_mobile" placeholder="Scrivi un messaggio...">
+							<input type="text" id="chatMessageRoom_mobile" placeholder="Scrivi un messaggio..." />
 							<button id="sendButton_mobile" onclick="sendMessage(<component>code</component>)" title="Invia" aria-label="Bottone di invio del messaggio" ><i class="fas fa-paper-plane"></i></button>
 						</div>
 					</div>

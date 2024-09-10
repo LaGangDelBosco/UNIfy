@@ -456,12 +456,12 @@ header img {
     border-radius: 50%;
 }
 
-#friend-picture{
+[id^="friend-picture"]{
     width: 100%;
     border-radius:50%;
 }
 
-#friend-picture_mobile{
+[id="friend-picture_mobile"]{
     width: 100%;
     border-radius:50%;
 }

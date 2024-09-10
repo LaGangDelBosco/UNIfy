@@ -18,7 +18,7 @@
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-	<script src="./js/menu.js"></script>
+
 	<script src="./js/menu_mobile.js"></script>
 	<script src="./js/pagine_mobile.js"></script>
 </head>
@@ -34,10 +34,10 @@
         <main id="main">
 			<div class="mobile-content hideall">
 				<div id="search-bar_mobile">
-					<form method="GET" id="searchbarmobile_form" name="searchbarmobile_form" action="search.php">
+					<form method="get" id="searchbarmobile_form" name="searchbarmobile_form" action="search.php">
 						<div>
 							<label for="search_mobile">Cerca qui:</label><br/>
-							<input type="text" name="q" id="search_mobile" placeholder="Cerca...">
+							<input type="text" name="q" id="search_mobile" placeholder="Cerca..." />
 							<button type="submit" class="loginbtn">Cerca</button>
 							<div class="error" id="searchmobile_error"></div>
 						</div>
@@ -78,10 +78,10 @@
 						
 					<nav id="extra-section">
 						<div id="search-bar">
-							<form method="GET" id="searchbar_form" name="searchbar_form" action="search.php">
+							<form method="get" id="searchbar_form" name="searchbar_form" action="search.php">
 								<div>
 									<label for="search">Cerca qui:</label><br/>
-									<input type="text" name="q" id="search" placeholder="Cerca...">
+									<input type="text" name="q" id="search" placeholder="Cerca..." />
 									<button type="submit" class="loginbtn">Cerca</button>
 									<div class="error" id="search_error"></div>
 								</div>
@@ -111,8 +111,8 @@
 					<component>messaggio</component>
 					<div id="text-box_mobile">
 						<component>datipersonali</component> <!--TODO: bottoni dentro ai form? e aria label-->
-						<button class="loginbtn" type="button" onclick="window.location.href='modifica-dati-personali.php'" aria-label="Bottone per entrane nella modifica dei dati personali">Modifica dati</button>
-						<button class="loginbtn" type="button" onclick="window.location.href='modifica-password.php'" aria-label="Bottone per entrare nella modifica della password">Modifica password</button>
+						<button class="loginbtn" type="button" onclick="window.location.href='modifica-dati-personali.php'" aria-label="Modifica dati: Bottone per entrane nella modifica dei dati personali">Modifica dati</button>
+						<button class="loginbtn" type="button" onclick="window.location.href='modifica-password.php'" aria-label="Modifica password: Bottone per entrare nella modifica della password">Modifica password</button>
 					</div>
 				</nav>
 				<div id="suggeriti_mobile">

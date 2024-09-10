@@ -230,6 +230,21 @@ function post(){
     return !errors
 }
 
+function postmobile(){
+    let text = document.forms["post_form_mobile"]["text_mobile"].value;
+    
+    document.getElementById("text_error_mobile").textContent = "";
+
+    let errors = false;
+
+    if (!check_text(text)){
+        document.getElementById("text_error_mobile").textContent = "Testo non valido: \n- non deve contenere caratteri speciali ad eccezione di , . : \" \' ; ! ?  deve essere lungo tra i 3 e i 300 cartteri";
+        errors = true;
+    }
+
+    return !errors
+}
+
 function comment(post_id, comment){
     document.getElementById(`comment_error_${post_id}`).textContent = "";
 

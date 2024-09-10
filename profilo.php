@@ -31,17 +31,6 @@ if($utente_profilo == $username){
     header("Location: mio-profilo.php");
 }
 
-if(isset($_POST['submit_elimina_post'])){       //TODO: ha sendo? nel profilo di un utente non elimino nessun post. semmai l'admin lo nasconde
-    $id_post = $_POST['post_id'];               // Raul - Boh, tu lo hai fatto, effettivamente non ha senso(?)
-    if($db->elimina_post($id_post)){
-        header("Location: profilo.php?user=$utente_profilo&messaggio=Post eliminato con successo");    //da aggiungere messaggio get
-    }
-    else{
-        header("Location: profilo.php?user=$utente_profilo&messaggio=Errore nell'eliminazione del post");
-    }
-    exit();
-}
-
 if($db->get_dati_utente_profilo($utente_profilo)){
     $datiutente = $db->get_dati_utente_profilo($utente_profilo);
     $mioprofilo_template->insert_multiple("immagine", $datiutente['profile_picture_path'] ?? "media/profile-pictures/default.jpg");
@@ -60,30 +49,50 @@ else
 $amicizia_info = $db->check_amicizia($username, $utente_profilo);
 
 if(!$amicizia_info){
-    $mioprofilo_template->insert_multiple("friendship_button", "<button class=\"interact\" name=\"submit_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di invio richiesta di amicizia\">Invia richiesta di amicizia</button>");
+    $mioprofilo_template->insert_multiple("friendship_button", "<button class=\"interact\" name=\"submit_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Invia richiesta di amicizia: Bottone di invio richiesta di amicizia\">Invia richiesta di amicizia</button>");
+    $mioprofilo_template->insert("friendship_button_mobile", "<button class=\"interact\" name=\"submit_friendship\" id=\"friend_button_mobile\" type=\"submit\" aria-label=\"Invia richiesta di amicizia: Bottone di invio richiesta di amicizia\">Invia richiesta di amicizia</button>");
 }else{
     if($amicizia_info['status'] == 'pending'){
         if($amicizia_info['username_1'] == $username){
-            $mioprofilo_template->insert_multiple("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di annullamento richiesta di amicizia\">Annulla richiesta di amicizia</button>");
+            $mioprofilo_template->insert_multiple("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Annulla richiesta di amicizia: Bottone di annullamento richiesta di amicizia\">Annulla richiesta di amicizia</button>");
+            $mioprofilo_template->insert("friendship_button_mobile", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button_mobile\" type=\"submit\" aria-label=\"Annulla richiesta di amicizia: Bottone di annullamento richiesta di amicizia\">Annulla richiesta di amicizia</button>");
         }else{
-            $mioprofilo_template->insert_multiple("friendship_button", "<button class=\"interact\" name=\"accept_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di accettazione richiesta di amicizia\">Accetta richiesta di amicizia</button>
-                                                                <button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di rifiuto richiesta di amicizia\">Rifiuta richiesta di amicizia</button>");
+            $mioprofilo_template->insert_multiple("friendship_button", "<button class=\"interact\" name=\"accept_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Accetta richiesta di amicizia: Bottone di accettazione richiesta di amicizia\">Accetta richiesta di amicizia</button>
+                                                                <button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Rifiuta richiesta di amicizia: Bottone di rifiuto richiesta di amicizia\">Rifiuta richiesta di amicizia</button>");
+            $mioprofilo_template->insert("friendship_button_mobile", "<button class=\"interact\" name=\"accept_friendship\" id=\"friend_button_mobile\" type=\"submit\" aria-label=\"Accetta richiesta di amicizia: Bottone di accettazione richiesta di amicizia\">Accetta richiesta di amicizia</button>
+                                                                    <button class=\"interact\" name=\"delete_friendship\" id=\"friend_button_mobile\" type=\"submit\" aria-label=\"Rifiuta richiesta di amicizia: Bottone di rifiuto richiesta di amicizia\">Rifiuta richiesta di amicizia</button>");
         }
     }else{
-        $mioprofilo_template->insert_multiple("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Bottone di rimozione profilo dagli amici\">Rimuovi dagli amici</button>");
+        $mioprofilo_template->insert_multiple("friendship_button", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button\" type=\"submit\" aria-label=\"Rimuovi dagli amici: Bottone di rimozione profilo dagli amici\">Rimuovi dagli amici</button>");
+        $mioprofilo_template->insert("friendship_button_mobile", "<button class=\"interact\" name=\"delete_friendship\" id=\"friend_button_mobile\" type=\"submit\" aria-label=\"Rimuovi dagli amici: Bottone di rimozione profilo dagli amici\">Rimuovi dagli amici</button>");
     }
 }
 
 if($_SESSION['Username'] == "admin"){
     if($db->check_ban($utente_profilo)) {
         $mioprofilo_template->insert_multiple("ban_button", "<form method=\"post\" action=\"utenti-banditi.php\">
-                                            <input type=\"hidden\" name=\"username\" value=\"$utente_profilo\">
-                                            <button class=\"interact\" name=\"submit_rimuovi_ban\" id=\"ban_button\" type=\"submit\" aria-label=\"Bottone di rimozione ban utente\">Rimuovi ban utente</button>
+                                            <fieldset>
+                                                <legend>Rimuovi ban utente</legend>
+                                                <input type=\"hidden\" name=\"username\" value=\"$utente_profilo\" />
+                                                <button class=\"interact\" name=\"submit_rimuovi_ban\" id=\"ban_button\" type=\"submit\" aria-label=\"Rimuovi ban utente: Bottone di rimozione ban utente\">Rimuovi ban utente</button>
+                                            </fieldset>
+                                            </form>");
+        $mioprofilo_template->insert("ban_button_mobile", "<form method=\"post\" action=\"utenti-banditi.php\">
+                                            <fieldset>
+                                                <legend>Rimuovi ban utente</legend>
+                                                <input type=\"hidden\" name=\"username\" value=\"$utente_profilo\" />
+                                                <button class=\"interact\" name=\"submit_rimuovi_ban\" id=\"ban_button_mobile\" type=\"submit\" aria-label=\"Rimuovi ban utente: Bottone di rimozione ban utente\">Rimuovi ban utente</button>
+                                            </fieldset>
                                             </form>");
     } else {
-        $mioprofilo_template->insert_multiple("ban_button", "<form id='banForm' onsubmit=\"openBanDialog('$utente_profilo'); return false;\">
+        $mioprofilo_template->insert_multiple("ban_button", "<form id='banForm_$utente_profilo' onsubmit=\"openBanDialog('$utente_profilo'); return false;\">
                     <div>
-                        <button id=\"ban_button\" class=\"interact\" type=\"submit\" aria-label=\"Bottone che permette di bannare l'utente\">Bandisci utente</button>
+                        <button id=\"ban_button\" class=\"interact\" type=\"submit\" aria-label=\"Bandisci utente: Bottone che permette di bannare l'utente\">Bandisci utente</button>
+                    </div>
+                </form>");
+        $mioprofilo_template->insert("ban_button_mobile", "<form id='banForm_mobile_$utente_profilo' onsubmit=\"openBanDialog('$utente_profilo'); return false;\">
+                    <div>
+                        <button id=\"ban_button_mobile\" class=\"interact\" type=\"submit\" aria-label=\"Bandisci utente: Bottone che permette di bannare l'utente\">Bandisci utente</button>
                     </div>
                 </form>");
     }

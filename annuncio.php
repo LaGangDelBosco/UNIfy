@@ -58,11 +58,13 @@ if($annuncio!=null){
 
 if($tipo_annuncio == "myid"){
     $annuncio_template->insert_multiple("buttons", build_buttons_mybook($id_annuncio));
+    $annuncio_template->insert_multiple("buttons_mobile", build_buttons_mybook_mobile($id_annuncio));
     $annuncio_template->insert_multiple("tabella_interessati", build_tabella_interessati($id_annuncio));
     $annuncio_template->insert_multiple("tabella_interessati_mobile", build_tabella_interessati_mobile($id_annuncio));
     $annuncio_template->insert_multiple("destinatario", $annuncio['username']);
 }elseif($tipo_annuncio == "id"){
     $annuncio_template->insert_multiple("buttons", build_buttons_otherbook($id_annuncio, $annuncio['username']));
+    $annuncio_template->insert_multiple("buttons_mobile", build_buttons_otherbook_mobile($id_annuncio, $annuncio['username']));
     $annuncio_template->insert_multiple("tabella_interessati", "");
     $annuncio_template->insert_multiple("tabella_interessati_mobile", "");
     $annuncio_template->insert_multiple("destinatario", $annuncio['username']);
