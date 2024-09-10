@@ -17,9 +17,6 @@ if(isset($_GET['room_code'])){
         header("Location: error.php?error=400?forced=1");
         exit();
     }
-    /* TODO @nicmoro31: da vedere cosa fare con room_name, per me si può fare in maniera diversa,
-    *  altrimenti ci tocca gestire pure gli errori per quello ed eventuali discrepanze con il room_code
-    */
 }
 
 

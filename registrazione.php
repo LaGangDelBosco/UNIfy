@@ -15,7 +15,7 @@ if(isset($_POST['username']) && isset($_POST['nome_cognome']) && isset($_POST['e
 
     if($password != $conferma_password) {
         $error = "Le password non coincidono";
-        header("Location: registrazione.php?messaggio=Le password non coincidono"); //TODO: è necessario per mostrare il messaggio, o non serve?
+        header("Location: registrazione.php?messaggio=Le password non coincidono");
     } 
     else{
         if($db->registrazione($username, $nome_cognome, $email, $password, $data_nascita, $gender)) {

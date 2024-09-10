@@ -431,13 +431,6 @@ function build_modifica_dati_personali($username){
 
     if($result_query->num_rows > 0){
         $row_query = $result_query->fetch_assoc();
-
-        $query_profile = "SELECT * FROM profile WHERE username = '$username'";
-        $result_query_profile = $db->query($query_profile);
-
-        if($result_query_profile->num_rows > 0)
-            $row_query_profile = $result_query_profile->fetch_assoc(); // TODO che senso ha fare sta cosa? Non viene usato
-
         $modifica_dati_personali = "<form class='form_box' id='modifica_dati_personali' method='post' action='dati-personali.php' name='modifica_dati_personali'>
                                         <div>
                                             <label for='name'>Nome</label><br/>
@@ -500,12 +493,6 @@ function build_modifica_dati_personali_mobile($username){
 
     if($result_query->num_rows > 0){
         $row_query = $result_query->fetch_assoc();
-
-        $query_profile = "SELECT * FROM profile WHERE username = '$username'";
-        $result_query_profile = $db->query($query_profile);
-
-        if($result_query_profile->num_rows > 0)
-            $row_query_profile = $result_query_profile->fetch_assoc(); // TODO che senso ha fare sta cosa? Non viene usato
 
         $modifica_dati_personali = "<form class='form_box' id='modifica_dati_personali_mobile' method='post' action='dati-personali.php' name='modifica_dati_personali_mobile'>
                                         <div>
@@ -1620,7 +1607,6 @@ function build_commented_posts($username){
     $db->apriconn();
 
     $query = "SELECT * FROM post WHERE post_id IN (SELECT post_id FROM comment WHERE username = '$username') AND username IN (SELECT username FROM user WHERE banned = FALSE) ORDER BY created_at DESC";
-    // TODO aggiunto il controllo per non mostrare i post di utenti banditi, ma NON testato!
     $result_query = $db->query($query);
 
     $commented_posts = "";
@@ -1671,7 +1657,6 @@ function build_commented_posts($username){
             }
 
             $query = "SELECT * FROM comment WHERE post_id = '$post_id' AND username IN (SELECT username FROM user WHERE banned = FALSE) ORDER BY created_at DESC";
-            // TODO aggiunto il controllo per non mostrare i commenti di utenti banditi, ma NON testato!
             $result_query_comment = $db->query($query);
 
             if ($result_query_comment->num_rows > 0) {
@@ -1698,7 +1683,6 @@ function build_commented_posts_mobile($username){
     $db->apriconn();
 
     $query = "SELECT * FROM post WHERE post_id IN (SELECT post_id FROM comment WHERE username = '$username') AND username IN (SELECT username FROM user WHERE banned = FALSE) ORDER BY created_at DESC";
-    // TODO aggiunto il controllo per non mostrare i post di utenti banditi, ma NON testato!
     $result_query = $db->query($query);
 
     $commented_posts = "";
@@ -1752,7 +1736,6 @@ function build_commented_posts_mobile($username){
             }
 
             $query = "SELECT * FROM comment WHERE post_id = '$post_id' AND username IN (SELECT username FROM user WHERE banned = FALSE) ORDER BY created_at DESC";
-            // TODO aggiunto il controllo per non mostrare i commenti di utenti banditi, ma NON testato!
             $result_query_comment = $db->query($query);
 
             if ($result_query_comment->num_rows > 0) {

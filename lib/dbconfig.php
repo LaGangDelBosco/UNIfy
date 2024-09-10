@@ -212,7 +212,7 @@ class Servizio { // Ho messo Servizio con la S maiuscola perche' mi urtava il si
      * @param $media_path string path del media allegato al post (opzionale)
      * @return bool vero se il post è stato inserito, falso altrimenti
      */
-    public function inserisci_post($testo, $utente, $media_path = null){    //TODO: cambiare query inserendo anche i media nel db
+    public function inserisci_post($testo, $utente, $media_path = null){ 
 
         // Query per inserire il post
         $query = "INSERT INTO post (content, username) VALUES (?, ?)";
